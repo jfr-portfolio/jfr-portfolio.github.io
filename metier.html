@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le métier · Product Builder</title>
+  <meta name="description"
+    content="Qu'est-ce qu'un Product Builder ? Définition, méthode et positionnement d'un métier récent, au carrefour du business, de la technique et du no-code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --line-2: #EBE8EE;
+      --carmine: #BF1E42;
+      --carmine-bg: #FBE9ED;
+      --indigo: #3C42B4;
+      --indigo-bg: #E9EAF9;
+      --teal: #0E6B62;
+      --teal-bg: #E2F0EE;
+      --ochre: #EFB63C;
+      --ochre-deep: #8A6108;
+      --ochre-bg: #FBEECF;
+      --fs: 16px;
+      --measure: 68ch;
+      --pad: clamp(1.15rem, 5vw, 2rem);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: var(--fs);
+      scroll-behavior: smooth;
+      scroll-padding-top: 3rem;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      font-weight: 400;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+      }
+    }
+
+    ::selection {
+      background: var(--carmine);
+      color: #fff;
+    }
+
+    .wrap {
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .wrap-wide {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 1rem;
+    }
+
+    a {
+      color: var(--carmine);
+      text-underline-offset: 3px;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ---------- SKIP LINK ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 12px 20px;
+      z-index: 1000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      left: 0;
+    }
+
+    /* ---------- TOP NAV (sticky) ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .topnav-inner {
+      max-width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+
+    .topnav-brand:hover {
+      color: var(--ochre);
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topnav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+
+    .topnav-links a:last-child {
+      padding-right: 0;
+    }
+
+    .topnav-links a:hover {
+      color: #F4F1F7;
+    }
+
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: .7em;
+      opacity: .6;
+    }
+
+    @media (max-width: 640px) {
+      .topnav-brand {
+        display: none;
+      }
+    }
+
+    @view-transition {
+      navigation: auto;
+    }
+
+    .topnav {
+      view-transition-name: topnav;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 40px);
+      top: 40px;
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero .lede {
+      color: #BDB2CC;
+      font-family: Literata, Georgia, serif;
+      font-size: 1rem;
+      max-width: 54ch;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section {
+      padding: clamp(3rem, 9vw, 4.8rem) 0 0;
+    }
+
+    .shead {
+      margin: 0 0 2rem;
+    }
+
+    .snum {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.2rem, 14vw, 5rem);
+      line-height: .8;
+      letter-spacing: -.05em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--line);
+      display: block;
+      margin-bottom: -.1em;
+    }
+
+    .shead h2 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      font-weight: 800;
+    }
+
+    .shead p {
+      margin: .9rem 0 0;
+      color: var(--ink-2);
+      font-size: .98rem;
+      font-family: Literata, Georgia, serif;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      margin: 2.4rem 0 .7rem;
+    }
+
+    ul {
+      margin: 0 0 1.1rem;
+      padding-left: 1.1rem;
+    }
+
+    li {
+      margin-bottom: .5rem;
+      font-family: Literata, Georgia, serif;
+    }
+
+    li::marker {
+      color: var(--carmine);
+    }
+
+    /* ---------- CARDS ---------- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 1.4rem;
+    }
+
+    .card-grid.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px 20px;
+      background: var(--surface);
+    }
+
+    .card h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: .98rem;
+      color: var(--ink);
+      margin: 0 0 .6rem;
+    }
+
+    .card p {
+      font-family: Literata, Georgia, serif;
+      font-size: .9rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ---------- HIGHLIGHT / MEMO ---------- */
+    .memo {
+      background: var(--ochre-bg);
+      color: var(--ink);
+      padding: 1.2rem 1.3rem;
+      margin: 1.6rem 0 0;
+      box-shadow: 5px 5px 0 var(--ochre);
+      border: 1.5px solid var(--ochre-deep);
+    }
+
+    .memo p {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+      font-size: .95rem;
+    }
+
+    .memo strong {
+      color: var(--ochre-deep);
+    }
+
+    /* ---------- ADD BOX (carmine) ---------- */
+    .add {
+      border-left: 3px solid var(--carmine);
+      background: var(--carmine-bg);
+      padding: 1.1rem 1.2rem .4rem;
+      margin: 1.6rem 0 0;
+    }
+
+    .add p {
+      font-family: Literata, Georgia, serif;
+      font-size: .93rem;
+      margin: 0;
+    }
+
+    .add strong {
+      color: var(--ink);
+    }
+
+    /* ---------- TEAL BOX ---------- */
+    .note-teal {
+      border-left: 3px solid var(--teal);
+      background: var(--teal-bg);
+      padding: 1rem 1.2rem;
+      margin: 1.6rem 0 0;
+      font-size: .93rem;
+    }
+
+    .note-teal p {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+    }
+
+    /* ---------- GLOSS (compare) ---------- */
+    .gloss {
+      border-top: 2px solid var(--ink);
+      margin: 0 0 1.4rem;
+    }
+
+    .gloss>div {
+      padding: .95rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .gloss dt {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: .15rem;
+    }
+
+    .gloss dd {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+      font-size: .94rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- METHOD STEPS ---------- */
+    .method-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-bottom: 1.4rem;
+    }
+
+    .method-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      color: var(--ink-2);
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      margin: 5px;
+    }
+
+    .method-step .num {
+      color: var(--carmine);
+      font-weight: 600;
+    }
+
+    .method-arrow {
+      color: var(--line);
+      font-size: 1rem;
+      margin: 0 2px;
+    }
+
+    /* ---------- MISSIONS LISTS ---------- */
+    .missions-lists {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-bottom: 1.4rem;
+    }
+
+    .missions-lists h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      font-weight: 600;
+      margin: 0 0 1rem;
+    }
+
+    /* ---------- TIMEFRAMES ---------- */
+    .timeframes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 560px;
+      margin: 1.6rem auto 0;
+    }
+
+    .timeframe {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      padding: 24px 20px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .tf-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      color: var(--carmine);
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: .5rem;
+      letter-spacing: -.02em;
+    }
+
+    .tf-label {
+      font-family: Literata, Georgia, serif;
+      font-size: .88rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- LEDE CENTERED ---------- */
+    .lede-center {
+      text-align: center;
+      max-width: 56ch;
+      margin: 0 auto 1.6rem;
+      font-family: Literata, Georgia, serif;
+      font-size: .98rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- FOOTER ---------- */
+    .pb {
+      padding-bottom: clamp(3rem, 9vw, 5rem);
+    }
+
+    footer {
+      margin-top: clamp(3rem, 8vw, 5rem);
+      background: var(--deep);
+      color: #9F94AE;
+      padding: 2.4rem var(--pad);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0 0 .4rem;
+    }
+
+    footer a {
+      color: #665D74;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--ochre);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 760px) {
+
+      .card-grid,
+      .card-grid.cols-4,
+      .card-grid.cols-2,
+      .missions-lists,
+      .timeframes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .nowrap-desktop {
+      white-space: nowrap;
+    }
+
+    @media (max-width: 720px) {
+      .nowrap-desktop {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="#main" class="skip-link">Aller au contenu</a>
+
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html" class="active">Le métier</a>
+        <a href="sites.html">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="creatif.html">Direction créative</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap-wide">
+      <span class="eyebrow">Le métier</span>
+      <h1>Qu'est-ce qu'un<br>Product Builder ?</h1>
+      <p class="lede">Le Product Builder est en réalité un Product Manager 3.0.
+        <span class="nowrap-desktop">L'évolution naturelle du métier de PM à l'heure de l'IA et du no-code.</span>
+        <br>Un profil qui ne se contente plus de définir : <br>il cadre, conçoit, construit et livre
+        lui-même.
+      </p>
+    </div>
+    <svg class="hero-watermark" viewBox="475 35 980 982" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g transform="matrix(1,0,0,1,-466.51,34.8304)">
+        <path d="M1877.37,375.474L1838.27,375.474C1829.67,375.474 1822.07,369.901 1819.48,361.703C1812.54,339.766 1803.74,318.641 1793.29,298.521C1789.32,290.891 1790.75,281.568 1796.83,275.479L1824.5,247.818C1841.28,231.026 1841.28,203.797 1824.5,187.005L1734.06,96.573C1717.28,79.781 1690.05,79.781 1673.26,96.573L1645.6,124.234C1639.52,130.318 1630.19,131.745 1622.56,127.776C1602.44,117.323 1581.32,108.531 1559.38,101.583C1551.19,98.99 1545.62,91.385 1545.62,82.792L1545.62,43.693C1545.62,19.948 1526.37,0.698 1502.62,0.698L1374.74,0.698C1350.99,0.698 1331.74,19.948 1331.74,43.693L1331.74,82.792C1331.74,91.385 1326.17,98.99 1317.97,101.583C1296.04,108.531 1274.92,117.323 1254.8,127.776C1247.16,131.745 1237.84,130.318 1231.76,124.234L1204.1,96.573C1187.31,79.781 1160.08,79.781 1143.3,96.573L1052.87,187.005C1036.08,203.797 1036.08,231.026 1052.87,247.818L1080.52,275.479C1086.61,281.568 1088.04,290.891 1084.07,298.521C1073.62,318.641 1064.83,339.766 1057.88,361.703C1055.28,369.901 1047.68,375.474 1039.08,375.474L999.995,375.474C976.25,375.474 957,394.724 957,418.474L957,546.37C957,570.115 976.25,589.37 999.995,589.37L1039.08,589.37C1047.68,589.37 1055.28,594.938 1057.88,603.135C1064.83,625.078 1073.62,646.198 1084.07,666.318C1085.42,668.911 1086.12,671.703 1086.26,674.495L1171.28,589.474C1158.02,556.375 1150.72,520.255 1150.72,482.422C1150.72,323.37 1279.65,194.432 1438.68,194.432C1597.71,194.432 1726.63,323.37 1726.63,482.422C1726.63,641.469 1597.71,770.406 1438.68,770.406C1402.37,770.406 1367.63,763.682 1335.64,751.417L1251.38,835.688C1252.54,836.036 1253.69,836.49 1254.8,837.068C1274.92,847.516 1296.04,856.307 1317.97,863.255C1326.17,865.854 1331.74,873.453 1331.74,882.052L1331.74,921.146C1331.74,944.896 1350.99,964.141 1374.74,964.141L1502.62,964.141C1526.37,964.141 1545.62,944.896 1545.62,921.146L1545.62,882.052C1545.62,873.453 1551.19,865.854 1559.38,863.255C1581.32,856.307 1602.44,847.516 1622.56,837.068C1630.19,833.094 1639.52,834.521 1645.6,840.604L1673.26,868.271C1690.05,885.057 1717.28,885.057 1734.06,868.271L1824.5,777.833C1841.28,761.042 1841.28,733.813 1824.5,717.021L1796.83,689.359C1790.75,683.276 1789.32,673.948 1793.29,666.318C1803.74,646.198 1812.54,625.078 1819.48,603.135C1822.07,594.938 1829.67,589.37 1838.27,589.37L1877.37,589.37C1901.1,589.37 1920.36,570.115 1920.36,546.37L1920.36,418.474C1920.36,394.724 1901.1,375.474 1877.37,375.474" fill="#fff"/>
+        <path d="M1614.02,454.37C1613.21,449.703 1607.44,447.917 1604.09,451.266L1527.99,527.375C1515.5,539.865 1495.24,539.865 1482.75,527.375L1397.17,441.786C1384.67,429.292 1384.67,409.031 1397.17,396.536L1473.27,320.427C1476.62,317.078 1474.83,311.307 1470.16,310.5C1415.5,301.063 1357.26,317.438 1315.04,359.651C1261.77,412.938 1249.65,491.771 1278.66,556.698L950.432,884.953C945.156,890.224 942.24,897.401 942.328,904.859L942.531,921.344C942.62,928.568 945.531,935.469 950.635,940.573L984.005,973.943C989.109,979.052 996.01,981.958 1003.23,982.047L1019.71,982.25C1027.17,982.344 1034.35,979.422 1039.62,974.146L1367.84,645.896C1432.77,674.906 1511.59,662.781 1564.88,609.5C1607.08,567.297 1623.45,509.042 1614.02,454.37" fill="#fff"/>
+      </g>
+    </svg>
+  </header>
+
+  <main id="main">
+
+    <!-- 01 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">01</span>
+          <h2>Un besoin bien réel, encore faut-il savoir à qui le confier</h2>
+          <p>Trois situations qui reviennent souvent.</p>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h4>Une idée à concrétiser</h4>
+            <p>Vous savez précisément ce que vous voulez construire, mais pas comment le faire exister rapidement, faute
+              de ressources techniques disponibles.</p>
+          </div>
+          <div class="card">
+            <h4>Un processus à automatiser</h4>
+            <p>Vos équipes répètent chaque semaine les mêmes tâches manuelles, des tâches qui pourraient très bien
+              tourner seules.</p>
+          </div>
+          <div class="card">
+            <h4>Un outil qui manque en interne</h4>
+            <p>Personne n'a le temps ni les moyens de construire l'outil sur mesure dont vous auriez besoin, et
+              certainement pas dans les six prochains mois.</p>
+          </div>
+        </div>
+        <div class="add">
+          <p>Ce qu'il vous faut : quelqu'un qui comprend vraiment votre métier, capable de traduire ce besoin en
+            solution concrète, et de la livrer sans faire traîner les choses.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">02</span>
+          <h2>Une méthode, avant les outils</h2>
+          <p>Quatre principes qui structurent chaque projet.</p>
+        </div>
+        <div class="card-grid cols-4">
+          <div class="card">
+            <h4>Le problème avant la stack</h4>
+            <p>Avant de toucher à un seul outil, comprendre l'activité, les contraintes et les utilisateurs. Ce qui est
+              construit répond à un vrai besoin, jamais une vitrine technologique.</p>
+          </div>
+          <div class="card">
+            <h4>Un produit livré, pas un rapport</h4>
+            <p>À la fin, quelque chose de concret et utilisable dès le premier jour, pas un document de 40 pages qui
+              reste dans un tiroir.</p>
+          </div>
+          <div class="card">
+            <h4>Des cycles courts, grâce au no-code</h4>
+            <p>Un premier prototype en quelques jours, mis entre les mains de vrais utilisateurs, puis ajusté. Finis les
+              chantiers de 12 mois déconnectés du besoin réel.</p>
+          </div>
+          <div class="card">
+            <h4>Trois langages, un seul discours</h4>
+            <p>Celui du métier, celui du design, celui de la technique, pour éviter les malentendus qui font dérailler
+              la plupart des projets numériques.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">03</span>
+          <h2>Où l'intelligence artificielle intervient concrètement</h2>
+          <p>Pas un module ajouté après-coup, mais utilisée à chaque étape où elle change vraiment quelque chose.</p>
+        </div>
+        <div class="card-grid cols-4">
+          <div class="card">
+            <h4>En phase de cadrage</h4>
+            <p>Dépouiller de gros volumes de retours utilisateurs, synthétiser des entretiens, faire émerger un premier
+              backlog structuré à partir d'un cahier des charges.</p>
+          </div>
+          <div class="card">
+            <h4>Dans les automatisations</h4>
+            <p>Claude ou Mistral AI pour trier des données entrantes, générer des résumés, déclencher des actions,
+              branchés directement dans n8n ou Make.</p>
+          </div>
+          <div class="card">
+            <h4>Dans les outils internes</h4>
+            <p>Un assistant de saisie guidée, un moteur de recommandation, un agent qui pré-remplit un formulaire à
+              partir d'une note vocale.</p>
+          </div>
+          <div class="card">
+            <h4>Dans les applications métier</h4>
+            <p>Des plateformes comme Glide embarquent nativement des capacités IA (résumé, extraction, classification)
+              sans écrire une ligne de code.</p>
+          </div>
+        </div>
+        <div class="memo">
+          <p>Ce que l'IA change concrètement, c'est la vitesse pour passer d'un tas de données à une décision. Elle
+            n'apporte cette valeur que si les données sont bien structurées en amont : c'est le premier travail du
+            Product Builder, avant même que l'IA n'entre en jeu.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">04</span>
+          <h2>Des outils construits pour vos équipes, pas pour la vitrine</h2>
+          <p>Quand un tableur ne suffit plus, qu'un logiciel généraliste ne colle pas à votre réalité, et qu'un
+            développement sur mesure est hors budget : c'est exactement là qu'intervient une application métier
+            construite en no-code.</p>
+        </div>
+        <div class="card-grid cols-4">
+          <div class="card">
+            <h4>Suivi d'intervention terrain</h4>
+            <p>Vos équipes saisissent leurs rapports depuis le terrain, les données remontent en temps réel, et le
+              reporting se génère sans ressaisie manuelle.</p>
+          </div>
+          <div class="card">
+            <h4>Gestion de devis &amp; contrats</h4>
+            <p>De la demande client à la signature : un flux unique, sans jonglage entre emails, fichiers Excel et
+              dossiers partagés dispersés.</p>
+          </div>
+          <div class="card">
+            <h4>Onboarding &amp; suivi client</h4>
+            <p>Un espace dédié pour chaque nouveau client, avec étapes, documents et échanges centralisés, visible par
+              toute l'équipe en charge du dossier.</p>
+          </div>
+          <div class="card">
+            <h4>Tableau de bord opérationnel</h4>
+            <p>Les indicateurs qui comptent vraiment pour votre activité, calculés automatiquement, mis à jour en
+              continu, sans attendre le reporting du lundi matin.</p>
+          </div>
+        </div>
+        <div class="memo">
+          <p>Ce ne sont pas des logiciels vendus en boîte, ni des développements à six mois. Ce sont des outils pensés
+            pour <strong>votre activité précise</strong>, construits avec vos équipes, livrés en quelques semaines, et
+            ajustables à mesure que vos besoins évoluent.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">05</span>
+          <h2>Comment ça se déroule, en pratique</h2>
+          <p>Cinq étapes, pas une liste de livrables à cocher.</p>
+        </div>
+        <div class="card-grid cols-4" style="grid-template-columns:repeat(5,1fr)">
+          <div class="card">
+            <h4>Cartographier</h4>
+            <p>Immersion terrain avec les équipes concernées : entretiens, observation, modélisation des flux et des
+              rôles. On rend visible ce qui n'est nulle part écrit, avant de toucher au moindre outil.</p>
+          </div>
+          <div class="card">
+            <h4>Prototyper</h4>
+            <p>Un premier écran fonctionnel en quelques jours, manipulable par vos équipes dès la deuxième semaine. Ce
+              sont leurs retours qui orientent la suite.</p>
+          </div>
+          <div class="card">
+            <h4>Livrer</h4>
+            <p>Cycles courts, mises en service partielles. Vos équipes utilisent l'outil au fur et à mesure — pas de
+              tunnel de six mois avant de voir quelque chose.</p>
+          </div>
+          <div class="card">
+            <h4>Rendre autonome</h4>
+            <p>Formation et documentation intégrées au projet. À la fin, vous pouvez modifier, corriger et faire évoluer
+              l'outil vous-mêmes.</p>
+          </div>
+          <div class="card">
+            <h4>Accompagner</h4>
+            <p>Le travail ne s'arrête pas à la livraison. Ajustements, nouveaux besoins, montée en charge — un contact
+              clair pour ne pas repartir de zéro.</p>
+          </div>
+        </div>
+        <div class="timeframes">
+          <div class="timeframe">
+            <span class="tf-num">2 – 6 semaines</span>
+            <span class="tf-label">Pour livrer un outil fonctionnel en no-code / low-code</span>
+          </div>
+          <div class="timeframe">
+            <span class="tf-num">3 – 9 mois</span>
+            <span class="tf-label">Pour un développement équivalent en code traditionnel</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">06</span>
+          <h2>Des besoins concrets, à toutes les échelles</h2>
+          <p>Quatre profils d'organisation, autant de manières de s'y prendre.</p>
+        </div>
+        <div class="card-grid cols-4">
+          <div class="card">
+            <h4>PME</h4>
+            <p>Digitaliser des opérations quand recruter une équipe technique n'est ni possible ni prioritaire : suivi
+              client, gestion de stock, onboarding, reporting automatisé.</p>
+          </div>
+          <div class="card">
+            <h4>Startups</h4>
+            <p>Valider un MVP en quelques semaines, à un coût compatible avec une phase d'amorçage, et s'appuyer sur du
+              concret pour convaincre des investisseurs.</p>
+          </div>
+          <div class="card">
+            <h4>Grandes entreprises &amp; Innovation Labs</h4>
+            <p>Avancer sur des enjeux techniques, métiers et organisationnels : recherche, transformation digitale,
+              structuration de dispositifs internes.</p>
+          </div>
+          <div class="card">
+            <h4>Agences &amp; indépendants</h4>
+            <p>Automatiser ses propres process, se doter d'outils internes, intégrer l'IA à son offre en gardant la main
+              sur la partie technique.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">07</span>
+          <h2>Face aux autres profils</h2>
+          <p>Trois métiers voisins, un périmètre différent.</p>
+        </div>
+        <dl class="gloss">
+          <div>
+            <dt>Développeur classique</dt>
+            <dd>Excelle sur l'exécution technique. Le Product Builder complète cette expertise par la vision produit et
+              le lien direct avec le métier.</dd>
+          </div>
+          <div>
+            <dt>Product Manager</dt>
+            <dd>Définit la vision et priorise. Le Product Builder ajoute la capacité à construire lui-même, sans étape
+              de traduction vers une équipe d'exécution.</dd>
+          </div>
+          <div>
+            <dt>Consultant IT</dt>
+            <dd>Pose un diagnostic et formule des recommandations. Le Product Builder va jusqu'à la livraison de l'outil
+              et à son adoption par les équipes.</dd>
+          </div>
+        </dl>
+        <div class="note-teal">
+          <p>Le Product Builder ne remplace aucun de ces profils — il couvre l'ensemble de la chaîne, de la vision
+            jusqu'à la mise en service, quand un seul interlocuteur suffit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section>
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">08</span>
+          <h2>Ce qu'un Product Builder peut prendre en charge</h2>
+          <p>Deux grandes familles de missions.</p>
+        </div>
+        <div class="missions-lists">
+          <div>
+            <h4>Automatisation de processus</h4>
+            <ul>
+              <li>Automatiser des tâches répétitives, construire des workflows</li>
+              <li>Concevoir des bots et assistants virtuels</li>
+              <li>Intégrer et structurer des bases de données</li>
+              <li>Mettre en place des alertes automatiques et fluidifier la communication interne</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Création &amp; développement</h4>
+            <ul>
+              <li>Applications internes ou web app sur mesure</li>
+              <li>Site web, application mobile, boutique en ligne, intégrations d'API</li>
+              <li>Tableaux de bord personnalisés et indicateurs avancés</li>
+            </ul>
+          </div>
+        </div>
+        <div class="memo">
+          <p>Le no-code met à la portée d'une PME ou d'une startup une capacité d'innovation qui exigeait jusqu'ici des
+            développements longs et coûteux.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section class="pb">
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">09</span>
+          <h2>Un projet à concrétiser ?</h2>
+          <p>Un process à digitaliser, un outil interne à créer, un MVP à valider, une automatisation à mettre en place
+            : si vous cherchez quelqu'un qui comprenne à la fois votre activité et la technique, on peut commencer par
+            un premier échange.</p>
+        </div>
+        <div class="memo">
+          <p>Si vous lisez encore, c'est qu'il y a quelque chose à construire. <a href="contact.html"
+              style="color:var(--ochre-deep);font-weight:600;">Prenons contact.</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Product Builder · le métier</p>
+  </footer>
+
+</body>
+
+</html>

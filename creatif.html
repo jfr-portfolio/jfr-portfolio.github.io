@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direction créative · Product Builder</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --carmine: #BF1E42;
+      --ochre: #EFB63C;
+      --teal: #0E6B62;
+      --shell: min(1040px, 100% - 48px);
+      --pad: clamp(1.15rem, 5vw, 2rem);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+
+    ::selection {
+      background: var(--carmine);
+      color: #fff;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .shell {
+      width: var(--shell);
+      margin-inline: auto;
+    }
+
+    /* ---------- TOP NAV ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .topnav-inner {
+      max-width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+
+    .topnav-brand:hover {
+      color: var(--ochre);
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topnav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+
+    .topnav-links a:last-child {
+      padding-right: 0;
+    }
+
+    .topnav-links a:hover {
+      color: #F4F1F7;
+    }
+
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: .7em;
+      opacity: .6;
+    }
+
+    @media (max-width: 640px) {
+      .topnav-brand {
+        display: none;
+      }
+    }
+
+    @view-transition {
+      navigation: auto;
+    }
+
+    .topnav {
+      view-transition-name: topnav;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 40px);
+      top: 40px;
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero p {
+      color: #BDB2CC;
+      font-size: 1rem;
+      max-width: 46ch;
+      line-height: 1.65;
+    }
+
+    /* ---------- SECTION VIDÉO ---------- */
+    .video-section {
+      background: var(--deep);
+      padding: clamp(3rem, 8vw, 5rem) 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .video-wrapper {
+      width: clamp(320px, 82vw, 960px);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #0d0a14;
+      box-shadow:
+        inset 8px 10px 28px rgba(0, 0, 0, 0.8),
+        inset -6px -8px 20px rgba(255, 255, 255, 0.03),
+        inset 0 0 60px rgba(0, 0, 0, 0.4);
+      padding: 14px;
+    }
+
+    .video-wrapper video {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    /* ---------- COMPÉTENCES ---------- */
+    .skills-section {
+      padding: clamp(3.5rem, 9vw, 5.5rem) 0;
+      background: var(--surface);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    @media (max-width: 820px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    .skill-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.8rem 1.6rem 2rem;
+      background: var(--surface);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .skill-card:hover {
+      border-color: var(--ochre);
+      box-shadow: 0 4px 24px rgba(37, 28, 51, .07);
+    }
+
+    .skill-icon {
+      display: block;
+      margin-bottom: 1.1rem;
+      color: var(--ochre);
+    }
+
+    .skill-icon svg {
+      display: block;
+    }
+
+    .skill-card h2 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--ink);
+      margin-bottom: .55rem;
+      line-height: 1.2;
+    }
+
+    .skill-card .skill-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .63rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--carmine);
+      display: block;
+      margin-bottom: .75rem;
+    }
+
+    .skill-card p {
+      font-family: Literata, Georgia, serif;
+      font-size: .9rem;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ---------- CTA ---------- */
+    .cta-section {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3rem, 9vw, 5.5rem) 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section h2 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section h2 em {
+      color: var(--ochre);
+      font-style: normal;
+    }
+
+    .cta-section p {
+      color: #BDB2CC;
+      font-size: .97rem;
+      max-width: 44ch;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--carmine);
+      color: #fff;
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      text-decoration: none;
+      padding: .75rem 1.75rem;
+      border-radius: 5px;
+      transition: background .18s ease, transform .12s ease;
+    }
+
+    .btn-primary:hover {
+      background: #A01836;
+      transform: translateY(-1px);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--deep);
+      color: #9F94AE;
+      padding: 2.4rem var(--pad);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a class="topnav-brand" href="index.html"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor"
+          aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65">
+          <path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z" />
+        </svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html">Le métier</a>
+        <a href="sites.html">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="creatif.html" class="active">Direction créative</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="shell">
+      <span class="eyebrow">Direction créative</span>
+      <h1>Écrire, dessiner, monter.<br>C'est aussi construire.</h1>
+      <p>Un produit sans voix ni image reste invisible.<br>La direction créative, c'est ce qui transforme une bonne idée
+        en quelque chose qu'on retient.</p>
+    </div>
+    <img src="creatif.png" class="hero-watermark" aria-hidden="true">
+  </header>
+
+  <!-- VIDÉO -->
+  <section class="video-section" aria-label="Showreel">
+    <div class="video-wrapper">
+      <video controls preload="auto" controlsList="nodownload noplaybackrate" disablePictureInPicture>
+        <source src="videos/portfolio.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- COMPÉTENCES -->
+  <section class="skills-section">
+    <div class="shell">
+      <div class="skills-grid">
+
+        <div class="skill-card">
+          <span class="skill-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 19l7-7 3 3-7 7-3-3z" />
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+              <path d="M2 2l7.586 7.586" />
+              <circle cx="11" cy="11" r="2" />
+            </svg>
+          </span>
+          <span class="skill-sub">Copywriting</span>
+          <h2>Conception-rédaction</h2>
+          <p>Nommer un produit, écrire une landing page, trouver le ton juste pour une campagne. Des mots qui servent un
+            objectif, pas du remplissage.</p>
+        </div>
+
+        <div class="skill-card">
+          <span class="skill-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 12 12 17 22 12" />
+              <polyline points="2 17 12 22 22 17" />
+            </svg>
+          </span>
+          <span class="skill-sub">Motion &amp; illustration</span>
+          <h2>Motion design &amp; illustration</h2>
+          <p>Donner du mouvement à une idée, illustrer ce qu'on ne peut pas photographier, construire une identité
+            visuelle cohérente sur tous les supports.</p>
+        </div>
+
+        <div class="skill-card">
+          <span class="skill-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="2" />
+              <line x1="7" y1="2" x2="7" y2="22" />
+              <line x1="17" y1="2" x2="17" y2="22" />
+              <line x1="2" y1="12" x2="22" y2="12" />
+              <line x1="2" y1="7" x2="7" y2="7" />
+              <line x1="2" y1="17" x2="7" y2="17" />
+              <line x1="17" y1="7" x2="22" y2="7" />
+              <line x1="17" y1="17" x2="22" y2="17" />
+            </svg>
+          </span>
+          <span class="skill-sub">Vidéo &amp; son</span>
+          <h2>Montage vidéo &amp; son</h2>
+          <p>De la capture à l'export final : découpage, rythme, étalonnage, mix audio. Un rendu professionnel sans
+            plateau ni équipe lourde.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="shell">
+      <div class="cta-inner">
+        <h2>Un projet qui a besoin<br>d'un <em>message, d'une image</em>&nbsp;?</h2>
+        <a href="contact.html" class="btn-primary">Prendre contact</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="shell">
+      <p>Product Builder · Direction créative</p>
+    </div>
+  </footer>
+
+</body>
+
+</html>

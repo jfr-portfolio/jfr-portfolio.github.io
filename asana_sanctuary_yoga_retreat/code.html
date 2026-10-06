@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ASANA SANCTUARY — Yoga, Pleine Conscience &amp; Retraites Holistiques</title>
+<!-- Google Fonts: Cormorant Garamond & Montserrat -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=Montserrat:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            linen: '#FBF9F5',
+            sand: '#F3EFEA',
+            clay: '#E2C7B8',
+            terracotta: '#D48C70',
+            terracottaHover: '#C0785D',
+            sage: '#8F9B88',
+            sageLight: '#EBF0E9',
+            espresso: '#23201F',
+            charcoal: '#332F2D',
+            mutedText: '#7D7571'
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Montserrat"', 'sans-serif'],
+            script: ['"Cormorant Garamond"', 'serif']
+          },
+          boxShadow: {
+            'soft': '0 20px 40px -15px rgba(212, 140, 112, 0.08)',
+            'card': '0 10px 30px -10px rgba(35, 32, 31, 0.05)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles: Typography & Organic Shapes -->
+<style data-purpose="custom-typography">
+    .font-script {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+    }
+    .text-balance {
+      text-wrap: balance;
+    }
+  </style>
+<!-- Custom Styles: Ornaments & Decorative Elements -->
+<style data-purpose="ornaments">
+    .mandala-bg {
+      background-image: radial-gradient(circle, rgba(212, 140, 112, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .arch-frame {
+      border-top-left-radius: 9999px;
+      border-top-right-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-linen text-espresso font-sans antialiased selection:bg-clay selection:text-espresso">
+<!-- BEGIN: AnnouncementBar -->
+<div class="bg-sand/80 border-b border-stone-200/60 text-center py-2 px-4 text-xs font-medium tracking-widest text-mutedText uppercase" data-purpose="seasonal-banner">
+    ✨ Retraite Équinoxe d'Automne en Provence — <a class="underline underline-offset-4 hover:text-terracotta transition-colors" href="#retraites">Places limitées à 12 — Réserver avant le 30 septembre</a>
+</div>
+<!-- END: AnnouncementBar -->
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 backdrop-blur-md bg-linen/90 border-b border-stone-200/40 transition-all duration-300" data-purpose="primary-navigation">
+<div class="max-w-7xl mx-auto px-6 lg:px-12 h-24 flex items-center justify-between">
+<!-- Brand Logo & Tagline -->
+<a class="flex flex-col text-left group" href="#">
+<span class="font-script text-2xl md:text-3xl text-terracotta leading-none">Asana Sanctuary</span>
+<span class="text-[9px] tracking-[0.3em] font-semibold text-espresso uppercase mt-1">Yoga • Pleine Conscience • Retraites</span>
+</a>
+<!-- Desktop Nav Links -->
+<nav class="hidden lg:flex items-center space-x-10 text-xs uppercase tracking-[0.2em] font-medium text-charcoal">
+<a class="hover:text-terracotta transition-colors duration-200" href="#philosophie">Philosophie</a>
+<a class="hover:text-terracotta transition-colors duration-200" href="#cours">Disciplines</a>
+<a class="hover:text-terracotta transition-colors duration-200" href="#planning">Planning</a>
+<a class="hover:text-terracotta transition-colors duration-200" href="#retraites">Retraites</a>
+<a class="hover:text-terracotta transition-colors duration-200" href="#tarifs">Tarifs</a>
+</nav>
+<!-- Action Button -->
+<div class="flex items-center space-x-4">
+<a class="hidden sm:inline-flex items-center justify-center px-6 py-3 rounded-full text-xs uppercase tracking-[0.18em] font-semibold text-white bg-terracotta hover:bg-terracottaHover transition-all shadow-sm hover:shadow" href="#planning">
+          Réserver un cours
+        </a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main>
+<!-- BEGIN: HeroSection -->
+<section class="relative overflow-hidden pt-12 pb-24 lg:py-24 bg-gradient-to-b from-linen via-sand/40 to-linen" data-purpose="hero-banner">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Hero Text Content -->
+<div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-clay/30 text-charcoal text-[11px] font-medium uppercase tracking-[0.2em]">
+<span class="w-1.5 h-1.5 rounded-full bg-terracotta"></span>
+              Studio certifié Yoga Alliance — Paris 3e
+            </div>
+<div class="relative" style="padding-bottom:28px;">
+  <img src="yoga2.svg" aria-hidden="true" style="position:absolute;top:-28px;right:-9px;width:108px;height:108px;object-fit:contain;opacity:0.16;filter:invert(55%) sepia(50%) saturate(900%) hue-rotate(325deg) brightness(85%);pointer-events:none;">
+  <img src="yoga3.svg" aria-hidden="true" style="position:absolute;bottom:-35px;left:50%;transform:translateX(calc(-50% - 30px));width:185px;height:185px;object-fit:contain;opacity:0.13;filter:invert(55%) sepia(50%) saturate(900%) hue-rotate(325deg) brightness(85%);pointer-events:none;">
+  <img src="yoga1.svg" aria-hidden="true" style="position:absolute;bottom:-31px;left:-15px;width:88px;height:88px;object-fit:contain;opacity:0.15;filter:invert(55%) sepia(50%) saturate(900%) hue-rotate(325deg) brightness(85%);pointer-events:none;">
+  <h1 class="font-serif text-5xl sm:text-6xl xl:text-7xl font-light leading-[1.08] text-espresso tracking-tight relative" style="z-index:1;">
+    Reconnectez votre corps et apaisez votre esprit.
+  </h1>
+</div>
+<p class="text-mutedText text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+              Dans un espace conçu pour une pratique exigeante et le retour à soi, nos enseignants certifiés E-RYT 500 vous guident à travers des méthodes rigoureuses — du renforcement fascial à la régulation du système nerveux autonome.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+<a class="w-full sm:w-auto px-8 py-4 rounded-full bg-espresso text-linen text-xs uppercase tracking-[0.2em] font-medium hover:bg-charcoal transition-colors text-center shadow-lg" href="#planning">
+                Explorer le planning
+              </a>
+<a class="w-full sm:w-auto px-8 py-4 rounded-full border border-stone-300 text-espresso text-xs uppercase tracking-[0.2em] font-medium hover:bg-sand/60 transition-colors text-center" href="#cours">
+                Découvrir les disciplines
+              </a>
+</div>
+<!-- Key Indicators / Trust Badges -->
+<div class="pt-8 border-t border-stone-200/80 grid grid-cols-3 gap-6 text-center lg:text-left">
+<div>
+<p class="font-serif text-3xl text-espresso">28+</p>
+<p class="text-[11px] uppercase tracking-wider text-mutedText mt-0.5">Séances Hebdo</p>
+</div>
+<div>
+<p class="font-serif text-3xl text-espresso">E-RYT</p>
+<p class="text-[11px] uppercase tracking-wider text-mutedText mt-0.5">500 Yoga Alliance</p>
+</div>
+<div>
+<p class="font-serif text-3xl text-espresso">12 max</p>
+<p class="text-[11px] uppercase tracking-wider text-mutedText mt-0.5">Élèves par cours</p>
+</div>
+</div>
+</div>
+<!-- Hero Image & Arched Visual -->
+<div class="lg:col-span-6 flex justify-center relative">
+<!-- Decorative Backing Auras -->
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-clay/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-72 h-72 bg-sageLight/60 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative w-full max-w-md">
+<!-- Circular and Arched Hero Framing -->
+<div class="relative mx-auto w-full aspect-[4/5] arch-frame overflow-hidden shadow-2xl border-4 border-white/80 bg-sand">
+<img alt="Pratique du yoga au lever du jour, lumière dorée" class="w-full h-full object-cover object-center transform transition duration-700 hover:scale-105" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80"/>
+<div class="absolute inset-0 bg-gradient-to-t from-espresso/40 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 text-white text-center">
+<span class="font-script text-3xl block">Let your soul glow</span>
+<span class="text-[10px] uppercase tracking-[0.25em] font-light">Harmonie • Respiration • Présence</span>
+</div>
+</div>
+<!-- Floating Accent Card -->
+<div class="absolute -bottom-10 -left-4 bg-white/95 backdrop-blur border border-stone-200/80 p-2.5 rounded-xl shadow-lg flex items-center gap-3 max-w-[220px]">
+<div class="w-8 h-8 rounded-full bg-sageLight flex items-center justify-center text-sage text-sm font-serif flex-shrink-0">
+                  ॐ
+                </div>
+<div>
+<p class="text-[10px] font-semibold uppercase tracking-wider text-espresso">Séance Découverte</p>
+<p class="text-[9px] text-mutedText">Offerte · 1ère inscription</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: PhilosophySection -->
+<section class="py-24 bg-white border-y border-stone-200/50" data-purpose="philosophy-section" id="philosophie">
+<div class="max-w-5xl mx-auto px-6 text-center space-y-12">
+<div class="space-y-3">
+<p class="text-xs font-medium uppercase tracking-[0.3em] text-terracotta">Tradition. Rigueur. Bienveillance.</p>
+<h2 class="font-serif text-4xl sm:text-5xl text-espresso tracking-tight">L'Âme d'Asana Sanctuary</h2>
+<div class="w-12 h-px bg-terracotta mx-auto mt-4"></div>
+</div>
+<!-- Instructor / Founder Profile Showcase -->
+<div class="flex flex-col items-center">
+<div class="relative p-2 rounded-full border border-dashed border-terracotta/40 mb-6">
+<div class="w-44 h-44 rounded-full overflow-hidden shadow-inner bg-sand">
+<img alt="Elena Laurent — Fondatrice Asana Sanctuary, E-RYT 500" class="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition duration-500" src="https://images.unsplash.com/photo-1555435509-c1e95c453525?w=400&q=80"/>
+</div>
+<!-- Meditative badge -->
+<div class="absolute -bottom-2 bg-linen border border-stone-200 text-espresso px-4 py-1 rounded-full text-[10px] tracking-widest uppercase font-medium">
+              Elena Laurent
+            </div>
+</div>
+<p class="text-xs uppercase tracking-widest text-mutedText font-semibold">Fondatrice &amp; Maître Enseignante E-RYT 500</p>
+<p class="mt-3 text-[11px] text-mutedText max-w-lg leading-relaxed">
+            Formée à l'Institut de Mysore (Inde) dans la tradition Ashtanga de Sri K. Pattabhi Jois. Certification Yin Yoga avec Paul Grilley, Yoga Nidra iRest (iRest Institute, Washington). Ancienne directrice artistique, elle enseigne depuis 12 ans à Paris.
+          </p>
+<blockquote class="mt-8 max-w-2xl font-serif text-xl sm:text-2xl text-charcoal italic leading-relaxed">
+            « Le yoga n'est pas une performance corporelle — c'est un retour méthodique à l'état de calme intérieur. La respiration n'est pas un accessoire : elle est l'outil. »
+          </blockquote>
+<div class="mt-6 font-script text-3xl text-terracotta select-none">
+            Elena Laurent
+          </div>
+</div>
+<!-- Three Core Values / Pillar Icons -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10 pt-10 border-t border-stone-100">
+<div class="space-y-3 px-4">
+<div class="w-14 h-14 mx-auto rounded-full bg-sand flex items-center justify-center text-espresso text-2xl font-serif">
+              ✦
+            </div>
+<h3 class="font-serif text-xl text-espresso">Pédagogie individualisée</h3>
+<p class="text-xs text-mutedText leading-relaxed">
+              12 élèves maximum par cours. Chaque ajustement posturale est donné en temps réel, en respectant strictement l'anatomie et les limites de chacun.
+            </p>
+</div>
+<div class="space-y-3 px-4">
+<div class="w-14 h-14 mx-auto rounded-full bg-sand flex items-center justify-center text-espresso text-2xl font-serif">
+              ☯
+            </div>
+<h3 class="font-serif text-xl text-espresso">Équilibre Yang &amp; Yin</h3>
+<p class="text-xs text-mutedText leading-relaxed">
+              Associer l'intensité stimulante du système nerveux sympathique (Vinyasa, Ashtanga) au rééquilibrage parasympathique profond (Yin, Yoga Nidra).
+            </p>
+</div>
+<div class="space-y-3 px-4">
+<div class="w-14 h-14 mx-auto rounded-full bg-sand flex items-center justify-center text-espresso text-2xl font-serif">
+              𖤓
+            </div>
+<h3 class="font-serif text-xl text-espresso">Espace &amp; Matériaux</h3>
+<p class="text-xs text-mutedText leading-relaxed">
+              Studios baignés de lumière zénithale, purificateurs d'air HEPA, tapis Manduka PRO, blocs et sangles en matériaux naturels certifiés.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: PhilosophySection -->
+<!-- BEGIN: DisciplinesGallery -->
+<section class="py-24 bg-linen" data-purpose="disciplines-grid" id="cours">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+<div class="space-y-2">
+<span class="text-xs uppercase tracking-[0.25em] text-terracotta font-semibold">Pratiques &amp; Disciplines</span>
+<h2 class="font-serif text-4xl sm:text-5xl text-espresso">L'Harmonie du Mouvement</h2>
+</div>
+<p class="text-xs uppercase tracking-wider text-mutedText mt-4 md:mt-0 font-medium">
+            Du rythme dynamique au repos profond
+          </p>
+</div>
+<!-- Dynamic Grid of Classes -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Vinyasa -->
+<div class="group bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden bg-sand">
+<img alt="Cours de Vinyasa Flow — enchaînements liés au souffle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=800&q=80"/>
+<div class="absolute top-4 right-4 bg-linen/90 backdrop-blur px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-semibold text-charcoal">
+                Intensité Modérée / Forte
+              </div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<div>
+<h3 class="font-serif text-2xl text-espresso group-hover:text-terracotta transition-colors">Vinyasa Flow Vitalité</h3>
+<p class="text-xs text-mutedText leading-relaxed mt-2">
+                  Chaque mouvement est synchronisé avec le cycle respiratoire : l'inspiration active, l'expiration relâche. Cette cohérence cardio-respiratoire renforce la ceinture lombo-pelvienne, améliore la proprioception et est associée à une réduction mesurable du cortisol matinal.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-stone-100 text-xs text-charcoal">
+<span class="font-medium">Durée : 60 min</span>
+<a class="font-semibold text-terracotta hover:underline uppercase tracking-wider text-[11px]" href="#planning">Horaires →</a>
+</div>
+</div>
+</div>
+<!-- Card 2: Yin Yoga & Sound Bath -->
+<div class="group bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden bg-sand">
+<img alt="Yin Yoga — postures longues et bains sonores aux bols de cristal" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=800&q=80"/>
+<div class="absolute top-4 right-4 bg-linen/90 backdrop-blur px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-semibold text-sage">
+                Régénérant &amp; Méditatif
+              </div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<div>
+<h3 class="font-serif text-2xl text-espresso group-hover:text-terracotta transition-colors">Yin Yoga &amp; Bains Sonores</h3>
+<p class="text-xs text-mutedText leading-relaxed mt-2">
+                  Postures au sol tenues de 3 à 5 minutes, exerçant une traction douce sur les fascias — tissu conjonctif entourant muscles et articulations. Cette stimulation mécanique favorise le remodelage du collagène et restaure la mobilité articulaire profonde. Les vibrations des bols de cristal activent le système nerveux parasympathique.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-stone-100 text-xs text-charcoal">
+<span class="font-medium">Durée : 75 min</span>
+<a class="font-semibold text-terracotta hover:underline uppercase tracking-wider text-[11px]" href="#planning">Horaires →</a>
+</div>
+</div>
+</div>
+<!-- Card 3: Ashtanga Mysore -->
+<div class="group bg-white rounded-2xl overflow-hidden border border-stone-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden bg-sand">
+<img alt="Ashtanga Mysore — self-practice guidé individuellement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1554245064-3ab88761ac5d?w=800&q=80"/>
+<div class="absolute top-4 right-4 bg-linen/90 backdrop-blur px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-semibold text-charcoal">
+                Tradition &amp; Puissance
+              </div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+<div>
+<h3 class="font-serif text-2xl text-espresso group-hover:text-terracotta transition-colors">Ashtanga Mysore Traditionnel</h3>
+<p class="text-xs text-mutedText leading-relaxed mt-2">
+                  Format self-practice : chaque élève progresse à son rythme dans la série codifiée par Sri K. Pattabhi Jois, guidé individuellement. La respiration Ujjayi génère une chaleur interne (tapas) facilitant la détoxification musculaire. Non recommandé aux débutants absolus.
+                </p>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-stone-100 text-xs text-charcoal">
+<span class="font-medium">Durée : 90 min</span>
+<a class="font-semibold text-terracotta hover:underline uppercase tracking-wider text-[11px]" href="#planning">Horaires →</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Photographic Collage Strip -->
+<div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+<div class="rounded-xl overflow-hidden aspect-square">
+<img alt="Pranayama — techniques de respiration consciente" class="w-full h-full object-cover hover:scale-110 transition duration-500" src="https://images.unsplash.com/photo-1552196527-bffef41ef674?w=600&q=80"/>
+</div>
+<div class="rounded-xl overflow-hidden aspect-square">
+<img alt="Méditation guidée en studio" class="w-full h-full object-cover hover:scale-110 transition duration-500" src="https://images.unsplash.com/photo-1767611133656-80a871fff5d4?w=600&q=80"/>
+</div>
+<div class="rounded-xl overflow-hidden aspect-square">
+<img alt="Étirements profonds et alignement postural" class="w-full h-full object-cover hover:scale-110 transition duration-500" src="https://images.unsplash.com/photo-1566501206188-5dd0cf160a0e?w=600&q=80"/>
+</div>
+<div class="rounded-xl overflow-hidden aspect-square">
+<img alt="Accessoires de pratique — tapis et matériaux naturels" class="w-full h-full object-cover hover:scale-110 transition duration-500" src="https://images.unsplash.com/photo-1767605545968-a102fc151b08?w=600&q=80"/>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DisciplinesGallery -->
+<!-- BEGIN: WeeklySchedule -->
+<section class="py-24 bg-white" data-purpose="class-schedule" id="planning">
+<div class="max-w-6xl mx-auto px-6 lg:px-12">
+<div class="text-center max-w-2xl mx-auto mb-14 space-y-3">
+<span class="text-xs uppercase tracking-[0.3em] text-terracotta font-semibold">Semaine en cours</span>
+<h2 class="font-serif text-4xl sm:text-5xl text-espresso">Planning &amp; Réservations</h2>
+<p class="text-xs text-mutedText">Tous nos cours sont limités à 12 personnes pour garantir des ajustements individuels.</p>
+</div>
+<!-- Daily Agenda Table -->
+<div class="bg-linen rounded-3xl border border-stone-200/80 p-6 sm:p-10 shadow-sm">
+<!-- Class Row 1 -->
+<div class="py-5 border-b border-stone-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<span class="text-sm font-semibold text-terracotta w-24">08:00 — 09:00</span>
+<div>
+<h4 class="font-serif text-xl text-espresso">Vinyasa Réveil Solaire</h4>
+<p class="text-xs text-mutedText">Avec Elena Laurent • Studio Racine</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider bg-sageLight text-sage font-medium">3 places restantes</span>
+<button class="px-5 py-2 rounded-full bg-espresso text-linen hover:bg-terracotta text-xs uppercase tracking-widest font-semibold transition-colors">
+                Réserver
+              </button>
+</div>
+</div>
+<!-- Class Row 2 -->
+<div class="py-5 border-b border-stone-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<span class="text-sm font-semibold text-terracotta w-24">12:30 — 13:30</span>
+<div>
+<h4 class="font-serif text-xl text-espresso">Hatha Alignement &amp; Pranayama</h4>
+<p class="text-xs text-mutedText">Avec Marc Alva • Studio Sérénité</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider bg-sand text-charcoal font-medium">5 places</span>
+<button class="px-5 py-2 rounded-full bg-espresso text-linen hover:bg-terracotta text-xs uppercase tracking-widest font-semibold transition-colors">
+                Réserver
+              </button>
+</div>
+</div>
+<!-- Class Row 3 -->
+<div class="py-5 border-b border-stone-200/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<span class="text-sm font-semibold text-terracotta w-24">18:30 — 19:45</span>
+<div>
+<h4 class="font-serif text-xl text-espresso">Yin &amp; Bain Sonore Cristal</h4>
+<p class="text-xs text-mutedText">Avec Elena Laurent • Studio Racine</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider bg-clay/40 text-espresso font-medium">Complet (Liste d'attente)</span>
+<button class="px-5 py-2 rounded-full border border-stone-300 text-charcoal hover:bg-sand text-xs uppercase tracking-widest font-semibold transition-colors">
+                S'inscrire
+              </button>
+</div>
+</div>
+<!-- Class Row 4 -->
+<div class="py-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-6">
+<span class="text-sm font-semibold text-terracotta w-24">20:00 — 21:00</span>
+<div>
+<h4 class="font-serif text-xl text-espresso">Yoga Nidra &amp; Méditation Guidée</h4>
+<p class="text-xs text-mutedText">Avec Sara M. • Studio Lumière</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 rounded-full text-[11px] uppercase tracking-wider bg-sageLight text-sage font-medium">6 places restantes</span>
+<button class="px-5 py-2 rounded-full bg-espresso text-linen hover:bg-terracotta text-xs uppercase tracking-widest font-semibold transition-colors">
+                Réserver
+              </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: WeeklySchedule -->
+<!-- BEGIN: PricingSection -->
+<section class="py-24 bg-linen" data-purpose="pricing" id="tarifs">
+<div class="max-w-5xl mx-auto px-6 lg:px-12">
+<div class="text-center mb-14 space-y-3">
+<span class="text-xs uppercase tracking-[0.3em] text-terracotta font-semibold">Accès au Sanctuaire</span>
+<h2 class="font-serif text-4xl sm:text-5xl text-espresso">Tarifs &amp; Formules</h2>
+<p class="text-xs text-mutedText max-w-md mx-auto">Première séance offerte. Sans engagement, résiliable à tout moment.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Cours à l'unité -->
+<div class="bg-white border border-stone-200/80 rounded-2xl p-8 flex flex-col shadow-card">
+<h3 class="font-serif text-2xl text-espresso">Cours à l'unité</h3>
+<p class="text-xs text-mutedText mt-2 mb-6">Idéal pour découvrir ou pratiquer ponctuellement.</p>
+<p class="font-serif text-5xl text-terracotta mt-auto">34 <span class="text-xl text-mutedText font-sans font-light">€</span></p>
+<p class="text-[11px] text-mutedText mt-1">par séance</p>
+<a href="#planning" class="mt-8 block text-center px-6 py-3 rounded-full border border-stone-300 text-espresso text-xs uppercase tracking-widest font-semibold hover:bg-sand transition-colors">Réserver</a>
+</div>
+<!-- Carnet 10 cours -->
+<div class="bg-espresso border border-espresso rounded-2xl p-8 flex flex-col shadow-soft relative overflow-hidden">
+<div class="absolute top-4 right-4 bg-terracotta text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-semibold">Recommandé</div>
+<h3 class="font-serif text-2xl text-linen">Carnet 10 cours</h3>
+<p class="text-xs text-linen/60 mt-2 mb-6">Valable 6 mois. Utilisable sur toutes les disciplines.</p>
+<p class="font-serif text-5xl text-clay mt-auto">290 <span class="text-xl text-linen/60 font-sans font-light">€</span></p>
+<p class="text-[11px] text-linen/50 mt-1">soit 29 € par cours</p>
+<a href="#planning" class="mt-8 block text-center px-6 py-3 rounded-full bg-terracotta text-white text-xs uppercase tracking-widest font-semibold hover:bg-terracottaHover transition-colors">Réserver</a>
+</div>
+<!-- Abonnement mensuel -->
+<div class="bg-white border border-stone-200/80 rounded-2xl p-8 flex flex-col shadow-card">
+<h3 class="font-serif text-2xl text-espresso">Abonnement mensuel</h3>
+<p class="text-xs text-mutedText mt-2 mb-6">Cours illimités. Priorité de réservation garantie.</p>
+<p class="font-serif text-5xl text-terracotta mt-auto">175 <span class="text-xl text-mutedText font-sans font-light">€</span></p>
+<p class="text-[11px] text-mutedText mt-1">par mois, sans engagement</p>
+<a href="#planning" class="mt-8 block text-center px-6 py-3 rounded-full border border-stone-300 text-espresso text-xs uppercase tracking-widest font-semibold hover:bg-sand transition-colors">Souscrire</a>
+</div>
+</div>
+<!-- Retraite highlight -->
+<div class="mt-10 bg-sand/60 border border-stone-200/60 rounded-2xl p-8 flex flex-col md:flex-row md:items-center justify-between gap-6" id="retraites">
+<div>
+<p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-1">Retraites holistiques</p>
+<h4 class="font-serif text-2xl text-espresso">Séjours immersifs en Provence</h4>
+<p class="text-xs text-mutedText mt-2 max-w-lg">Week-ends et semaines en résidence. Yoga matin &amp; soir, méditation, alimentation végétale locale. 12 participants maximum par session.</p>
+</div>
+<div class="text-right shrink-0">
+<p class="font-serif text-3xl text-espresso">À partir de <span class="text-terracotta">950 €</span></p>
+<p class="text-[11px] text-mutedText">week-end tout inclus</p>
+<a href="#" class="mt-4 inline-block px-6 py-3 rounded-full bg-espresso text-linen text-xs uppercase tracking-widest font-semibold hover:bg-charcoal transition-colors">Prochaines dates</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: PricingSection -->
+<!-- BEGIN: NewsletterSection -->
+<section class="py-20 bg-linen mandala-bg" data-purpose="newsletter-subscribe">
+<div class="max-w-4xl mx-auto px-6 text-center space-y-6">
+<span class="font-script text-3xl text-terracotta">Restez reliés au Sanctuaire</span>
+<h3 class="font-serif text-3xl sm:text-4xl text-espresso tracking-tight">Recevez nos Méditations &amp; Conseils de Saison</h3>
+<p class="text-xs text-mutedText max-w-md mx-auto">
+          Chaque mois, notre lettre vous transmet des rituels de respiration, des séquences à pratiquer chez soi et les dates en avant-première de nos retraites.
+        </p>
+<!-- Newsletter form -->
+<form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3 pt-2" onsubmit="event.preventDefault();">
+<input class="flex-1 px-5 py-3.5 rounded-full border border-stone-300 bg-white text-xs text-espresso focus:ring-1 focus:ring-terracotta focus:border-terracotta placeholder:text-stone-400" placeholder="Votre adresse email..." required="" type="email"/>
+<button class="px-8 py-3.5 rounded-full bg-terracotta text-white text-xs uppercase tracking-widest font-semibold hover:bg-terracottaHover transition-colors shadow-sm" type="submit">
+            S'inscrire
+          </button>
+</form>
+<p class="text-[10px] text-stone-400">Aucun spam. Désinscription en un clic à tout moment.</p>
+</div>
+</section>
+<!-- END: NewsletterSection -->
+</main>
+<!-- BEGIN: MainFooter -->
+<footer class="bg-espresso text-linen/80 pt-20 pb-12 border-t border-stone-800" data-purpose="global-footer">
+<div class="max-w-7xl mx-auto px-6 lg:px-12">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-stone-800 text-xs">
+<!-- Brand & Address -->
+<div class="space-y-4">
+<span class="font-script text-3xl text-clay block">Asana Sanctuary</span>
+<p class="text-stone-400 leading-relaxed">
+            Studio de yoga certifié Yoga Alliance, dédié à la pratique rigoureuse et au retour à soi. Paris, depuis 2014.
+          </p>
+<div class="space-y-1 text-stone-300 text-xs pt-2">
+<p>📍 18 Rue de la Paix Intérieure, 75003 Paris</p>
+<p>✉️ contact@asanasanctuary.com</p>
+<p>📞 +33 (0)1 42 68 90 00</p>
+</div>
+</div>
+<!-- Studio Schedule / Horaires -->
+<div class="space-y-4">
+<h4 class="text-xs uppercase tracking-[0.2em] font-semibold text-white">Horaires d'Ouverture</h4>
+<ul class="space-y-2 text-stone-400">
+<li class="flex justify-between"><span>Lundi – Vendredi :</span> <span class="text-white">07:30 – 21:00</span></li>
+<li class="flex justify-between"><span>Samedi :</span> <span class="text-white">08:30 – 19:30</span></li>
+<li class="flex justify-between"><span>Dimanche :</span> <span class="text-white">09:00 – 18:00</span></li>
+<li class="pt-2 text-[11px] text-terracotta">Accueil 15 minutes avant le début de chaque cours.</li>
+</ul>
+</div>
+<!-- Recent Journal Posts -->
+<div class="space-y-4">
+<h4 class="text-xs uppercase tracking-[0.2em] font-semibold text-white">Carnet de Pratique</h4>
+<ul class="space-y-3">
+<li>
+<a class="group block" href="#">
+<span class="text-[10px] uppercase text-terracotta">Fascias • Septembre 2026</span>
+<p class="text-stone-300 group-hover:text-clay transition-colors mt-0.5">Pourquoi le Yin Yoga agit en profondeur là où le stretching classique échoue</p>
+</a>
+</li>
+<li>
+<a class="group block" href="#">
+<span class="text-[10px] uppercase text-terracotta">Respiration • Août 2026</span>
+<p class="text-stone-300 group-hover:text-clay transition-colors mt-0.5">Ujjayi, Nadi Shodhana, Kapalabhati : quel pranayama pour quel objectif ?</p>
+</a>
+</li>
+</ul>
+</div>
+<!-- Instagram Feed Preview -->
+<div class="space-y-4">
+<h4 class="text-xs uppercase tracking-[0.2em] font-semibold text-white">Instagram @asanasanctuary</h4>
+<p class="text-stone-400 text-[11px]">Partagez votre pratique avec le tag #AsanaGlow</p>
+<div class="grid grid-cols-3 gap-2 pt-1">
+<div class="aspect-square rounded-lg overflow-hidden bg-stone-800">
+<img alt="Yoga lifestyle" class="w-full h-full object-cover hover:opacity-80 transition" src="https://images.unsplash.com/photo-1764111586096-f59a1376b9ac?w=300&q=80"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-stone-800">
+<img alt="Pratique en plein air" class="w-full h-full object-cover hover:opacity-80 transition" src="https://images.unsplash.com/photo-1562088287-bde35a1ea917?w=300&q=80"/>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden bg-stone-800">
+<img alt="Studio Asana Sanctuary" class="w-full h-full object-cover hover:opacity-80 transition" src="https://images.unsplash.com/photo-1761971975962-9cc397e2ba2a?w=300&q=80"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Copyright & Bottom Nav -->
+<div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-500 gap-4">
+<p>© 2026 ASANA SANCTUARY — Tous droits réservés.</p>
+<div class="flex space-x-6">
+<a class="hover:text-stone-300 transition-colors" href="#">Mentions Légales</a>
+<a class="hover:text-stone-300 transition-colors" href="#">Confidentialité</a>
+<a class="hover:text-stone-300 transition-colors" href="#">CGV Cours</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+</body></html>

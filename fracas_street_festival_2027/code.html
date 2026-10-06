@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@100..900&family=Space+Grotesk:wght@100..900&family=Syne:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "secondary": "#725c00", "surface-container-lowest": "#ffffff", "primary-fixed": "#ffd9e1", "surface-container-high": "#eae5ff", "surface": "#fcf8ff", "on-secondary-fixed-variant": "#564500", "surface-container-low": "#f6f1ff", "secondary-fixed": "#ffe07c", "on-tertiary": "#ffffff", "surface-variant": "#e4dfff", "on-error": "#ffffff", "on-tertiary-container": "#fffbff", "on-tertiary-fixed": "#00164e", "secondary-container": "#fdd000", "inverse-on-surface": "#f3eeff", "surface-container": "#f0ebff", "primary-fixed-dim": "#ffb1c5", "primary-container": "#e30071", "on-tertiary-fixed-variant": "#143ea4", "surface-container-highest": "#e4dfff", "surface-tint": "#ba005c", "on-secondary-container": "#6e5900", "tertiary": "#3255bb", "secondary-fixed-dim": "#ecc200", "on-primary": "#ffffff", "inverse-surface": "#302d49", "error": "#ba1a1a", "on-surface-variant": "#5b3f46", "on-primary-fixed": "#3f001b", "surface-dim": "#dcd6fa", "outline": "#8f6f76", "on-error-container": "#93000a", "on-secondary-fixed": "#231b00", "on-primary-container": "#fffbff", "on-primary-fixed-variant": "#8f0045", "tertiary-fixed": "#dce1ff", "surface-bright": "#fcf8ff", "on-surface": "#1b1832", "primary": "#b60059", "tertiary-container": "#4e6ed5", "on-secondary": "#ffffff", "background": "#fcf8ff", "tertiary-fixed-dim": "#b5c4ff", "inverse-primary": "#ffb1c5", "outline-variant": "#e3bdc5", "error-container": "#ffdad6", "on-background": "#1b1832" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "space-2xl": "3rem", "gutter-mobile": "1rem", "space-4xl": "6rem", "space-xs": "0.5rem", "margin-mobile": "1.25rem", "space-lg": "1.5rem", "space-sm": "0.75rem", "space-xl": "2rem", "margin-desktop": "3rem", "space-md": "1rem", "gutter-desktop": "1.5rem", "space-2xs": "0.25rem", "space-3xl": "4.5rem", "space-3xs": "0.125rem" }, fontFamily: { "headline-lg": ["Syne"], "label-lg": ["Space Grotesk"], "display-xl": ["Syne"], "headline-md-mobile": ["Syne"], "label-md": ["Space Grotesk"], "body-lg": ["Epilogue"], "display-xl-mobile": ["Syne"], "headline-sm": ["Epilogue"], "headline-lg-mobile": ["Syne"], "body-sm": ["Epilogue"], "body-md": ["Epilogue"], "label-sm": ["Space Grotesk"], "headline-md": ["Syne"] }, fontSize: { "headline-lg": ["56px", { lineHeight: "58px", letterSpacing: "-0.02em", fontWeight: "700" }], "label-lg": ["16px", { lineHeight: "20px", letterSpacing: "0.08em", fontWeight: "700" }], "display-xl": ["96px", { lineHeight: "92px", letterSpacing: "-0.03em", fontWeight: "800" }], "headline-md-mobile": ["26px", { lineHeight: "32px", letterSpacing: "0em", fontWeight: "700" }], "label-md": ["13px", { lineHeight: "16px", letterSpacing: "0.06em", fontWeight: "700" }], "body-lg": ["20px", { lineHeight: "30px", letterSpacing: "0.01em", fontWeight: "400" }], "display-xl-mobile": ["52px", { lineHeight: "52px", letterSpacing: "-0.02em", fontWeight: "800" }], "headline-sm": ["24px", { lineHeight: "30px", letterSpacing: "0em", fontWeight: "700" }], "headline-lg-mobile": ["36px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }], "body-sm": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500" }], "body-md": ["16px", { lineHeight: "24px", letterSpacing: "0.01em", fontWeight: "400" }], "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.05em", fontWeight: "600" }], "headline-md": ["36px", { lineHeight: "42px", letterSpacing: "-0.01em", fontWeight: "700" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-secondary-container selection:text-on-secondary-container"><header class="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b-2 border-on-surface shadow-[0_4px_0_0_#1b1832]"><div class="bg-secondary-container text-on-secondary-container py-space-3xs px-gutter-desktop border-b border-on-surface/20"><div class="max-w-7xl mx-auto flex items-center justify-between font-label-sm text-label-sm uppercase tracking-wider"><span>4 → 8 juin 2027 · Gaillac, Rabastens, Lisle-sur-Tarn (Occitanie)</span><div class="flex items-center gap-space-sm"><span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span><span>Arts de la rue & Créations in situ</span></div></div></div><div class="h-20 max-w-7xl mx-auto px-gutter-desktop flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-baseline gap-space-xs group" data-path="le-festival" href="#"><span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter group-hover:text-primary-container transition-colors">FRACAS</span><span class="font-label-lg text-label-lg font-bold text-on-surface tracking-widest bg-secondary-container px-space-xs py-space-3xs border border-on-surface shadow-[2px_2px_0_0_#1b1832]">2027</span></a></div><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary text-on-primary font-bold shadow-[3px_3px_0px_0px_#1b1832]"><a aria-current="page" class="px-space-sm py-space-xs uppercase tracking-wider transition-all bg-primary text-on-primary font-bold shadow-[3px_3px_0px_0px_#1b1832]" data-path="le-festival" href="#">Le Festival</a><a class="px-space-sm py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-primary hover:bg-primary transition-all" data-path="programme-&-cartes" href="#">Programme & Cartes</a><a class="px-space-sm py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-primary hover:bg-primary transition-all" data-path="lieux-&-places" href="#">Lieux & Places</a><a class="px-space-sm py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-primary hover:bg-primary transition-all" data-path="infos-pratiques" href="#">Infos Pratiques</a><a class="px-space-sm py-space-xs font-label-md text-label-md uppercase tracking-wider text-on-surface-variant hover:text-on-primary hover:bg-primary transition-all" data-path="chapiteaux-/-billetterie" href="#">Chapiteaux / Billetterie</a></nav><div class="flex items-center gap-space-md"><div class="hidden sm:inline-flex items-center px-space-sm py-space-xs bg-primary-container text-on-primary font-label-sm text-label-sm uppercase font-bold border border-on-surface shadow-[3px_3px_0px_0px_#1b1832] -rotate-2 hover:rotate-0 transition-transform">Accès 100% Libre</div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border border-on-surface"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-background"><div class="flex flex-col w-full">
+<!-- HERO POSTER BLAST -->
+<section class="relative w-full overflow-hidden bg-surface pb-space-3xl">
+<!-- Risograph Backdrop Ink Halftone Marks -->
+<div class="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#b60059_1px,transparent_1px)] [background-size:16px_16px]"></div>
+<div class="max-w-7xl mx-auto px-gutter-desktop pt-space-xl relative z-10 flex flex-col gap-space-2xl">
+<!-- Top Meta Sticker Line -->
+<div class="flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="bg-primary text-on-primary font-label-md text-label-md uppercase px-space-sm py-space-2xs shadow-[3px_3px_0px_0px_#1b1832] -rotate-1">Édition V · 2027</span>
+<span class="bg-secondary-container text-on-secondary-container font-label-md text-label-md uppercase px-space-sm py-space-2xs shadow-[3px_3px_0px_0px_#1b1832] rotate-2">Gaillac · Rabastens · Lisle-sur-Tarn</span>
+<span class="bg-tertiary text-on-tertiary font-label-md text-label-md uppercase px-space-sm py-space-2xs shadow-[3px_3px_0px_0px_#1b1832]">Tarn / Occitanie</span>
+</div>
+<div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface uppercase tracking-widest bg-surface-container-highest px-space-sm py-space-2xs border-2 border-on-surface shadow-[2px_2px_0_0_#1b1832]">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<span>Programmation Intégrale Révélée</span>
+</div>
+</div>
+<!-- Supercharged Typographic Risograph Explosion -->
+<div class="relative flex flex-col items-start select-none">
+<div class="relative w-full flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="relative">
+<!-- Shadow Ink Shift (Risograph misregistration effect) -->
+<h1 class="font-display-xl text-display-xl font-extrabold uppercase tracking-tighter text-tertiary/20 absolute -top-1.5 -left-1.5 select-none pointer-events-none">
+              FRA·CAS
+            </h1>
+<h1 class="font-display-xl text-display-xl font-extrabold uppercase tracking-tighter text-primary relative z-10">
+              FRA·CAS
+            </h1>
+</div>
+<div class="lg:mb-3 flex flex-col items-start lg:items-end">
+<span class="font-label-lg text-label-lg uppercase bg-secondary-container text-on-secondary-container px-space-md py-space-2xs shadow-[4px_4px_0_0_#1b1832] border-2 border-on-surface font-black -rotate-1">
+              FESTIVAL DES ARTS DE LA RUE
+            </span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold mt-space-xs">
+              4 → 8 Juin 2027 · Clameur Publique
+            </span>
+</div>
+</div>
+<!-- Manifesto Strip -->
+<div class="w-full mt-space-md p-space-md md:p-space-lg bg-surface-container-low border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<p class="font-body-lg text-body-lg text-on-surface font-medium max-w-3xl leading-snug">
+<strong class="text-primary font-bold">Cinq jours, quarante compagnies, onze places de village.</strong> 
+            Aucune salle aseptisée, aucun gradin numéroté : on joue sur le pavé, entre l’étal de fruits et la fontaine à sec. Accès libre, frissons bruts et bitume vibrant !
+          </p>
+<div class="flex flex-col sm:flex-row gap-space-xs shrink-0 w-full md:w-auto">
+<a class="px-space-md py-space-sm bg-primary-container text-on-primary font-label-md text-label-md uppercase border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_0px_#1b1832] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_#1b1832] transition-all text-center" href="#grille-programme">
+              Explorer les spectacles
+            </a>
+<a class="px-space-md py-space-sm bg-surface-container-lowest text-on-surface font-label-md text-label-md uppercase border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832] hover:bg-secondary-fixed transition-all text-center" href="#carte-pratique">
+              Guide pratique (PDF)
+            </a>
+</div>
+</div>
+</div>
+<!-- HERO VISUAL: GRAND STREET SPECTACLE BANNER -->
+<div class="relative w-full border-2 border-on-surface shadow-[8px_8px_0px_0px_#1b1832] overflow-hidden group">
+<img class="w-full h-[380px] md:h-[520px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Foule festive lors d'un festival de rue en plein air" src="https://images.unsplash.com/photo-1788149903141-d53b08f6f38a?w=1400&q=80"/>
+<!-- Overprinted Vignette Badges -->
+<div class="absolute top-space-md left-space-md flex flex-col gap-space-2xs">
+<div class="bg-secondary-container text-on-secondary-container font-label-lg text-label-lg px-space-sm py-space-2xs border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832] -rotate-3 uppercase font-extrabold inline-block">
+            Spectacle Phare : « La Grande Ourse »
+          </div>
+<div class="bg-surface-container-lowest text-on-surface font-label-sm text-label-sm px-space-xs py-space-3xs border border-on-surface shadow-[2px_2px_0px_0px_#1b1832] inline-block">
+            Cie Machine Poétique · Place de la Libération, Gaillac
+          </div>
+</div>
+<div class="absolute bottom-space-md right-space-md bg-surface-container-lowest/95 backdrop-blur border-2 border-on-surface p-space-sm shadow-[4px_4px_0px_0px_#1b1832] max-w-xs hidden sm:block">
+<div class="flex items-center gap-space-xs text-primary font-headline-sm">
+<span class="material-symbols-outlined text-[24px]">celebration</span>
+<span class="font-bold text-base font-label-lg uppercase">Énergie 100% Pavé</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-3xs">
+            Marionnettes monumentales de 7 mètres, déambulations pyrotechniques et fanfares sauvages sans interruption.
+          </p>
+</div>
+</div>
+<!-- Quick Metrics Ribbon -->
+<div id="fshake-metrics" class="grid grid-cols-2 md:grid-cols-4 gap-space-md">
+<div class="p-space-md bg-surface-container border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832]">
+<span class="font-display-xl-mobile text-display-xl-mobile font-black text-primary block leading-none">38</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-bold mt-space-xs block">Spectacles Gratuits</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Accès direct sans réservation</span>
+</div>
+<div class="p-space-md bg-secondary-container border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832]">
+<span class="font-display-xl-mobile text-display-xl-mobile font-black text-on-secondary-container block leading-none">11</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-secondary-container font-bold mt-space-xs block">Lieux & Squares</span>
+<span class="font-body-sm text-body-sm text-on-secondary-container/80">3 communes interconnectées</span>
+</div>
+<div class="p-space-md bg-tertiary-fixed border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832]">
+<span class="font-display-xl-mobile text-display-xl-mobile font-black text-tertiary block leading-none">140</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-bold mt-space-xs block">Artistes & Saltimbanques</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">De France, Catalogne et Belgique</span>
+</div>
+<div class="p-space-md bg-primary-fixed border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832]">
+<span class="font-display-xl-mobile text-display-xl-mobile font-black text-primary-container block leading-none">0€</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface font-bold mt-space-xs block">Frais Cachés</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Chapeau solidaire & buvettes bio</span>
+</div>
+</div>
+</div>
+</section>
+<!-- KINETIC RUNNING TICKER -->
+<div class="w-full bg-secondary-container py-space-xs border-y-2 border-on-surface overflow-hidden whitespace-nowrap shadow-[0_4px_0_0_#1b1832]">
+<div class="inline-flex items-center gap-space-lg font-label-lg text-label-lg uppercase text-on-secondary-container tracking-widest font-black animate-pulse">
+<span>★ THÉÂTRE DE RUE SANS FILTRE</span>
+<span>✦ CIRQUE ACROBATIQUE D'OCCITANIE</span>
+<span>★ FANFARES EN ROUE LIBRE</span>
+<span>✦ DÉAMBULATION DE MARIONNETTES GÉANTES</span>
+<span>★ BANQUETS DU MARCHÉ GOURMAND</span>
+<span>✦ SORTIES DE ROUTE NOCTURNES</span>
+<span>★ NAVETTES INTERVILLAGES GRATUITES</span>
+<span>✦ 100% DU PAVÉ ACCESSIBLE</span>
+</div>
+</div>
+<!-- THEMATIC SHOWCASES: THE TWO PULSES OF FRACAS -->
+<section class="max-w-7xl mx-auto px-gutter-desktop py-space-3xl flex flex-col gap-space-2xl">
+<div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-space-sm border-b-2 border-on-surface pb-space-sm">
+<div>
+<span class="font-label-md text-label-md uppercase tracking-widest text-primary font-bold">Focus Scénographies In Situ</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface mt-space-2xs">Les Nuits & Délires du Festival</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+        Deux temps forts monumentaux qui transforment le patrimoine historique du Tarn en laboratoire de voltige et de transe festive.
+      </p>
+</div>
+<!-- 2-Card Asymmetrical Poster Mosaic -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-stretch">
+<!-- Card 1: Nuits de Vertige (Chinese Pole acrobats at medieval courtyard) -->
+<div class="lg:col-span-6 bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col">
+<div class="relative overflow-hidden border-b-2 border-on-surface h-72">
+<img class="w-full h-full object-cover" alt="Performance aérienne de cirque contemporain — acrobates en soie aérienne" src="https://images.unsplash.com/photo-1762271232481-30bd8d3342fa?w=900&q=80"/>
+<div class="absolute top-space-sm left-space-sm bg-primary text-on-primary font-label-md text-label-md uppercase px-space-sm py-space-3xs border border-on-surface shadow-[3px_3px_0px_0px_#1b1832]">
+            Création Nocturne · 22h30
+          </div>
+<div class="absolute bottom-space-sm right-space-sm bg-surface-container-lowest/90 px-space-xs py-space-3xs border border-on-surface font-label-sm text-label-sm uppercase font-bold">
+            Château de Rabastens
+          </div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Cirque Aérien & Mât Chinois</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Durée : 55 min</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Sortie de Route — Cie Hors-Sol</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              À dix mètres du sol, sans harnais ni filet, trois acrobates bravent la gravité au cœur des remparts séculaires. Une confrontation physique bouleversante entre la pierre millénaire et la fragilité du corps humain sous tension lumineuse.
+            </p>
+</div>
+<div class="flex items-center justify-between pt-space-sm border-t border-on-surface/20">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">map</span>
+<span>Cour d’Honneur · Rabastens</span>
+</div>
+<button class="px-space-md py-space-xs bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase font-bold border border-on-surface shadow-[2px_2px_0px_0px_#1b1832] hover:bg-secondary-fixed transition-all">
+              Repérage du lieu
+            </button>
+</div>
+</div>
+</div>
+<!-- Card 2: Fanfare Marché (Brass band invasion) -->
+<div class="lg:col-span-6 bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col">
+<div class="relative overflow-hidden border-b-2 border-on-surface h-72">
+<img class="w-full h-full object-cover" alt="Fanfare de cuivres en vestes rouges défilant dans une rue en fête" src="https://images.unsplash.com/photo-1786027298157-0ff8a8d7f2df?w=900&q=80"/>
+<div class="absolute top-space-sm left-space-sm bg-secondary-container text-on-secondary-container font-label-md text-label-md uppercase px-space-sm py-space-3xs border border-on-surface shadow-[3px_3px_0px_0px_#1b1832]">
+            Impromptu · Dès 11h00
+          </div>
+<div class="absolute bottom-space-sm right-space-sm bg-surface-container-lowest/90 px-space-xs py-space-3xs border border-on-surface font-label-sm text-label-sm uppercase font-bold">
+            Marché de Lisle-sur-Tarn
+          </div>
+</div>
+<div class="p-space-lg flex flex-col justify-between flex-1 gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-sm text-label-sm bg-tertiary-fixed text-on-tertiary-fixed uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Fanfare Cuivrée Déchaînée</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Durée : 90 min en déambulation</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight">Le Grand Étal Cuivré — Fanfare Bitume</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Quand douze cuivres survoltés prennent d’assaut les bancs d'ail rose et de fraises de pays. Une explosion groove funk-balkanique où les cageots d'artichauts deviennent des percussions d'appoint et les marchands des choristes improvisés.
+            </p>
+</div>
+<div class="flex items-center justify-between pt-space-sm border-t border-on-surface/20">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-[20px]">storefront</span>
+<span>Place aux Arcades · Lisle</span>
+</div>
+<button class="px-space-md py-space-xs bg-tertiary text-on-tertiary font-label-sm text-label-sm uppercase font-bold border border-on-surface shadow-[2px_2px_0px_0px_#1b1832] hover:bg-tertiary-container transition-all">
+              Suivre la tournée
+            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PROGRAMME FILTERS & TIMETABLE MATRIX -->
+<section class="w-full bg-surface-container-low border-y-2 border-on-surface py-space-3xl" id="grille-programme">
+<div class="max-w-7xl mx-auto px-gutter-desktop flex flex-col gap-space-2xl">
+<!-- Filter Bar Header -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div>
+<div class="flex items-center gap-space-xs mb-space-3xs">
+<span class="w-3 h-3 bg-secondary-container border border-on-surface inline-block"></span>
+<span class="font-label-md text-label-md uppercase tracking-widest text-on-surface-variant">Grille Temporelle & Scène Urbaine</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Le Pavé Programmatique</h2>
+</div>
+<!-- Day Selector Tabs -->
+<div class="flex flex-wrap items-center gap-space-2xs bg-surface-container-lowest p-space-2xs border-2 border-on-surface shadow-[4px_4px_0_0_#1b1832]" id="day-filters">
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase bg-primary text-on-primary font-bold border border-on-surface shadow-[2px_2px_0_0_#1b1832]" data-day="all">Tous les jours</button>
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase text-on-surface hover:bg-secondary-fixed transition-colors font-bold" data-day="ven">Ven 4 Juin</button>
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase text-on-surface hover:bg-secondary-fixed transition-colors font-bold" data-day="sam">Sam 5 Juin</button>
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase text-on-surface hover:bg-secondary-fixed transition-colors font-bold" data-day="dim">Dim 6 Juin</button>
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase text-on-surface hover:bg-secondary-fixed transition-colors font-bold" data-day="lun">Lun 7 Juin</button>
+<button class="px-space-sm py-space-2xs font-label-md text-label-md uppercase text-on-surface hover:bg-secondary-fixed transition-colors font-bold" data-day="mar">Mar 8 Juin</button>
+</div>
+</div>
+<!-- Discipline Filter Chips -->
+<div class="flex flex-wrap items-center gap-space-xs pt-space-xs" id="genre-filters">
+<span class="font-label-sm text-label-sm uppercase font-black text-on-surface mr-space-2xs">Discipline :</span>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-on-surface text-surface font-bold border border-on-surface" data-genre="all">Tout Voir (7)</button>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-surface-container-lowest hover:bg-primary-fixed text-on-surface font-bold border border-on-surface" data-genre="cirque">Cirque & Vertige</button>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-surface-container-lowest hover:bg-secondary-fixed text-on-surface font-bold border border-on-surface" data-genre="theatre">Théâtre Forain & Absurde</button>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-surface-container-lowest hover:bg-tertiary-fixed text-on-surface font-bold border border-on-surface" data-genre="marionnette">Marionnettes Géantes</button>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-surface-container-lowest hover:bg-secondary-fixed text-on-surface font-bold border border-on-surface" data-genre="danse">Danse de Pavé</button>
+<button class="px-space-sm py-space-3xs font-label-sm text-label-sm uppercase bg-surface-container-lowest hover:bg-primary-fixed text-on-surface font-bold border border-on-surface" data-genre="musique">Fanfares & Transes</button>
+</div>
+<!-- SHOW CARDS GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-xl" id="cards-container">
+<!-- CARD 1 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="sam" data-card-genre="marionnette">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-primary text-on-primary font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Marionnette Géante</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Sam 5 · 17h00</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">La Grande Ourse</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Cie Machine Poétique</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Une ourse mécanique de 7 mètres de long articulée par six machinistes s’éveille dans les rues de Gaillac. Une fable écologique muette accompagnée d'un orgue de barbarie amplifié.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-surface-container px-space-xs py-space-3xs border border-on-surface font-label-sm">Tout Public</span>
+<span class="text-on-surface text-[12px] bg-secondary-fixed px-space-xs py-space-3xs border border-on-surface font-label-sm font-bold">Sans Réservation</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Place de la Libération, Gaillac</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+<!-- CARD 2 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="ven" data-card-genre="cirque">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Cirque Acrobatique</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Ven 4 · 21h00</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Verticale Éphémère</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Collectif Hors-Sol</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Mât chinois et trapèze balancé sur les façades ocres du clocher. Deux corps confrontés au vide et au vent d'autan qui balaie la plaine du Tarn au crépuscule.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-surface-container px-space-xs py-space-3xs border border-on-surface font-label-sm">Dès 6 ans</span>
+<span class="text-on-surface text-[12px] bg-tertiary-fixed px-space-xs py-space-3xs border border-on-surface font-label-sm">Création Spéciale</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Cour du Château, Rabastens</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+<!-- CARD 3 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="dim" data-card-genre="theatre">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-tertiary text-on-tertiary font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Théâtre de Rue</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Dim 6 · 15h30</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Les Encombrants</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Théâtre du Grabuge</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Cinq comédiens et un conteneur poubelle maritime de 12 tonnes. Une satire décapante de la société de consommation jouée les pieds dans les détritus dorés et les confettis.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-surface-container px-space-xs py-space-3xs border border-on-surface font-label-sm">Dès 10 ans</span>
+<span class="text-on-surface text-[12px] bg-primary-fixed px-space-xs py-space-3xs border border-on-surface font-label-sm">Tragicomique</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Parc Foucaud, Gaillac</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+<!-- CARD 4 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="sam" data-card-genre="musique">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-primary-container text-on-primary font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Fanfare Sauvage</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Sam 5 · 11h30</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Fanfare Bitume</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Collectif Cuivré Occitan</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Déboulé tonitruant sur le marché de plein vent. Trompettes bouchées, hélicons rutilants et rythmes klezmer-techno qui font vibrer les balances maraîchères.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-secondary-fixed px-space-xs py-space-3xs border border-on-surface font-label-sm font-bold">Déambulation</span>
+<span class="text-on-surface text-[12px] bg-surface-container px-space-xs py-space-3xs border border-on-surface font-label-sm">100% Acoustique</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Place aux Arcades, Lisle-sur-Tarn</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+<!-- CARD 5 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="lun" data-card-genre="danse">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Danse de Pavé</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Lun 7 · 18h45</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Poussière & Transe</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Cie Corps Debout</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Chorégraphie tellurique pour huit danseurs nus-pieds sur les galets du lit asséché du Tarn. Un rituel d'invocation d'eau douce aux accents contemporains.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-tertiary-fixed px-space-xs py-space-3xs border border-on-surface font-label-sm">In Situ Tarn</span>
+<span class="text-on-surface text-[12px] bg-surface-container px-space-xs py-space-3xs border border-on-surface font-label-sm">Audiodescription LSF</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Berges du Tarn, Rabastens</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+<!-- CARD 6 -->
+<article class="program-card bg-surface-container-lowest border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] flex flex-col justify-between transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_0px_#1b1832]" data-card-day="mar" data-card-genre="theatre">
+<div class="p-space-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="bg-tertiary text-on-tertiary font-label-sm text-label-sm uppercase px-space-xs py-space-3xs font-bold border border-on-surface">Clown Post-Punk</span>
+<span class="font-label-sm text-label-sm font-bold text-on-surface uppercase">Mar 8 · 22h00</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Le Grand Bal Perdu</h3>
+<p class="font-label-md text-label-md uppercase text-primary font-bold">Cie Les Écorchés Vifs</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Final de clôture sur la place centrale. Les lampions craquent, la sono grésille et les clowns invitent les 3 000 spectateurs à valser dans les confettis et la bière artisanale.
+            </p>
+<div class="flex flex-wrap gap-space-2xs pt-space-xs">
+<span class="text-on-surface text-[12px] bg-primary text-on-primary px-space-xs py-space-3xs border border-on-surface font-label-sm font-bold">Grand Final</span>
+<span class="text-on-surface text-[12px] bg-secondary-container text-on-secondary-container px-space-xs py-space-3xs border border-on-surface font-label-sm font-bold">Jusqu'à l'Aube</span>
+</div>
+</div>
+<div class="bg-surface-container-high p-space-sm border-t-2 border-on-surface flex items-center justify-between">
+<div class="flex items-center gap-space-2xs text-on-surface font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[18px]">location_on</span>
+<span>Place Jean Jaurès, Gaillac</span>
+</div>
+<button class="favorite-toggle w-8 h-8 rounded-full border border-on-surface bg-surface-container-lowest flex items-center justify-center hover:bg-secondary-container transition-colors" title="Ajouter à mon parcours">
+<span class="material-symbols-outlined text-[18px]">bookmark_border</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Quick Add-to-Calendar Callout -->
+<div class="p-space-md bg-secondary-container text-on-secondary-container border-2 border-on-surface shadow-[4px_4px_0_0_#1b1832] flex flex-col md:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[36px]">event_repeat</span>
+<div>
+<span class="font-label-lg text-label-lg uppercase font-bold block">Synchroniser votre agenda</span>
+<span class="font-body-sm text-body-sm">Téléchargez le fichier .ICS complet de l'édition avec notifications d'impromptus.</span>
+</div>
+</div>
+<button class="px-space-md py-space-xs bg-surface-container-lowest text-on-surface font-label-md text-label-md uppercase font-bold border-2 border-on-surface shadow-[2px_2px_0px_0px_#1b1832] hover:bg-surface-bright transition-all shrink-0">
+          Exporter le calendrier (.ics)
+        </button>
+</div>
+</div>
+</section>
+<!-- INTERACTIVE FESTIVAL PLANNER: "SIMULEZ VOTRE WEEK-END" -->
+<section class="max-w-7xl mx-auto px-gutter-desktop py-space-3xl flex flex-col gap-space-xl">
+<div class="bg-surface-container-lowest border-2 border-on-surface shadow-[8px_8px_0px_0px_#1b1832] p-space-xl">
+<div class="max-w-3xl flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold">Outil Vivant & Sur Mesure</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-on-surface">Simulez Votre Parcours FRACAS</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Quarante spectacles répartis sur trois bourgs, ça peut donner le tournis ! Choisissez votre tempérament de festivalier pour recevoir un parcours clé en main.
+        </p>
+</div>
+<!-- Persona Selector Tabs -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-xl">
+<div class="planner-card p-space-md border-2 border-on-surface bg-secondary-container cursor-pointer shadow-[4px_4px_0px_0px_#1b1832] flex flex-col gap-space-xs" data-planner="famille">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-black uppercase">En Tribu / Famille</span>
+<span class="material-symbols-outlined text-[24px]">stroller</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-secondary-container">
+            Horaires diurnes, spectacles visuels sans barrière de langue, ombre garantie et espaces repos pour poussettes.
+          </p>
+<span class="font-label-sm text-label-sm font-bold uppercase mt-space-xs text-primary underline">Sélectionner ce parcours →</span>
+</div>
+<div class="planner-card p-space-md border-2 border-on-surface bg-surface-container-lowest hover:bg-surface-container-high cursor-pointer shadow-[4px_4px_0px_0px_#1b1832] flex flex-col gap-space-xs transition-colors" data-planner="noctambule">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-black uppercase">Noctambules & Transes</span>
+<span class="material-symbols-outlined text-[24px]">nightlife</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Fanfares enfiévrées de 20h à 4h, impromptus pyrotechniques, buvettes de vignerons nature et navettes retour.
+          </p>
+<span class="font-label-sm text-label-sm font-bold uppercase mt-space-xs text-on-surface">Sélectionner ce parcours →</span>
+</div>
+<div class="planner-card p-space-md border-2 border-on-surface bg-surface-container-lowest hover:bg-surface-container-high cursor-pointer shadow-[4px_4px_0px_0px_#1b1832] flex flex-col gap-space-xs transition-colors" data-planner="acrobate">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-black uppercase">Accro au Cirque Brut</span>
+<span class="material-symbols-outlined text-[24px]">sports_gymnastics</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+            Voltige aérienne, mâts chinois insolites, portés acro-urbains et masterclass publiques avec les artistes.
+          </p>
+<span class="font-label-sm text-label-sm font-bold uppercase mt-space-xs text-on-surface">Sélectionner ce parcours →</span>
+</div>
+</div>
+<!-- Dynamic Itinerary Display -->
+<div class="mt-space-xl p-space-md bg-surface-container border-2 border-on-surface shadow-[4px_4px_0px_0px_#1b1832]" id="planner-result">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm border-b border-on-surface/20 pb-space-xs">
+<span class="font-label-md text-label-md uppercase font-bold text-primary">Votre feuille de route recommandée : Tribu en Fête</span>
+<span class="font-label-sm text-label-sm bg-surface-container-lowest px-space-xs py-space-3xs border border-on-surface">Durée totale : ~4h30</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-md">
+<div class="flex items-start gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-black">01</span>
+<div>
+<span class="font-label-md text-label-md uppercase font-bold block">15h00 · Lisle-sur-Tarn</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Arrivée au bord du lac, pique-nique ombragé et atelier de fabrication de fanions.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-black">02</span>
+<div>
+<span class="font-label-md text-label-md uppercase font-bold block">17h00 · Gaillac Centre</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Défilé majestueux de « La Grande Ourse » et musique mécanique pour petits et grands.</p>
+</div>
+</div>
+<div class="flex items-start gap-space-xs">
+<span class="font-headline-sm text-headline-sm text-primary font-black">03</span>
+<div>
+<span class="font-label-md text-label-md uppercase font-bold block">19h15 · Rabastens</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Goûter-concert de clôture et initiation au jonglage sur la Place du Château.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- PRATIQUE & CARTE DU BAZAR ("VENIR, DORMIR, FAIRE LA FÊTE") -->
+<section class="w-full bg-inverse-surface text-inverse-on-surface py-space-3xl border-t-2 border-on-surface" id="carte-pratique">
+<div class="max-w-7xl mx-auto px-gutter-desktop flex flex-col gap-space-2xl">
+<!-- Dark Risograph Section Header -->
+<div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-space-md">
+<div>
+<span class="font-label-md text-label-md uppercase tracking-widest text-secondary-container font-black">Logistique & Survie Festoyante</span>
+<h2 class="font-headline-lg text-headline-lg font-bold text-inverse-on-surface mt-space-3xs">Venir, Dormir, Faire la Fête</h2>
+</div>
+<span class="font-label-sm text-label-sm uppercase bg-surface-container-lowest/10 px-space-sm py-space-xs border border-inverse-on-surface/30">
+          Trois villes · Navettes 100% Gratuites
+        </span>
+</div>
+<!-- 4-Column Neo-Brutalist Logistical Pillars -->
+<div id="fshake-pillars" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Pillar 1: Access -->
+<div class="p-space-lg bg-surface-container-lowest/5 border-2 border-inverse-on-surface shadow-[4px_4px_0px_0px_#fdd000] flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="w-10 h-10 rounded-none bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-lg mb-space-xs border border-inverse-on-surface">
+<span class="material-symbols-outlined text-[22px]">train</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-inverse-on-surface">Accès TER & Bus</h3>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">
+              Gares SNCF directes à Gaillac et Rabastens (Ligne Toulouse-Albi, 35 min de Toulouse Matabiau). Pass Occitanie Rail à 3€.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-inverse-on-surface/20 font-label-sm text-label-sm text-secondary-fixed">
+            Gares à 5 min à pied des scènes
+          </div>
+</div>
+<!-- Pillar 2: Shuttles -->
+<div class="p-space-lg bg-surface-container-lowest/5 border-2 border-inverse-on-surface shadow-[4px_4px_0px_0px_#e30071] flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="w-10 h-10 rounded-none bg-primary text-on-primary flex items-center justify-center font-bold text-lg mb-space-xs border border-inverse-on-surface">
+<span class="material-symbols-outlined text-[22px]">directions_bus</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-inverse-on-surface">Navettes FRACAS</h3>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">
+              Rotations gratuites en boucle toutes les 20 minutes entre Gaillac, Rabastens et Lisle-sur-Tarn de 10h à 03h30 du matin.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-inverse-on-surface/20 font-label-sm text-label-sm text-primary-fixed">
+            Arrêts identifiés par drapeaux jaunes
+          </div>
+</div>
+<!-- Pillar 3: Camping -->
+<div class="p-space-lg bg-surface-container-lowest/5 border-2 border-inverse-on-surface shadow-[4px_4px_0px_0px_#3255bb] flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="w-10 h-10 rounded-none bg-tertiary text-on-tertiary flex items-center justify-center font-bold text-lg mb-space-xs border border-inverse-on-surface">
+<span class="material-symbols-outlined text-[22px]">camping</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-inverse-on-surface">Camping Éphémère</h3>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">
+              Prairie des Berges à Rabastens. 6€/nuit avec sanitaires écologiques, douches solaires, recharge téléphones et café du matin.
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-inverse-on-surface/20 font-label-sm text-label-sm text-tertiary-fixed">
+            Emplacement tente & camion aménagé
+          </div>
+</div>
+<!-- Pillar 4: Solidarity Chapiteaux -->
+<div class="p-space-lg bg-surface-container-lowest/5 border-2 border-inverse-on-surface shadow-[4px_4px_0px_0px_#fdd000] flex flex-col justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="w-10 h-10 rounded-none bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-bold text-lg mb-space-xs border border-inverse-on-surface">
+<span class="material-symbols-outlined text-[22px]">theater_comedy</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-inverse-on-surface">3 Chapiteaux Solaires</h3>
+<p class="font-body-sm text-body-sm text-inverse-on-surface/80">
+              37 spectacles 100% gratuits sur le pavé. Seules 3 pièces intimes sous chapiteau demandent un ticket solidaire à 8€ (jauge 250 pl).
+            </p>
+</div>
+<div class="mt-space-md pt-space-xs border-t border-inverse-on-surface/20 font-label-sm text-label-sm text-secondary-container">
+            Billetterie sur place dès 14h
+          </div>
+</div>
+</div>
+<!-- MAP LOCATION PREVIEW -->
+<div class="w-full flex flex-col gap-space-sm">
+<div class="flex items-center justify-between font-label-md text-label-md uppercase text-inverse-on-surface">
+<span class="flex items-center gap-space-2xs">
+<span class="material-symbols-outlined text-primary text-[20px]">explore</span>
+<span>Territoire du Festival : Vallée du Tarn</span>
+</span>
+<span class="text-secondary-container font-bold">11 Scènes Actives</span>
+</div>
+<div class="w-full h-80 rounded-none border-2 border-inverse-on-surface shadow-[6px_6px_0px_0px_#fdd000] bg-cover bg-center relative overflow-hidden" data-location="Gaillac, Tarn, France" style="background-image: url('https://images.unsplash.com/photo-1787319307340-bc41a8b93b06?w=1200&q=80')">
+<!-- Map Overlay Pins -->
+<div class="absolute inset-0 bg-inverse-surface/30 backdrop-blur-[1px] flex items-center justify-center p-space-md">
+<div class="bg-surface text-on-surface p-space-md border-2 border-on-surface shadow-[6px_6px_0px_0px_#1b1832] max-w-md text-center">
+<span class="font-label-lg text-label-lg uppercase font-bold text-primary block">Carte Interactive FRACAS</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-space-2xs">
+                Localisez en direct la position de la fanfare déambulatoire, les points d'eau potable, les toilettes sèches et les navettes en temps réel.
+              </p>
+<button class="mt-space-sm px-space-md py-space-xs bg-primary text-on-primary font-label-md text-label-md uppercase font-bold border border-on-surface shadow-[3px_3px_0px_0px_#1b1832] hover:bg-primary-container transition-all">
+                Ouvrir la Carte Plein Écran
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FINAL CLAMEUR BANNER -->
+<div class="w-full bg-primary text-on-primary py-space-xl border-t-2 border-on-surface text-center">
+<div class="max-w-5xl mx-auto px-gutter-desktop flex flex-col items-center gap-space-sm">
+<span class="font-display-xl-mobile md:font-display-xl text-display-xl-mobile md:text-display-xl font-black uppercase tracking-tight">
+        LE PAVÉ EST À VOUS.
+      </span>
+<p class="font-body-lg text-body-lg max-w-2xl text-on-primary font-medium">
+        Rejoignez les 25 000 festivaliers qui feront battre le cœur du Tarn du 4 au 8 juin 2027. Ni ticket, ni barrière : juste la fête, vive et libre.
+      </p>
+</div>
+</div>
+</div>
+<script>
+  // DAY FILTERING INTERACTION
+  const dayButtons = document.querySelectorAll('#day-filters button');
+  const cards = document.querySelectorAll('.program-card');
+
+  dayButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      dayButtons.forEach(b => {
+        b.classList.remove('bg-primary', 'text-on-primary');
+        b.classList.add('text-on-surface');
+      });
+      button.classList.add('bg-primary', 'text-on-primary');
+      button.classList.remove('text-on-surface');
+
+      const selectedDay = button.getAttribute('data-day');
+
+      cards.forEach(card => {
+        const cardDay = card.getAttribute('data-card-day');
+        if (selectedDay === 'all' || cardDay === selectedDay) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // GENRE FILTERING INTERACTION
+  const genreButtons = document.querySelectorAll('#genre-filters button');
+  genreButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      genreButtons.forEach(b => {
+        b.classList.remove('bg-on-surface', 'text-surface');
+        b.classList.add('bg-surface-container-lowest', 'text-on-surface');
+      });
+      button.classList.add('bg-on-surface', 'text-surface');
+      button.classList.remove('bg-surface-container-lowest');
+
+      const selectedGenre = button.getAttribute('data-genre');
+
+      cards.forEach(card => {
+        const cardGenre = card.getAttribute('data-card-genre');
+        if (selectedGenre === 'all' || cardGenre === selectedGenre) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // FAVORITE PIN TOGGLE
+  const favButtons = document.querySelectorAll('.favorite-toggle');
+  favButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon.textContent === 'bookmark_border') {
+        icon.textContent = 'bookmark';
+        btn.classList.add('bg-secondary-container');
+      } else {
+        icon.textContent = 'bookmark_border';
+        btn.classList.remove('bg-secondary-container');
+      }
+    });
+  });
+
+  // PLANNER INTERACTIVE SIMULATION
+  const plannerCards = document.querySelectorAll('.planner-card');
+  const plannerResult = document.getElementById('planner-result');
+
+  const plannerData = {
+    famille: {
+      title: "Votre feuille de route recommandée : Tribu en Fête",
+      duration: "~4h30",
+      step1: "15h00 · Lisle-sur-Tarn",
+      desc1: "Arrivée au bord du lac, pique-nique ombragé et atelier de fabrication de fanions.",
+      step2: "17h00 · Gaillac Centre",
+      desc2: "Défilé majestueux de « La Grande Ourse » et musique mécanique pour petits et grands.",
+      step3: "19h15 · Rabastens",
+      desc3: "Goûter-concert de clôture et initiation au jonglage sur la Place du Château."
+    },
+    noctambule: {
+      title: "Votre feuille de route recommandée : Noctambules & Nuits Sauvages",
+      duration: "~7h00 jusqu'à l'aube",
+      step1: "20h00 · Marché Lisle",
+      desc1: "Apéro vigneron en fanfare avec le Collectif Fanfare Bitume et tapas occitanes.",
+      step2: "22h30 · Remparts Rabastens",
+      desc2: "Spectacle aérien à sensation « Sortie de Route » sous les projecteurs magenta.",
+      step3: "01h00 · Place Gaillac",
+      desc3: "Grand Bal Perdu jusqu'à l'aube, bière locale et navette de retour à 03h30."
+    },
+    acrobate: {
+      title: "Votre feuille de route recommandée : Accro au Cirque Brut",
+      duration: "~5h15",
+      step1: "16h00 · Gaillac Parc",
+      desc1: "Masterclass de trapèze ouverte et échauffement physique avec les voltigeurs.",
+      step2: "18h45 · Lit du Tarn",
+      desc2: "Danse de pavé et acrobaties telluriques sur galets « Poussière & Transe ».",
+      step3: "21h00 · Cour Rabastens",
+      desc3: "Démonstration vertigineuse de mât chinois suspendu par le Collectif Hors-Sol."
+    }
+  };
+
+  plannerCards.forEach(card => {
+    card.addEventListener('click', () => {
+      plannerCards.forEach(c => {
+        c.classList.remove('bg-secondary-container');
+        c.classList.add('bg-surface-container-lowest');
+        const link = c.querySelector('span:last-child');
+        if (link) link.classList.remove('text-primary', 'underline');
+      });
+
+      card.classList.add('bg-secondary-container');
+      card.classList.remove('bg-surface-container-lowest');
+      const activeLink = card.querySelector('span:last-child');
+      if (activeLink) activeLink.classList.add('text-primary', 'underline');
+
+      const type = card.getAttribute('data-planner');
+      const data = plannerData[type];
+
+      if (data && plannerResult) {
+        plannerResult.innerHTML = `
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm border-b border-on-surface/20 pb-space-xs">
+            <span class="font-label-md text-label-md uppercase font-bold text-primary">${data.title}</span>
+            <span class="font-label-sm text-label-sm bg-surface-container-lowest px-space-xs py-space-3xs border border-on-surface">Durée totale : ${data.duration}</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-md">
+            <div class="flex items-start gap-space-xs">
+              <span class="font-headline-sm text-headline-sm text-primary font-black">01</span>
+              <div>
+                <span class="font-label-md text-label-md uppercase font-bold block">${data.step1}</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${data.desc1}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-space-xs">
+              <span class="font-headline-sm text-headline-sm text-primary font-black">02</span>
+              <div>
+                <span class="font-label-md text-label-md uppercase font-bold block">${data.step2}</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${data.desc2}</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-space-xs">
+              <span class="font-headline-sm text-headline-sm text-primary font-black">03</span>
+              <div>
+                <span class="font-label-md text-label-md uppercase font-bold block">${data.step3}</span>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${data.desc3}</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+  });
+</script></main><footer class="w-full bg-surface-container border-t-2 border-on-surface mt-space-3xl"><div class="max-w-7xl mx-auto px-gutter-desktop py-space-2xl grid grid-cols-1 md:grid-cols-12 gap-space-xl"><div class="md:col-span-5 flex flex-col gap-space-md"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">FRACAS</span><span class="font-label-md text-label-md uppercase px-space-xs py-space-3xs bg-secondary-fixed text-on-secondary-fixed border border-on-surface">Édition 2027</span></div><p class="font-body-md text-body-md text-on-surface-variant max-w-md">Festival d’arts vivants, de clameur publique et de scénographies urbaines dans le Tarn. Cirque indiscipliné, théâtre de rue, fanfares amplifiées et installations plastiques à ciel ouvert.</p><div class="flex flex-wrap items-center gap-space-xs pt-space-xs"><span class="font-label-sm text-label-sm px-space-xs py-space-3xs bg-tertiary-fixed text-on-tertiary-fixed border border-on-surface uppercase">LSF / Audiodescription</span><span class="font-label-sm text-label-sm px-space-xs py-space-3xs bg-tertiary-fixed text-on-tertiary-fixed border border-on-surface uppercase">Site 100% Accessible PMR</span><span class="font-label-sm text-label-sm px-space-xs py-space-3xs bg-secondary-fixed text-on-secondary-fixed border border-on-surface uppercase">Éco-gobelets & Navettes</span></div></div><div class="md:col-span-4 flex flex-col gap-space-md"><span class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface">Gazette & Alertes Programmation</span><p class="font-body-sm text-body-sm text-on-surface-variant">Recevez la grille horaire secrète et les impromptus nocturnes avant tout le monde.</p><div class="flex flex-col sm:flex-row gap-space-xs"><input class="px-space-sm py-space-xs bg-surface-container-lowest border-2 border-on-surface text-on-surface font-body-sm focus:outline-none focus:bg-surface-bright shadow-[2px_2px_0_0_#1b1832] flex-1" placeholder="votre.email@festival.fr" type="email"/><button class="px-space-md py-space-xs bg-secondary-container text-on-secondary-container font-label-md text-label-md uppercase border-2 border-on-surface shadow-[3px_3px_0_0_#1b1832] hover:bg-secondary-fixed active:translate-x-[2px] active:translate-y-[2px] transition-all" type="button">Rejoindre</button></div></div><div class="md:col-span-3 flex flex-col gap-space-sm"><span class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface">Partenaires & Soutiens</span><div class="grid grid-cols-2 gap-space-xs"><div class="p-space-xs border border-on-surface bg-surface-container-lowest text-center font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">Région Occitanie</div><div class="p-space-xs border border-on-surface bg-surface-container-lowest text-center font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">Département Tarn</div><div class="p-space-xs border border-on-surface bg-surface-container-lowest text-center font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">DRAC Occitanie</div><div class="p-space-xs border border-on-surface bg-surface-container-lowest text-center font-label-sm text-label-sm uppercase font-bold text-on-surface-variant">OARA & SACD</div></div></div></div><div class="border-t border-on-surface/20 bg-surface-container-high py-space-md"><div class="max-w-7xl mx-auto px-gutter-desktop flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-sm text-label-sm text-on-surface-variant"><span>© 2027 Collectif FRACAS Arts de la Rue — Association Loi 1901</span><div class="flex gap-space-md"><span class="hover:text-primary cursor-pointer">Mentions Légales</span><span class="hover:text-primary cursor-pointer">Charte Éco-Festival</span><span class="hover:text-primary cursor-pointer">Espace Pro / Presse</span></div></div></div></footer>
+<script>
+(function(){
+  const st=document.createElement('style');
+  st.textContent=`@keyframes fshake{
+    0%{transform:rotate(0deg) translate(0px,0px)}
+    18%{transform:rotate(var(--sk-r,2deg)) translate(var(--sk-x,3px),var(--sk-y,-2px))}
+    42%{transform:rotate(calc(var(--sk-r,2deg)*-.7)) translate(calc(var(--sk-x,3px)*-.5),0px)}
+    68%{transform:rotate(calc(var(--sk-r,2deg)*.4)) translate(calc(var(--sk-x,3px)*.3),calc(var(--sk-y,-2px)*-.4))}
+    100%{transform:rotate(0deg) translate(0px,0px)}
+  }.fshaking{animation:fshake var(--sk-d,.38s) ease-in-out;will-change:transform}`;
+  document.head.appendChild(st);
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+
+  function doShake(el,delay){
+    if(el._shaking)return;
+    setTimeout(()=>{
+      el.style.setProperty('--sk-r',rnd(-4.5,4.5).toFixed(1)+'deg');
+      el.style.setProperty('--sk-x',rnd(-7,7).toFixed(1)+'px');
+      el.style.setProperty('--sk-y',rnd(-5,5).toFixed(1)+'px');
+      el.style.setProperty('--sk-d',rnd(.52,.72).toFixed(2)+'s');
+      el.classList.remove('fshaking');
+      void el.offsetWidth;
+      el.classList.add('fshaking');
+      el._shaking=true;
+      setTimeout(()=>{el.classList.remove('fshaking');el._shaking=false;},780);
+    },delay||0);
+  }
+
+  const metrics=[...document.querySelectorAll('#fshake-metrics>div')];
+  const programs=[...document.querySelectorAll('.program-card')];
+  const pillars=[...document.querySelectorAll('#fshake-pillars>div')];
+  const all=[...metrics,...programs,...pillars];
+
+  const visible=new Set();
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        visible.add(e.target);
+        const siblings=[...e.target.parentElement.children];
+        const i=siblings.indexOf(e.target);
+        doShake(e.target,i*85+rnd(0,130));
+      } else {
+        visible.delete(e.target);
+      }
+    });
+  },{threshold:0.12});
+  all.forEach(c=>io.observe(c));
+
+  let lastY=window.scrollY,lastT=0,ticking=false;
+  window.addEventListener('scroll',()=>{
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(()=>{
+      ticking=false;
+      const now=Date.now(),dy=Math.abs(window.scrollY-lastY);
+      lastY=window.scrollY;
+      if(dy>10&&now-lastT>550){
+        lastT=now;
+        const pool=[...visible];
+        const n=Math.min(2,pool.length);
+        for(let i=0;i<n;i++){
+          const idx=Math.floor(Math.random()*pool.length);
+          const c=pool.splice(idx,1)[0];
+          if(c&&!c._shaking)doShake(c,rnd(0,200));
+        }
+      }
+    });
+  },{passive:true});
+})();
+</script>
+</body></html>

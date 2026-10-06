@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Builder</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --carmine: #BF1E42;
+      --ochre: #EFB63C;
+      --pad: clamp(1.15rem, 5vw, 2rem);
+    }
+
+    .wrap-wide {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+
+    ::selection {
+      background: var(--carmine);
+      color: #fff;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 40px);
+      top: 40px;
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--ochre);
+    }
+
+    .hero .lede {
+      color: #BDB2CC;
+      font-family: Literata, Georgia, serif;
+      font-size: 1rem;
+      max-width: 54ch;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ---------- TOP NAV (sticky) ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .topnav-inner {
+      max-width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+
+    .topnav-brand:hover {
+      color: var(--ochre);
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topnav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+
+    .topnav-links a:last-child {
+      padding-right: 0;
+    }
+
+    .topnav-links a:hover {
+      color: #F4F1F7;
+    }
+
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: .7em;
+      opacity: .6;
+    }
+
+    @media (max-width: 640px) {
+      .topnav-brand {
+        display: none;
+      }
+    }
+
+    /* MPA view transitions (Chrome, Safari) */
+    @view-transition {
+      navigation: auto;
+    }
+
+    .topnav {
+      view-transition-name: topnav;
+    }
+
+    /* ---------- STACK BANNER ---------- */
+    .stack {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: clamp(2.6rem, 6vw, 3.5rem) 0;
+    }
+
+    .stack-inner {
+      max-width: min(1040px, 100%);
+      margin: 0 auto;
+    }
+
+    .stack-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .9rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #665D74;
+      text-align: center;
+      margin: 0 0 .35rem;
+      padding: 0 var(--pad);
+    }
+
+    .stack+.stack .stack-label {
+      margin-bottom: 2.8rem;
+    }
+
+    .marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      align-items: center;
+      animation: marquee-scroll 45s linear infinite;
+    }
+
+    .marquee-track>* {
+      margin-right: clamp(2.5rem, 6vw, 4.5rem);
+    }
+
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee img {
+      height: 75px;
+      width: auto;
+      max-width: 260px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      filter: saturate(.9);
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .marquee--rev .marquee-track {
+      animation-direction: reverse;
+      animation-duration: 52s;
+    }
+
+    .stack:has(+ .stack) {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .stack+.stack {
+      border-top: none;
+      padding-top: 1.8rem;
+      margin-top: auto;
+    }
+
+    .stacks-wrap {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .marquee img[src$="webflow.png"] {
+      height: 85px;
+    }
+
+    .marquee img[src$="github.png"]:not(.corp) {
+      height: 78px;
+    }
+
+    .marquee img[src$=".jpg"].corp,
+    .marquee img[src$=".png"].corp,
+    .marquee img[src$=".webp"].corp {
+      height: 44px;
+      max-width: 200px;
+      transition: opacity .2s ease;
+    }
+
+    .marquee img.corp:hover {
+      opacity: .85;
+    }
+
+    .marquee img[src$="ircam.png"].corp {
+      height: 52px;
+    }
+
+    .marquee img[src$="france-tv.png"].corp {
+      height: 92px;
+    }
+
+    .marquee img[src$="nrj.webp"].corp {
+      height: 82px;
+    }
+
+    .marquee img[src$="lagardere.webp"].corp {
+      height: 30px;
+    }
+
+    .marquee img[src$="education-nationale.jpg"].corp {
+      height: 66px;
+    }
+
+    .marquee img[src$="ina.jpg"].corp {
+      height: 64px;
+    }
+
+    .marquee img[src$="aelion.png"].corp {
+      height: 40px;
+    }
+
+    .marquee img[src$="ouat.png"].corp {
+      height: 46px;
+    }
+
+    .marquee img[src$="cnam-enjmin.png"].corp {
+      height: 58px;
+    }
+
+    .marquee img[src$="groupe-rayne.png"].corp {
+      height: 70px;
+    }
+
+    .marquee img[src$="bonjour.png"].corp {
+      height: 52px;
+    }
+
+    .marquee img[src$="mezzo.webp"].corp {
+      height: 48px;
+    }
+
+    .marquee img[src$="figma.png"] {
+      height: 130px;
+    }
+
+    .marquee img[src$="claude.png"] {
+      height: 168px;
+    }
+
+    .marquee img[src$="airtable.png"] {
+      height: 100px;
+    }
+
+    .marquee img[src$="n8n.jpg"] {
+      height: 100px;
+    }
+
+    .marquee img[src$="chatgpt.png"] {
+      height: 90px;
+    }
+
+    .marquee img[src$="gemini.png"] {
+      height: 90px;
+    }
+
+    .marquee img[src$="notion.png"] {
+      height: 90px;
+    }
+
+    .marquee img[src$="make.jpg"] {
+      height: 90px;
+    }
+
+    .marquee img[src$="canva.webp"] {
+      height: 48px;
+    }
+
+    .marquee img[src$="obsidian.svg"] {
+      height: 36px;
+      max-width: none;
+    }
+
+    @keyframes marquee-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track {
+        animation: none;
+      }
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--deep);
+      color: #BDB2CC;
+      padding: clamp(2.6rem, 6vw, 3.8rem) 0 1.4rem;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+    }
+
+    .footer-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: start;
+    }
+
+    .footer-brand-block {
+      max-width: 32ch;
+    }
+
+    .footer-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      display: block;
+      margin-bottom: .55rem;
+    }
+
+    .footer-brand em {
+      font-style: normal;
+      color: var(--ochre);
+    }
+
+    .footer-tagline {
+      font-family: Literata, Georgia, serif;
+      font-size: .88rem;
+      line-height: 1.55;
+      color: #9F94AE;
+    }
+
+    .footer-col-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+
+    .footer-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: #BDB2CC;
+      text-decoration: none;
+      letter-spacing: -.01em;
+      transition: color .18s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--ochre);
+    }
+
+    .footer-links a.external::after {
+      content: " ↗";
+      font-size: .8em;
+      opacity: .6;
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+
+    .footer-contact a,
+    .footer-contact span {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      color: #BDB2CC;
+      text-decoration: none;
+      letter-spacing: -.01em;
+      transition: color .18s ease;
+    }
+
+    .footer-contact a:hover {
+      color: var(--ochre);
+    }
+
+    .footer-bottom {
+      max-width: 1040px;
+      margin: clamp(2.4rem, 5vw, 3.2rem) auto 0;
+      padding: 1.2rem var(--pad) 0;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      color: #665D74;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 720px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+    /* ---------- SPLASH SCREEN ---------- */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #251C33;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      transition: opacity .7s ease;
+    }
+    #splash::before,
+    #splash::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 28%;
+      background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #splash::before { top: 0; }
+    #splash::after  { bottom: 0; }
+    #splash.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #splash > * {
+      position: relative;
+      z-index: 1;
+    }
+    .stage {
+      width: clamp(320px, 42vw, 500px);
+      aspect-ratio: 660 / 320;
+      border-radius: 50%;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 48% 60%, #140e1f 0%, #1a1225 40%, #221730 75%, #251c33 100%);
+      box-shadow:
+        inset 10px 14px 28px rgba(0, 0, 0, 0.75),
+        inset -8px -10px 20px rgba(255, 255, 255, 0.04),
+        inset 0 0 60px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stage svg {
+      width: 100%;
+      height: auto;
+    }
+
+    /* ── Animation perso : marche ── */
+    @keyframes walkA {
+      0%      { transform: translateX(-290px); }
+      15.79%  { transform: translateX(65px);  }
+      82.89%  { transform: translateX(65px);  }
+      100%    { transform: translateX(-290px); }
+    }
+    @keyframes walkB {
+      0%      { transform: translateX(290px);  }
+      15.79%  { transform: translateX(-15px); }
+      82.89%  { transform: translateX(-15px); }
+      100%    { transform: translateX(290px);  }
+    }
+    .walk-a { animation: walkA 12s cubic-bezier(.45,0,.55,1) infinite; }
+    .walk-b { animation: walkB 12s cubic-bezier(.45,0,.55,1) infinite; }
+
+    @keyframes bob {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-4px); }
+    }
+
+    @keyframes placeArm {
+      0%, 15.79% { transform: rotate(0deg); }
+      22.11%, 24.48% { transform: rotate(42deg); }
+      27.63%, 29.21% { transform: rotate(0deg); }
+      31.58%, 33.95% { transform: rotate(42deg); }
+      37.11%, 38.69% { transform: rotate(0deg); }
+      41.05%, 42.63% { transform: rotate(42deg); }
+      44.21%, 63.16% { transform: rotate(0deg); }
+      63.95%, 65.53% { transform: rotate(42deg); }
+      67.11% { transform: rotate(0deg); }
+      69.47%, 71.05% { transform: rotate(42deg); }
+      72.63%, 76.58% { transform: rotate(0deg); }
+      /* Saturday Night Fever — bras droit alterne haut/bas */
+      78.16%, 81%  { transform: rotate(-50deg); }
+      82%,   85%   { transform: rotate(25deg);  }
+      86%,   89%   { transform: rotate(-50deg); }
+      90%,   93%   { transform: rotate(25deg);  }
+      94%,   97%   { transform: rotate(-50deg); }
+      98%,   100%  { transform: rotate(25deg);  }
+    }
+    .arm-a { transform-origin: 0 0; animation: placeArm 12s ease-in-out infinite; }
+
+    @keyframes raiseArmALeft {
+      0%, 76.58% { transform: rotate(0deg); }
+      /* Bras gauche — opposé du bras droit */
+      78.16%, 81%  { transform: rotate(-25deg); }
+      82%,   85%   { transform: rotate(35deg);  }
+      86%,   89%   { transform: rotate(-25deg); }
+      90%,   93%   { transform: rotate(35deg);  }
+      94%,   97%   { transform: rotate(-25deg); }
+      98%,   100%  { transform: rotate(35deg);  }
+    }
+    .arm-a-left { transform-origin: 0 0; animation: raiseArmALeft 12s ease-in-out infinite; }
+
+    @keyframes wrenchAVis {
+      0%, 76.58% { opacity: 1; }
+      78.16%, 100% { opacity: 0; }
+    }
+    .wrench-a { animation: wrenchAVis 12s ease-in-out infinite; }
+
+    @keyframes joyHop {
+      0%, 76.58% { transform: translateY(0); }
+      78.16% { transform: translateY(-14px); }
+      79.34% { transform: translateY(0); }
+      80.53% { transform: translateY(-14px); }
+      81.71% { transform: translateY(0); }
+      82.89% { transform: translateY(-9px); }
+      83.68% { transform: translateY(0); }
+      86%    { transform: translateY(-10px); }
+      89%    { transform: translateY(0); }
+      92.5%  { transform: translateY(-10px); }
+      96%    { transform: translateY(0); }
+      99%    { transform: translateY(-6px); }
+      100%   { transform: translateY(0); }
+    }
+    .joy-a { animation: joyHop 12s ease-out infinite; }
+
+    @keyframes brickHandFill {
+      0%, 24.48% { fill: #EFB63C; }
+      25.27%, 33.95% { fill: #BF1E42; }
+      34.74%, 43.42% { fill: #0E6B62; }
+      61.58%, 65.53% { fill: #6B4C93; }
+      67.11%, 71.05% { fill: #E58A66; }
+      72.63%, 100% { fill: #EFB63C; }
+    }
+    @keyframes studHandFill {
+      0%, 24.48% { fill: #F5CA50; }
+      25.27%, 33.95% { fill: #D4305A; }
+      34.74%, 43.42% { fill: #139984; }
+      61.58%, 65.53% { fill: #8A6EB0; }
+      67.11%, 71.05% { fill: #F0A282; }
+      72.63%, 100% { fill: #F5CA50; }
+    }
+    @keyframes brickHandVis {
+      0%, 22.03% { opacity: 1; }
+      22.11%, 25.19% { opacity: 0; }
+      25.27%, 31.5% { opacity: 1; }
+      31.58%, 34.66% { opacity: 0; }
+      34.74%, 40.98% { opacity: 1; }
+      41.05%, 61.5% { opacity: 0; }
+      61.58%, 63.87% { opacity: 1; }
+      63.95%, 67.03% { opacity: 0; }
+      67.11%, 69.39% { opacity: 1; }
+      69.47%, 100% { opacity: 0; }
+    }
+    .brick-hand { animation: brickHandFill 12s linear infinite, brickHandVis 12s linear infinite; }
+    .stud-hand  { animation: studHandFill 12s linear infinite, brickHandVis 12s linear infinite; }
+
+    @keyframes hammerCycle {
+      0%, 15.79% { transform: rotate(45deg); }
+      18.95%, 21.32% { transform: rotate(-55deg); }
+      25.26%, 26.05% { transform: rotate(45deg); }
+      28.42%, 30.79% { transform: rotate(-55deg); }
+      34.74%, 35.53% { transform: rotate(45deg); }
+      37.89%, 40.26% { transform: rotate(-55deg); }
+      43.42%, 74.21% { transform: rotate(45deg); }
+      75.79% { transform: rotate(30deg); }
+      77.37%, 100% { transform: rotate(-92deg); }
+    }
+    .hammer-arm { transform-origin: 0 0; animation: hammerCycle 12s ease-in-out infinite; }
+
+    @keyframes hammerInHandVis {
+      0%, 76.97% { opacity: 1; }
+      77.37%, 100% { opacity: 0; }
+    }
+    .hammer-inhand { animation: hammerInHandVis 12s linear infinite; }
+
+    @keyframes lowerArmBRight {
+      0%, 76.58% { transform: rotate(0deg); }
+      79.74%, 100% { transform: rotate(100deg); }
+    }
+    .arm-b-right { transform-origin: 0 0; animation: lowerArmBRight 12s ease-in-out infinite; }
+
+    @keyframes headBowB {
+      0%, 77.37% { transform: translate(0, 0) rotate(0deg); }
+      82.11%, 100% { transform: translate(0, 12px) rotate(10deg); }
+    }
+    .head-bow-b { transform-origin: 431px 118px; animation: headBowB 12s ease-in-out infinite; }
+
+    .dropped-hammer {
+      transform-origin: 355px 214px;
+      animation: dropHammerFall 12s cubic-bezier(.6,.05,.35,1) infinite;
+    }
+    @keyframes dropHammerFall {
+      0%, 76.97% { opacity: 0; transform: translateY(-55px) rotate(-25deg); }
+      77.37% { opacity: 1; transform: translateY(-55px) rotate(-25deg); }
+      78.95% { opacity: 1; transform: translateY(0) rotate(18deg); }
+      79.74% { opacity: 1; transform: translateY(-4px) rotate(6deg); }
+      80.53%, 100% { opacity: 1; transform: translateY(0) rotate(10deg); }
+    }
+
+    @keyframes moodNeutral {
+      0%, 42.63% { opacity: 1; }
+      43.42%, 100% { opacity: 0; }
+    }
+    @keyframes moodSad {
+      0%, 77.29% { opacity: 0; }
+      77.37%, 100% { opacity: 1; }
+    }
+    .mouth-neutral { animation: moodNeutral 12s linear infinite; }
+    .mouth-sad     { animation: moodSad 12s linear infinite; }
+
+    .lb { transform-box: fill-box; transform-origin: 50% 100%; }
+    @keyframes buildL1 {
+      0%,21.71%  { transform: scaleY(0); }
+      22.11%       { transform: scaleY(1.15); }
+      24.48%,99%   { transform: scaleY(1); }
+      99.4%,100%  { transform: scaleY(0); }
+    }
+    @keyframes buildL2 {
+      0%,31.19%  { transform: scaleY(0); }
+      31.58%       { transform: scaleY(1.15); }
+      33.95%,99%   { transform: scaleY(1); }
+      99.4%,100%  { transform: scaleY(0); }
+    }
+    @keyframes buildL3 {
+      0%,40.66%  { transform: scaleY(0); }
+      41.05%       { transform: scaleY(1.15); }
+      42.63%,99%   { transform: scaleY(1); }
+      99.4%,100%  { transform: scaleY(0); }
+    }
+    @keyframes buildL4 {
+      0%, 63.55% { transform: scaleY(0); }
+      63.95% { transform: scaleY(1.15); }
+      65.53%,99% { transform: scaleY(1); }
+      99.4%,100% { transform: scaleY(0); }
+    }
+    @keyframes buildL5 {
+      0%, 69.08% { transform: scaleY(0); }
+      69.47% { transform: scaleY(1.15); }
+      71.05%,99% { transform: scaleY(1); }
+      99.4%,100% { transform: scaleY(0); }
+    }
+    .lb1 { animation: buildL1 12s ease-in-out infinite; }
+    .lb2 { animation: buildL2 12s ease-in-out infinite; }
+    .lb3 { animation: buildL3 12s ease-in-out infinite; }
+    .lb4 { animation: buildL4 12s ease-in-out infinite; }
+    .lb5 { animation: buildL5 12s ease-in-out infinite; }
+
+    @keyframes demoR3 {
+      0%,18.79%  { opacity: 1; }
+      18.95%,99%   { opacity: 0; }
+      99.4%,100%  { opacity: 1; }
+    }
+    @keyframes demoR2 {
+      0%,28.26%  { opacity: 1; }
+      28.42%,99%   { opacity: 0; }
+      99.4%,100%  { opacity: 1; }
+    }
+    @keyframes demoR1 {
+      0%,37.74%  { opacity: 1; }
+      37.89%,99%   { opacity: 0; }
+      99.4%,100%  { opacity: 1; }
+    }
+    .rb3 { animation: demoR3 12s linear infinite; }
+    .rb2 { animation: demoR2 12s linear infinite; }
+    .rb1 { animation: demoR1 12s linear infinite; }
+
+    @keyframes sL3 {
+      0%,18.79%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      18.95%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      22.89%       { opacity:0; transform:translate(-38px,-18px) rotate(-25deg); }
+      23.68%,100%  { opacity:0; }
+    }
+    @keyframes sR3 {
+      0%,18.79%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      18.95%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      22.89%       { opacity:0; transform:translate(38px,-18px) rotate(25deg); }
+      23.68%,100%  { opacity:0; }
+    }
+    @keyframes sL2 {
+      0%,28.26%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      28.42%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      32.37%       { opacity:0; transform:translate(-38px,-18px) rotate(-25deg); }
+      33.16%,100%  { opacity:0; }
+    }
+    @keyframes sR2 {
+      0%,28.26%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      28.42%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      32.37%       { opacity:0; transform:translate(38px,-18px) rotate(25deg); }
+      33.16%,100%  { opacity:0; }
+    }
+    @keyframes sL1 {
+      0%,37.74%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      37.89%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      41.84%       { opacity:0; transform:translate(-38px,-18px) rotate(-25deg); }
+      42.63%,100%  { opacity:0; }
+    }
+    @keyframes sR1 {
+      0%,37.74%  { opacity:0; transform:translate(0,0) rotate(0deg); }
+      37.89%       { opacity:1; transform:translate(0,0) rotate(0deg); }
+      41.84%       { opacity:0; transform:translate(38px,-18px) rotate(25deg); }
+      42.63%,100%  { opacity:0; }
+    }
+    .sL3 { animation: sL3 12s linear infinite; }
+    .sR3 { animation: sR3 12s linear infinite; }
+    .sL2 { animation: sL2 12s linear infinite; }
+    .sR2 { animation: sR2 12s linear infinite; }
+    .sL1 { animation: sL1 12s linear infinite; }
+    .sR1 { animation: sR1 12s linear infinite; }
+
+    .sweat { animation: sweatDrop 1.6s ease-in infinite .8s; }
+    @keyframes sweatDrop {
+      0%   { transform: translateY(0);    opacity: 1; }
+      70%  { transform: translateY(14px); opacity: 1; }
+      100% { transform: translateY(20px); opacity: 0; }
+    }
+
+    @keyframes lookAtB {
+      0%, 41.84% { transform: translateX(0); }
+      44.21%, 61.58% { transform: translateX(5px); }
+      63.95%, 72.63% { transform: translateX(0); }
+      74.21%, 75.79% { transform: translateX(5px); }
+      77.37%, 100% { transform: translateX(0); }
+    }
+    @keyframes lookAtA {
+      0%, 41.84% { transform: translateX(0); }
+      44.21%, 61.58% { transform: translateX(-5px); }
+      63.95%, 100% { transform: translateX(0); }
+    }
+    .pupil-a { animation: lookAtB 12s ease-in-out infinite; }
+    .pupil-b { animation: lookAtA 12s ease-in-out infinite; }
+
+    @keyframes eyesAOpen {
+      0%, 59.92% { opacity: 1; }
+      60%, 61.97% { opacity: 0; }
+      62.37%, 77.29% { opacity: 1; }
+      77.37%, 100% { opacity: 0; }
+    }
+    @keyframes eyesAClosed {
+      0%, 59.92% { opacity: 0; }
+      60%, 61.97% { opacity: 1; }
+      62.37%, 77.29% { opacity: 0; }
+      77.37%, 100% { opacity: 1; }
+    }
+    .eyes-a-open  { animation: eyesAOpen 12s linear infinite; }
+    .eyes-a-closed { opacity: 0; animation: eyesAClosed 12s linear infinite; }
+
+    @keyframes eyebrowsAVis {
+      0%, 59.92% { opacity: 1; }
+      60%, 61.97% { opacity: 0; }
+      62.37%, 77.29% { opacity: 1; }
+      77.37%, 100% { opacity: 0; }
+    }
+    .eyebrows-a { animation: eyebrowsAVis 12s linear infinite; }
+
+    @keyframes tensionA {
+      0%, 42.63%, 63.16% { transform: translateY(0) rotate(0deg); }
+      44.21% { transform: translateY(-2px) rotate(-1.5deg); }
+      46.58% { transform: translateY(0) rotate(1.5deg); }
+      48.95% { transform: translateY(-2px) rotate(-1.5deg); }
+      51.32% { transform: translateY(0) rotate(1.5deg); }
+      53.68% { transform: translateY(-2px) rotate(-1.5deg); }
+      56.05% { transform: translateY(0) rotate(1.5deg); }
+      58.42% { transform: translateY(-2px) rotate(-1.5deg); }
+      60.79% { transform: translateY(0) rotate(1.5deg); }
+      63.16%, 72.63% { transform: translateY(0) rotate(0deg); }
+      74.21% { transform: translateY(-2px) rotate(-1.5deg); }
+      75.79% { transform: translateY(0) rotate(1.5deg); }
+      77.37%, 100% { transform: translateY(0) rotate(0deg); }
+    }
+    @keyframes tensionB {
+      0%, 42.63%, 63.16%, 100% { transform: translateY(0) rotate(0deg); }
+      44.21% { transform: translateY(-2px) rotate(1.5deg); }
+      46.58% { transform: translateY(0) rotate(-1.5deg); }
+      48.95% { transform: translateY(-2px) rotate(1.5deg); }
+      51.32% { transform: translateY(0) rotate(-1.5deg); }
+      53.68% { transform: translateY(-2px) rotate(1.5deg); }
+      56.05% { transform: translateY(0) rotate(-1.5deg); }
+      58.42% { transform: translateY(-2px) rotate(1.5deg); }
+      60.79% { transform: translateY(0) rotate(-1.5deg); }
+    }
+    .bob {
+      transform-origin: 76px 210px;
+      animation: bob 1.1s ease-in-out infinite alternate, tensionA 12s linear infinite;
+    }
+    .bob-b {
+      transform-origin: 431px 210px;
+      animation: bob .8s ease-in-out infinite alternate;
+    }
+
+    @keyframes mouthTenseNew {
+      0%, 42.63% { opacity: 0; }
+      43.42%, 76.5% { opacity: 1; }
+      77.37%, 100% { opacity: 0; }
+    }
+    .mouth-tense { opacity: 0; animation: mouthTenseNew 12s linear infinite; }
+
+    .progress-track {
+      width: min(660px, 90vw);
+      height: 8px;
+      background: #3B2F4E;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #F5CA50;
+      border-radius: 999px;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+      animation: progressFill 11s linear forwards;
+    }
+    @keyframes progressFill {
+      0%   { width: 0%; }
+      100% { width: 100%; }
+    }
+    .progress-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      color: #665D74;
+      letter-spacing: .1em;
+    }
+
+    #splash-skip {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -.01em;
+      color: #251C33;
+      background: #EFB63C;
+      border: none;
+      border-radius: 14px;
+      box-shadow: 0 5px 0 #B8852A;
+      cursor: pointer;
+      padding: .75rem 2rem;
+      transition: transform .1s ease, box-shadow .1s ease;
+    }
+    #splash-skip:hover {
+      transform: translateY(2px);
+      box-shadow: 0 3px 0 #B8852A;
+    }
+    #splash-skip:active {
+      transform: translateY(5px);
+      box-shadow: 0 0px 0 #B8852A;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="splash" role="dialog" aria-label="Chargement">
+
+    <div class="stage">
+    <svg width="660" height="240" viewBox="-70 -15 660 255">
+
+      <!-- SOL -->
+      <rect x="-70" y="218" width="660" height="8" rx="4" fill="#1E1628"/>
+
+      <!-- PILE GAUCHE (A construit) -->
+      <g class="lb lb1">
+        <rect x="227" y="198" width="44" height="20" rx="4" fill="#EFB63C"/>
+        <rect x="235" y="191" width="10" height="10" rx="3" fill="#F5CA50"/>
+        <rect x="251" y="191" width="10" height="10" rx="3" fill="#F5CA50"/>
+      </g>
+      <g class="lb lb2">
+        <rect x="227" y="176" width="44" height="20" rx="4" fill="#BF1E42"/>
+        <rect x="235" y="169" width="10" height="10" rx="3" fill="#D4305A"/>
+        <rect x="251" y="169" width="10" height="10" rx="3" fill="#D4305A"/>
+      </g>
+      <g class="lb lb3">
+        <rect x="227" y="154" width="44" height="20" rx="4" fill="#0E6B62"/>
+        <rect x="235" y="147" width="10" height="10" rx="3" fill="#139984"/>
+        <rect x="251" y="147" width="10" height="10" rx="3" fill="#139984"/>
+      </g>
+      <g class="lb lb4">
+        <rect x="227" y="132" width="44" height="20" rx="4" fill="#6B4C93"/>
+        <rect x="235" y="125" width="10" height="10" rx="3" fill="#8A6EB0"/>
+        <rect x="251" y="125" width="10" height="10" rx="3" fill="#8A6EB0"/>
+      </g>
+      <g class="lb lb5">
+        <rect x="227" y="110" width="44" height="20" rx="4" fill="#E58A66"/>
+        <rect x="235" y="103" width="10" height="10" rx="3" fill="#F0A282"/>
+        <rect x="251" y="103" width="10" height="10" rx="3" fill="#F0A282"/>
+      </g>
+
+      <!-- PILE DROITE (B démolit) -->
+      <g class="rb1">
+        <rect x="276" y="198" width="44" height="20" rx="4" fill="#EFB63C"/>
+        <rect x="284" y="191" width="10" height="10" rx="3" fill="#F5CA50"/>
+        <rect x="300" y="191" width="10" height="10" rx="3" fill="#F5CA50"/>
+      </g>
+      <g class="rb2">
+        <rect x="276" y="176" width="44" height="20" rx="4" fill="#BF1E42"/>
+        <rect x="284" y="169" width="10" height="10" rx="3" fill="#D4305A"/>
+        <rect x="300" y="169" width="10" height="10" rx="3" fill="#D4305A"/>
+      </g>
+      <g class="rb3">
+        <rect x="276" y="154" width="44" height="20" rx="4" fill="#0E6B62"/>
+        <rect x="284" y="147" width="10" height="10" rx="3" fill="#139984"/>
+        <rect x="300" y="147" width="10" height="10" rx="3" fill="#139984"/>
+      </g>
+
+      <!-- ÉCLATS -->
+      <rect class="sL3" x="276" y="154" width="22" height="20" rx="4" fill="#0E6B62"/>
+      <rect class="sR3" x="298" y="154" width="22" height="20" rx="4" fill="#0E6B62"/>
+      <rect class="sL2" x="276" y="176" width="22" height="20" rx="4" fill="#BF1E42"/>
+      <rect class="sR2" x="298" y="176" width="22" height="20" rx="4" fill="#BF1E42"/>
+      <rect class="sL1" x="276" y="198" width="22" height="20" rx="4" fill="#EFB63C"/>
+      <rect class="sR1" x="298" y="198" width="22" height="20" rx="4" fill="#EFB63C"/>
+
+      <!-- PERSONNAGE A -->
+      <g class="walk-a">
+      <g class="joy-a">
+      <g class="bob">
+        <rect x="52" y="164" width="20" height="46" rx="10" fill="#3B2F4E"/>
+        <rect x="78" y="164" width="20" height="46" rx="10" fill="#3B2F4E"/>
+        <ellipse cx="62"  cy="210" rx="19" ry="9" fill="#2E2341"/>
+        <ellipse cx="88"  cy="210" rx="19" ry="9" fill="#2E2341"/>
+        <rect x="42" y="114" width="66" height="58" rx="22" fill="#5170ff"/>
+        <rect x="63" y="106" width="26" height="14" rx="7" fill="#EDE7F6"/>
+        <circle cx="76" cy="72" r="46" fill="#EDE7F6"/>
+        <ellipse cx="26" cy="57" rx="9" ry="12" fill="#6B3A2A"/>
+        <ellipse cx="23" cy="53" rx="2.5" ry="3.5" fill="#8C5240" opacity=".7"/>
+        <ellipse cx="126" cy="57" rx="9" ry="12" fill="#6B3A2A"/>
+        <ellipse cx="129" cy="53" rx="2.5" ry="3.5" fill="#8C5240" opacity=".7"/>
+        <path d="M27 45 Q27 -3 76 -3 Q125 -3 125 45" fill="#EFB63C"/>
+        <path d="M62  4 Q61 -9 76 -12 Q91 -9  90  4 Z" fill="#EFB63C"/>
+        <path d="M45  7 Q44 -1 53  -4 Q62 -1  61  7 Z" fill="#EFB63C"/>
+        <path d="M91  7 Q90 -1 99  -4 Q108 -1 107  7 Z" fill="#EFB63C"/>
+        <rect x="21" y="38" width="110" height="13" rx="6" fill="#EFB63C"/>
+        <rect x="21" y="38" width="110" height="7"  rx="3" fill="#F5CA50"/>
+        <ellipse cx="43"  cy="88" rx="11" ry="8" fill="#F4A0B0" opacity=".45"/>
+        <ellipse cx="109" cy="88" rx="11" ry="8" fill="#F4A0B0" opacity=".45"/>
+        <g class="eyes-a-open">
+          <circle cx="59" cy="77" r="13" fill="white"/>
+          <circle cx="93" cy="77" r="13" fill="white"/>
+          <g class="pupil-a">
+            <circle cx="62" cy="79" r="8" fill="#251C33"/>
+            <circle cx="64" cy="76" r="3" fill="white"/>
+          </g>
+          <g class="pupil-a">
+            <circle cx="96" cy="79" r="8" fill="#251C33"/>
+            <circle cx="98" cy="76" r="3" fill="white"/>
+          </g>
+        </g>
+        <g class="eyes-a-closed">
+          <path d="M48 78 Q59 72 70 78" fill="none" stroke="#251C33" stroke-width="4" stroke-linecap="round"/>
+          <path d="M82 78 Q93 72 104 78" fill="none" stroke="#251C33" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <path class="eyebrows-a" d="M47 62 Q59 55 69 61" fill="none" stroke="#251C33" stroke-width="3.5" stroke-linecap="round"/>
+        <path class="eyebrows-a" d="M83 61 Q93 55 105 62" fill="none" stroke="#251C33" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M57 89 Q76 108 95 89" fill="none" stroke="#251C33" stroke-width="4" stroke-linecap="round"/>
+        <g transform="translate(44 132)">
+          <g class="arm-a-left">
+            <rect x="-34" y="-8" width="34" height="16" rx="8" fill="#5170ff"/>
+            <g class="wrench-a" transform="translate(-75 -59) scale(0.04)">
+              <path d="M 884.9 285.391 C 902.999 285.746 916.448 290.939 929.65 303.33 C 948.483 321.007 948.225 343.763 948.033 367.616 C 947.917 382.001 948.035 396.617 948.039 411.028 L 948.422 557.503 C 963.049 561.89 1014.09 578.348 1026.01 578.705 C 1037.64 579.052 1090.78 561.444 1105.04 557.095 C 1106.56 490.897 1103.94 423.712 1105.01 357.37 C 1105.45 329.622 1109.33 308.056 1136.17 293.308 C 1166.29 276.759 1192.02 289.304 1218.61 305.229 C 1275.66 339.675 1323.11 389.327 1354.79 447.999 C 1401.25 532.04 1411.53 631.366 1383.26 723.141 C 1354.82 817.981 1284.9 899.233 1198.02 945.875 L 1198 1608.5 L 1198.11 1673.72 C 1198.15 1733.96 1193.24 1774.65 1147.82 1820.52 C 1115.87 1852.9 1072.16 1870.97 1026.67 1870.61 C 979.907 1870.98 935.012 1852.29 902.337 1818.83 C 878.123 1794.34 862.026 1763 856.23 1729.05 C 852.488 1707.42 853.816 1662.26 853.831 1638.01 L 853.645 1494.5 L 853.748 945.95 C 824.229 929.38 806.4 918.919 780.31 896.69 C 706.648 834.615 660.995 745.563 653.597 649.518 C 646.291 552.889 677.374 457.275 740.104 383.414 C 770 348.639 838.568 288.935 884.9 285.391 z" fill="#665D74"/>
+              <path d="M 844.883 420.803 C 847.024 423.509 846.075 436.283 846.171 440.963 C 847.31 496.327 843.698 552.914 848.27 607.981 C 850.102 616.11 856.253 627.417 861.815 633.286 C 877.584 649.923 912.023 657.01 934.093 662.909 C 959.472 669.691 999.321 685.718 1024.06 687.164 C 1047.13 688.514 1091.03 668.305 1115.4 663.868 C 1133.27 660.088 1151.48 652.755 1169.68 647.763 C 1185.22 643.501 1201.81 623.779 1205.29 607.568 C 1209.89 547.592 1205.26 482.012 1207.73 422.084 C 1210.94 425.195 1214.13 428.335 1217.29 431.504 C 1269.01 483.581 1297.07 549.623 1296.63 623.21 C 1295.26 712.323 1249.36 794.833 1174.37 842.987 C 1158.18 853.435 1141.98 858.886 1125.69 868.01 C 1090.75 887.569 1096.75 925.113 1096.83 959.306 L 1096.97 1052.7 L 1096.44 1394.24 L 1096.89 1614.6 L 1096.78 1671.52 C 1096.73 1684.55 1097.2 1701.4 1094.95 1713.92 C 1092.59 1726.6 1086.5 1738.28 1077.44 1747.46 C 1063.73 1761.28 1045.11 1769.12 1025.64 1769.26 C 985.947 1769.43 954.528 1736.71 955.17 1697.63 C 955.411 1682.94 955.072 1667.89 955.111 1653.16 L 955.346 1550.17 L 955.633 1187.33 L 955.238 998.349 L 955.082 944.466 C 955.04 931.965 955.485 916.226 953.273 904.23 C 951.295 893.836 946.354 884.236 939.045 876.585 C 925.984 862.803 904.236 857.358 887.302 847.482 C 865.715 834.892 848.135 821.607 830.547 803.739 C 781.5 754.386 754.343 687.394 755.178 617.82 C 756.317 537.591 788.433 475.844 844.883 420.803 z" fill="#9F94AE"/>
+            </g>
+            <circle cx="-34" cy="0" r="10" fill="#EDE7F6"/>
+          </g>
+        </g>
+        <g transform="translate(108 132)">
+          <g class="arm-a">
+            <rect x="0"  y="-8"  width="38" height="16" rx="8" fill="#5170ff"/>
+            <circle cx="38" cy="0" r="10" fill="#EDE7F6"/>
+            <rect class="brick-hand" x="44" y="-13" width="34" height="20" rx="5"/>
+            <rect class="stud-hand"  x="50" y="-19" width="9"  height="9"  rx="3"/>
+            <rect class="stud-hand"  x="63" y="-19" width="9"  height="9"  rx="3"/>
+          </g>
+        </g>
+      </g>
+      </g>
+      </g>
+
+      <!-- PERSONNAGE B -->
+      <g class="walk-b">
+      <g class="bob-b">
+        <rect x="408" y="164" width="20" height="46" rx="10" fill="#3B2F4E"/>
+        <rect x="434" y="164" width="20" height="46" rx="10" fill="#3B2F4E"/>
+        <ellipse cx="418" cy="210" rx="19" ry="9" fill="#2E2341"/>
+        <ellipse cx="444" cy="210" rx="19" ry="9" fill="#2E2341"/>
+        <rect x="398" y="114" width="66" height="58" rx="22" fill="#5170ff"/>
+        <g transform="translate(462 132)">
+          <g class="arm-b-right">
+            <rect x="0" y="-8" width="36" height="16" rx="8" fill="#5170ff"/>
+            <circle cx="36" cy="0" r="10" fill="#EDE7F6"/>
+          </g>
+        </g>
+        <g transform="translate(398 132)">
+          <g class="hammer-arm">
+            <rect x="-42" y="-8"  width="42" height="16" rx="8" fill="#5170ff"/>
+            <circle cx="-42" cy="0" r="10" fill="#EDE7F6"/>
+            <g class="hammer-inhand">
+              <rect x="-50" y="-38" width="10" height="38" rx="5" fill="#9F94AE"/>
+              <rect x="-60" y="-52" width="30" height="22" rx="6" fill="#665D74"/>
+              <rect x="-56" y="-48" width="8"  height="14" rx="3" fill="#7B6E90" opacity=".55"/>
+            </g>
+          </g>
+        </g>
+        <g class="head-bow-b">
+          <rect x="418" y="106" width="26" height="14" rx="7" fill="#EDE7F6"/>
+          <circle cx="431" cy="72" r="46" fill="#EDE7F6"/>
+          <ellipse cx="381" cy="57" rx="9" ry="12" fill="#6B3A2A"/>
+          <ellipse cx="378" cy="53" rx="2.5" ry="3.5" fill="#8C5240" opacity=".7"/>
+          <ellipse cx="481" cy="57" rx="9" ry="12" fill="#6B3A2A"/>
+          <ellipse cx="484" cy="53" rx="2.5" ry="3.5" fill="#8C5240" opacity=".7"/>
+          <path d="M382 45 Q382 -3 431 -3 Q480 -3 480 45" fill="#EFB63C"/>
+          <path d="M417  4 Q416 -9 431 -12 Q446 -9 445  4 Z" fill="#EFB63C"/>
+          <path d="M400  7 Q399 -1 408  -4 Q417 -1 416  7 Z" fill="#EFB63C"/>
+          <path d="M446  7 Q445 -1 454  -4 Q463 -1 462  7 Z" fill="#EFB63C"/>
+          <rect x="376" y="38" width="110" height="13" rx="6" fill="#EFB63C"/>
+          <rect x="376" y="38" width="110" height="7"  rx="3" fill="#F5CA50"/>
+          <circle cx="414" cy="77" r="13" fill="white"/>
+          <circle cx="448" cy="77" r="13" fill="white"/>
+          <g class="pupil-b">
+            <circle cx="417" cy="79" r="8" fill="#251C33"/>
+            <circle cx="419" cy="76" r="3" fill="white"/>
+          </g>
+          <g class="pupil-b">
+            <circle cx="451" cy="79" r="8" fill="#251C33"/>
+            <circle cx="453" cy="76" r="3" fill="white"/>
+          </g>
+          <path d="M402 62 Q414 69 424 63" fill="none" stroke="#251C33" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M438 63 Q448 69 460 62" fill="none" stroke="#251C33" stroke-width="4.5" stroke-linecap="round"/>
+          <path class="mouth-neutral" d="M414 91 Q431 88 448 91" fill="none" stroke="#251C33" stroke-width="3.5" stroke-linecap="round"/>
+          <path class="mouth-sad" d="M414 93 Q431 80 448 93" fill="none" stroke="#251C33" stroke-width="3.5" stroke-linecap="round"/>
+          <path class="mouth-tense"
+            d="M412 91 Q416 86 420 91 Q424 96 428 91 Q432 86 436 91 Q440 96 444 91 Q448 86 452 91"
+            fill="none" stroke="#251C33" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <g class="sweat">
+            <ellipse cx="468" cy="60" rx="5" ry="7" fill="#7EC8E3"/>
+          </g>
+        </g>
+      </g>
+      </g>
+
+      <!-- MARTEAU TOMBÉ AU SOL -->
+      <g class="dropped-hammer">
+        <rect x="360" y="210" width="50" height="10" rx="5" fill="#9F94AE"/>
+        <rect x="330" y="204" width="30" height="22" rx="6" fill="#665D74"/>
+        <rect x="334" y="208" width="8"  height="14" rx="3" fill="#7B6E90" opacity=".55"/>
+      </g>
+
+    </svg>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <p class="progress-label" id="progressLabel">Loading 0%</p>
+
+    <button id="splash-skip">Skip →</button>
+  </div>
+
+  <script>
+    (function () {
+      var splash = document.getElementById('splash');
+      /* DEV MODE — splash toujours visible (retirer le commentaire pour prod) */
+      // if (localStorage.getItem('pb_splash_seen')) {
+      //   splash.style.display = 'none';
+      //   return;
+      // }
+      document.body.style.overflow = 'hidden';
+
+      var label = document.getElementById('progressLabel');
+      var t0 = performance.now();
+      var DURATION_MS = 11000;
+      function tick() {
+        var elapsed = Math.min(performance.now() - t0, DURATION_MS);
+        var pct = Math.floor((elapsed / DURATION_MS) * 100);
+        label.textContent = 'Loading ' + pct + '%';
+        if (elapsed < DURATION_MS) requestAnimationFrame(tick);
+        else label.textContent = 'Loading 100%';
+      }
+      requestAnimationFrame(tick);
+
+      function dismiss() {
+        splash.classList.add('fade-out');
+        // localStorage.setItem('pb_splash_seen', '1');
+        splash.addEventListener('transitionend', function () {
+          splash.style.display = 'none';
+          document.body.style.overflow = '';
+        }, { once: true });
+      }
+      document.getElementById('splash-skip').addEventListener('click', dismiss);
+      setTimeout(dismiss, 11200);
+    })();
+  </script>
+
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html">Le métier</a>
+        <a href="sites.html">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="creatif.html">Direction créative</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <svg class="hero-watermark" viewBox="475 35 980 982" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g transform="matrix(1,0,0,1,-466.51,34.8304)">
+        <path d="M1877.37,375.474L1838.27,375.474C1829.67,375.474 1822.07,369.901 1819.48,361.703C1812.54,339.766 1803.74,318.641 1793.29,298.521C1789.32,290.891 1790.75,281.568 1796.83,275.479L1824.5,247.818C1841.28,231.026 1841.28,203.797 1824.5,187.005L1734.06,96.573C1717.28,79.781 1690.05,79.781 1673.26,96.573L1645.6,124.234C1639.52,130.318 1630.19,131.745 1622.56,127.776C1602.44,117.323 1581.32,108.531 1559.38,101.583C1551.19,98.99 1545.62,91.385 1545.62,82.792L1545.62,43.693C1545.62,19.948 1526.37,0.698 1502.62,0.698L1374.74,0.698C1350.99,0.698 1331.74,19.948 1331.74,43.693L1331.74,82.792C1331.74,91.385 1326.17,98.99 1317.97,101.583C1296.04,108.531 1274.92,117.323 1254.8,127.776C1247.16,131.745 1237.84,130.318 1231.76,124.234L1204.1,96.573C1187.31,79.781 1160.08,79.781 1143.3,96.573L1052.87,187.005C1036.08,203.797 1036.08,231.026 1052.87,247.818L1080.52,275.479C1086.61,281.568 1088.04,290.891 1084.07,298.521C1073.62,318.641 1064.83,339.766 1057.88,361.703C1055.28,369.901 1047.68,375.474 1039.08,375.474L999.995,375.474C976.25,375.474 957,394.724 957,418.474L957,546.37C957,570.115 976.25,589.37 999.995,589.37L1039.08,589.37C1047.68,589.37 1055.28,594.938 1057.88,603.135C1064.83,625.078 1073.62,646.198 1084.07,666.318C1085.42,668.911 1086.12,671.703 1086.26,674.495L1171.28,589.474C1158.02,556.375 1150.72,520.255 1150.72,482.422C1150.72,323.37 1279.65,194.432 1438.68,194.432C1597.71,194.432 1726.63,323.37 1726.63,482.422C1726.63,641.469 1597.71,770.406 1438.68,770.406C1402.37,770.406 1367.63,763.682 1335.64,751.417L1251.38,835.688C1252.54,836.036 1253.69,836.49 1254.8,837.068C1274.92,847.516 1296.04,856.307 1317.97,863.255C1326.17,865.854 1331.74,873.453 1331.74,882.052L1331.74,921.146C1331.74,944.896 1350.99,964.141 1374.74,964.141L1502.62,964.141C1526.37,964.141 1545.62,944.896 1545.62,921.146L1545.62,882.052C1545.62,873.453 1551.19,865.854 1559.38,863.255C1581.32,856.307 1602.44,847.516 1622.56,837.068C1630.19,833.094 1639.52,834.521 1645.6,840.604L1673.26,868.271C1690.05,885.057 1717.28,885.057 1734.06,868.271L1824.5,777.833C1841.28,761.042 1841.28,733.813 1824.5,717.021L1796.83,689.359C1790.75,683.276 1789.32,673.948 1793.29,666.318C1803.74,646.198 1812.54,625.078 1819.48,603.135C1822.07,594.938 1829.67,589.37 1838.27,589.37L1877.37,589.37C1901.1,589.37 1920.36,570.115 1920.36,546.37L1920.36,418.474C1920.36,394.724 1901.1,375.474 1877.37,375.474" fill="#fff"/>
+        <path d="M1614.02,454.37C1613.21,449.703 1607.44,447.917 1604.09,451.266L1527.99,527.375C1515.5,539.865 1495.24,539.865 1482.75,527.375L1397.17,441.786C1384.67,429.292 1384.67,409.031 1397.17,396.536L1473.27,320.427C1476.62,317.078 1474.83,311.307 1470.16,310.5C1415.5,301.063 1357.26,317.438 1315.04,359.651C1261.77,412.938 1249.65,491.771 1278.66,556.698L950.432,884.953C945.156,890.224 942.24,897.401 942.328,904.859L942.531,921.344C942.62,928.568 945.531,935.469 950.635,940.573L984.005,973.943C989.109,979.052 996.01,981.958 1003.23,982.047L1019.71,982.25C1027.17,982.344 1034.35,979.422 1039.62,974.146L1367.84,645.896C1432.77,674.906 1511.59,662.781 1564.88,609.5C1607.08,567.297 1623.45,509.042 1614.02,454.37" fill="#fff"/>
+      </g>
+    </svg>
+    <div class="wrap-wide">
+      <span class="eyebrow">Product Builder</span>
+      <h1>Je conçois et je livre les outils<br><em>dont vos équipes ont besoin.</em></h1>
+      <p class="lede">Sites web, applications métier, automatisations & IA<br>un seul interlocuteur,<br>du
+        premier
+        échange à la mise en service.</p>
+    </div>
+  </header>
+
+  <div class="stacks-wrap">
+    <section class="stack" aria-label="Outils de prédilection">
+      <div class="stack-inner">
+        <p class="stack-label">Mes outils de prédilection</p>
+        <div class="marquee">
+          <div class="marquee-track">
+            <img src="logos/chatgpt.png" alt="ChatGPT">
+            <img src="logos/claude.png" alt="Claude">
+            <img src="logos/gemini.png" alt="Google Gemini">
+            <img src="logos/figma.png" alt="Figma">
+            <img src="logos/canva.webp" alt="Canva">
+            <img src="logos/notion.png" alt="Notion">
+            <img src="logos/obsidian.svg" alt="Obsidian">
+            <img src="logos/airtable.png" alt="Airtable">
+            <img src="logos/webflow.png" alt="Webflow">
+            <img src="logos/github.png" alt="GitHub">
+            <img src="logos/n8n.jpg" alt="n8n">
+            <img src="logos/make.jpg" alt="Make">
+            <img src="logos/chatgpt.png" alt="" aria-hidden="true">
+            <img src="logos/claude.png" alt="" aria-hidden="true">
+            <img src="logos/gemini.png" alt="" aria-hidden="true">
+            <img src="logos/figma.png" alt="" aria-hidden="true">
+            <img src="logos/canva.webp" alt="" aria-hidden="true">
+            <img src="logos/notion.png" alt="" aria-hidden="true">
+            <img src="logos/obsidian.svg" alt="" aria-hidden="true">
+            <img src="logos/airtable.png" alt="" aria-hidden="true">
+            <img src="logos/webflow.png" alt="" aria-hidden="true">
+            <img src="logos/github.png" alt="" aria-hidden="true">
+            <img src="logos/n8n.jpg" alt="" aria-hidden="true">
+            <img src="logos/make.jpg" alt="" aria-hidden="true">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack" aria-label="Références clients">
+      <div class="stack-inner">
+        <p class="stack-label">Ils m'ont fait confiance</p>
+        <div class="marquee marquee--rev">
+          <div class="marquee-track">
+            <img class="corp" src="corp/france-tv.png" alt="France Télévisions">
+            <img class="corp" src="corp/ircam.png" alt="Ircam">
+            <img class="corp" src="corp/education-nationale.jpg"
+              alt="Ministère de l'Éducation nationale et de la Jeunesse">
+            <img class="corp" src="corp/ina.jpg" alt="INA — Institut national de l'audiovisuel">
+            <img class="corp" src="corp/lagardere.webp" alt="Lagardère">
+            <img class="corp" src="corp/nrj.webp" alt="NRJ">
+            <img class="corp" src="corp/cnam-enjmin.png" alt="Le Cnam · Enjmin">
+            <img class="corp" src="corp/mezzo.webp" alt="Mezzo">
+            <img class="corp" src="corp/ouat.png" alt="OUAT Entertainment">
+            <img class="corp" src="corp/aelion.png" alt="Aelion">
+            <img class="corp" src="corp/groupe-rayne.png" alt="Groupe Rayne">
+            <img class="corp" src="corp/bonjour.png" alt="Bonjour Patrimoine">
+            <img class="corp" src="corp/france-tv.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/ircam.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/education-nationale.jpg" alt="" aria-hidden="true">
+            <img class="corp" src="corp/ina.jpg" alt="" aria-hidden="true">
+            <img class="corp" src="corp/lagardere.webp" alt="" aria-hidden="true">
+            <img class="corp" src="corp/nrj.webp" alt="" aria-hidden="true">
+            <img class="corp" src="corp/cnam-enjmin.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/mezzo.webp" alt="" aria-hidden="true">
+            <img class="corp" src="corp/ouat.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/aelion.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/groupe-rayne.png" alt="" aria-hidden="true">
+            <img class="corp" src="corp/bonjour.png" alt="" aria-hidden="true">
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand-block">
+          <span class="footer-brand">Product <em>Builder.</em></span>
+          <p class="footer-tagline">Sites web, applications métier, automatisations & IA. <br>Un seul
+            interlocuteur, du premier échange à la mise en service.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">Explorer</p>
+          <ul class="footer-links">
+            <li><a href="metier.html">Le métier</a></li>
+            <li><a href="sites.html">Sites web</a></li>
+            <li><a href="apps.html">Applications</a></li>
+            <li><a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp;
+                IA</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Contact</p>
+          <div class="footer-contact">
+            <a href="contact.html">Démarrer un projet →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 · Product Builder</span>
+    </div>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANGUARD | Cabinet d'Expertise Comptable & Conseil Stratégique</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        v: {
+          bg:      '#17171E',
+          surface: '#21212E',
+          surfB:   '#2A2A3A',
+          night:   '#0F0F16',
+          orange:  '#E8751A',
+          orangeD: '#C05F10',
+          orangeL: '#F5A040',
+          orangeTint: '#261508',
+          text:    '#EAE8E2',
+          sub:     '#8A8898',
+          faint:   '#46465A',
+          border:  '#2A2A3C',
+        }
+      },
+      fontFamily: {
+        display: ['Darker Grotesque', 'system-ui', 'sans-serif'],
+        sans:    ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono:    ['Space Mono', 'monospace'],
+      },
+      letterSpacing: {
+        tighter:    '-0.04em',
+        wideSpaced: '0.18em',
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Darker+Grotesque:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { background:#17171E; color:#EAE8E2; }
+  .text-huge-stamp {
+    font-size: clamp(6rem,14vw,12rem);
+    line-height: 0.82;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-family: 'Darker Grotesque', sans-serif;
+  }
+  .halftone-overlay {
+    background-image: radial-gradient(rgba(234,232,226,.07) 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+  .editorial-border { border: 1px solid #2A2A3C; }
+  input, select {
+    background: #21212E !important;
+    color: #EAE8E2 !important;
+    border-color: #2A2A3C !important;
+  }
+  input::placeholder { color: #46465A; }
+  input:focus, select:focus { border-color: #E8751A !important; outline: none; }
+  .bar-fill { background: #E8751A; }
+  .bar-fill-dim { background: rgba(232,117,26,.4); }
+</style>
+</head>
+<body class="font-sans antialiased">
+
+<!-- TOP BAR -->
+<div class="border-b border-v-border bg-v-night py-2 px-6 text-xs tracking-wider uppercase flex justify-between items-center text-v-sub">
+  <div class="flex items-center space-x-4">
+    <span class="inline-block w-2 h-2 rounded-full bg-v-orange animate-pulse"></span>
+    <span>Inscrit au Tableau de l'Ordre des Experts-Comptables de Paris & Île-de-France</span>
+  </div>
+  <div class="hidden md:flex items-center space-x-6">
+    <span>Bureaux : Paris 8e • Bordeaux Triangle • Lyon Confluence</span>
+    <a class="hover:text-v-text transition-colors" href="tel:+33142680000">Tél : +33 (0)1 42 68 00 00</a>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-50 backdrop-blur-md border-b border-v-border" style="background:rgba(23,23,30,.96)">
+  <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <a class="flex items-center space-x-3 group" href="#">
+      <div class="w-10 h-10 bg-v-orange text-v-night flex items-center justify-center font-display text-2xl font-bold tracking-tight group-hover:bg-v-orangeL transition-colors">V</div>
+      <div class="flex flex-col">
+        <span class="font-display font-bold tracking-widest text-sm uppercase text-v-text">Vanguard</span>
+        <span class="text-[10px] tracking-wideSpaced text-v-sub uppercase font-mono">Expertise & Conseil</span>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-wider text-v-sub">
+      <a class="hover:text-v-orange transition-colors" href="#missions">Missions</a>
+      <a class="hover:text-v-orange transition-colors" href="#offres">Nos Offres & Tarifs</a>
+      <a class="hover:text-v-orange transition-colors" href="#methode">Notre Méthode</a>
+      <a class="hover:text-v-orange transition-colors" href="#cabinet">Le Cabinet</a>
+      <a class="hover:text-v-orange transition-colors" href="#ressources">Ressources</a>
+    </nav>
+    <div class="flex items-center space-x-4">
+      <a class="text-xs uppercase font-semibold tracking-wider px-3 py-2 text-v-sub hover:text-v-text transition-colors flex items-center space-x-1.5" href="#espace-client">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>Espace Client</span>
+      </a>
+      <a class="text-xs uppercase font-bold tracking-wider bg-v-orange text-v-night px-5 py-2.5 hover:bg-v-orangeL transition-all shadow-sm flex items-center space-x-2" href="#contact">
+        <span>Prendre RDV</span>
+        <span>→</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO -->
+<section class="relative bg-v-surface border-b border-v-border overflow-hidden pt-12 pb-16">
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-10 overflow-hidden halftone-overlay">
+  </div>
+  <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[.04] overflow-hidden">
+    <span class="text-huge-stamp text-v-orange font-display font-extrabold tracking-tighter">VGD</span>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+    <div class="inline-flex items-center space-x-2 px-3 py-1 bg-v-bg border border-v-border text-[11px] uppercase tracking-widest text-v-sub mb-8">
+      <span class="w-1.5 h-1.5 bg-v-orange rounded-full"></span>
+      <span>Conseil aux dirigeants • Fiscalité • Pilotage de trésorerie</span>
+    </div>
+    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-v-text max-w-4xl mx-auto leading-tight tracking-tight mb-6 font-bold">
+      L'expertise comptable nouvelle génération pour créateurs & PME en forte croissance.
+    </h1>
+    <p class="max-w-2xl mx-auto text-v-sub text-base sm:text-lg mb-10 leading-relaxed">
+      Alliez l'agilité des outils digitaux temps réel à l'accompagnement stratégique d'un expert-comptable dédié. Clarté financière, conformité sans faille et conseil sur-mesure.
+    </p>
+    <div class="flex flex-wrap justify-center items-center gap-6 text-xs uppercase tracking-wideSpaced font-mono text-v-sub border-t border-b border-v-border py-3 max-w-2xl mx-auto">
+      <span class="hover:text-v-orange cursor-pointer transition-colors">PARIS VIIIe</span>
+      <span class="text-v-faint">•</span>
+      <span class="hover:text-v-orange cursor-pointer transition-colors">BORDEAUX TRIANGLE</span>
+      <span class="text-v-faint">•</span>
+      <span class="hover:text-v-orange cursor-pointer transition-colors">LYON CONFLUENCE</span>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto mt-12 px-4">
+    <div class="bg-v-bg border border-v-border shadow-sm p-2 flex flex-wrap justify-around items-center text-xs uppercase tracking-wider font-semibold">
+      <a class="px-4 py-2 hover:text-v-orange transition-colors text-v-sub" href="#missions">Vue d'ensemble</a>
+      <a class="px-4 py-2 text-v-orange border-b-2 border-v-orange" href="#offres">Offres & Forfaits</a>
+      <a class="px-4 py-2 hover:text-v-orange transition-colors text-v-sub" href="#methode">Outils & Process</a>
+      <a class="px-4 py-2 hover:text-v-orange transition-colors text-v-sub" href="#cabinet">Associés</a>
+      <a class="px-4 py-2 bg-v-orange text-v-night hover:bg-v-orangeL transition-colors" href="#contact">Consultation Offerte</a>
+    </div>
+  </div>
+</section>
+
+<!-- VISUAL BANNER -->
+<section class="border-b border-v-border grid grid-cols-1 md:grid-cols-12 bg-v-night">
+  <div class="md:col-span-8 relative aspect-[16/9] md:aspect-auto min-h-[380px] overflow-hidden group">
+    <img alt="Espace de travail collaboratif du cabinet Vanguard" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-700 opacity-75" src="https://images.unsplash.com/photo-1604328727766-a151d1045ab4?w=1200&q=80">
+    <div class="absolute bottom-4 left-4 bg-v-night/90 text-v-sub text-[10px] uppercase font-mono px-3 py-1 tracking-wider border border-v-border backdrop-blur-sm">
+      Siège Paris — 34 Boulevard Malesherbes
+    </div>
+  </div>
+  <div class="md:col-span-4 bg-v-orangeTint p-8 flex flex-col justify-between border-t md:border-t-0 md:border-l border-v-border">
+    <div>
+      <span class="text-xs font-mono uppercase tracking-widest text-v-orange block mb-3">Engagement & Rigueur</span>
+      <h3 class="font-display text-2xl md:text-3xl text-v-text font-bold leading-tight mb-4">
+        Un cabinet d'affaires conçu comme un studio contemporain.
+      </h3>
+      <p class="text-sm text-v-sub leading-relaxed mb-6">
+        Nous avons repensé la relation comptable pour libérer le dirigeant du stress fiscal et administratif. Un interlocuteur unique, joignable directement, sans jargon.
+      </p>
+    </div>
+    <div class="pt-6 border-t border-v-border flex items-center justify-between">
+      <div>
+        <span class="block text-2xl font-display font-bold text-v-text">99.4%</span>
+        <span class="text-[10px] uppercase tracking-wider text-v-sub">Dépôts fiscaux dans les délais</span>
+      </div>
+      <div>
+        <span class="block text-2xl font-display font-bold text-v-text">4.9 / 5</span>
+        <span class="text-[10px] uppercase tracking-wider text-v-sub">Avis Dirigeants Google</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="py-16 px-6 bg-v-surface border-b border-v-border text-center" id="missions">
+  <div class="max-w-3xl mx-auto">
+    <span class="text-xs uppercase font-mono tracking-wideSpaced text-v-orange block mb-3">Vision Stratégique</span>
+    <h2 class="font-display text-3xl sm:text-4xl text-v-text font-bold mb-6">
+      Comprendre le passé pour sécuriser l'avenir.
+    </h2>
+    <p class="text-v-sub text-base sm:text-lg leading-relaxed">
+      Chez Vanguard, la tenue des comptes n'est que la première marche. Notre véritable valeur réside dans l'anticipation fiscale, le conseil d'optimisation de rémunération et la préparation de vos levées ou financements bancaires.
+    </p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="py-20 px-6 bg-v-bg border-b border-v-border" id="offres">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="text-xs uppercase font-mono tracking-widest text-v-orange">Forfaits Transparents</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-v-text mt-2 mb-4">Des formules adaptées à votre stade d'évolution</h2>
+      <p class="text-sm text-v-sub">Sans engagement de durée annuelle forcée. Facturation mensuelle claire incluant logiciels et accès bancaire sécurisé.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+      <!-- Plan 1 -->
+      <article class="bg-v-surface border border-v-border p-8 flex flex-col justify-between hover:border-v-orange/50 transition-all duration-300 relative group">
+        <div class="absolute top-0 right-0 transform translate-y-4 -translate-x-4 opacity-[.06] pointer-events-none font-display text-7xl font-bold text-v-text">01</div>
+        <div>
+          <div class="text-xs font-mono uppercase tracking-widest text-v-sub mb-2">Amorçage & Freelances</div>
+          <h3 class="font-display text-2xl font-bold text-v-text mb-1">Pack Création</h3>
+          <p class="text-xs text-v-sub mb-6">SASU, EURL, Professions Libérales</p>
+          <div class="mb-6 pb-6 border-b border-v-border">
+            <span class="text-xs text-v-sub block uppercase">À partir de</span>
+            <span class="text-4xl font-display font-bold text-v-text">150 €</span>
+            <span class="text-xs text-v-sub font-normal">/ mois HT</span>
+          </div>
+          <ul class="space-y-3 text-xs text-v-sub mb-8">
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Tenue comptable mensuelle & télédéclarations TVA</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Bilan annuel, liasse fiscale & compte de résultat</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Application mobile OCR pour vos notes de frais</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>1 entretien annuel de bilan personnalisé</span></li>
+          </ul>
+        </div>
+        <a class="block w-full text-center text-xs uppercase tracking-wider font-bold py-3 px-4 border border-v-border hover:border-v-orange hover:text-v-orange transition-colors text-v-sub" href="#contact">Démarrer avec le Pack 01</a>
+      </article>
+      <!-- Plan 2 (featured) -->
+      <article class="bg-v-orangeTint border-2 border-v-orange p-8 flex flex-col justify-between shadow-[0_0_40px_rgba(232,117,26,.15)] relative transform md:-translate-y-2">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-v-orange text-v-night text-[10px] font-mono tracking-widest uppercase px-3 py-1 font-bold">Recommandé PME & Scale-up</div>
+        <div class="absolute top-2 right-4 opacity-[.08] pointer-events-none font-display text-7xl font-bold text-v-orange">02</div>
+        <div>
+          <div class="text-xs font-mono uppercase tracking-widest text-v-orange mb-2">Sociétés & Équipes</div>
+          <h3 class="font-display text-2xl font-bold text-v-text mb-1">Pack Croissance</h3>
+          <p class="text-xs text-v-sub mb-6">SARL, SAS jusqu'à 25 salariés</p>
+          <div class="mb-6 pb-6 border-b border-v-border">
+            <span class="text-xs text-v-sub block uppercase">À partir de</span>
+            <span class="text-4xl font-display font-bold text-v-orange">350 €</span>
+            <span class="text-xs text-v-sub font-normal">/ mois HT</span>
+          </div>
+          <ul class="space-y-3 text-xs text-v-text mb-8">
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span class="font-medium">Tout le pack création inclus</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Gestion de paie (fiches de paye + DSN incluses jusqu'à 3 salariés)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Tableau de bord de trésorerie prévisionnelle connecté en API</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Point de situation trimestriel avec votre expert attitré</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Secrétariat juridique (AG annuelle & dépôt des comptes)</span></li>
+          </ul>
+        </div>
+        <a class="block w-full text-center text-xs uppercase tracking-wider font-bold py-3.5 px-4 bg-v-orange text-v-night hover:bg-v-orangeL transition-colors shadow-md" href="#contact">Choisir l'offre Croissance</a>
+      </article>
+      <!-- Plan 3 -->
+      <article class="bg-v-surface border border-v-border p-8 flex flex-col justify-between hover:border-v-orange/50 transition-all duration-300 relative group">
+        <div class="absolute top-0 right-0 transform translate-y-4 -translate-x-4 opacity-[.06] pointer-events-none font-display text-7xl font-bold text-v-text">03</div>
+        <div>
+          <div class="text-xs font-mono uppercase tracking-widest text-v-sub mb-2">Grands Comptes & Groupes</div>
+          <h3 class="font-display text-2xl font-bold text-v-text mb-1">Audit & Stratégie</h3>
+          <p class="text-xs text-v-sub mb-6">Holdings, ETI, Levées de fonds</p>
+          <div class="mb-6 pb-6 border-b border-v-border">
+            <span class="text-xs text-v-sub block uppercase">Tarification</span>
+            <span class="text-3xl font-display font-bold text-v-text">Sur Mesure</span>
+            <span class="text-xs text-v-sub font-normal block mt-1">Après diagnostic initial</span>
+          </div>
+          <ul class="space-y-3 text-xs text-v-sub mb-8">
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Consolidation multi-entités et fiscalité de groupe</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Audit d'acquisition & due diligence pour opérations M&A</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Direction financière externalisée (Part-time CFO)</span></li>
+            <li class="flex items-start space-x-2"><span class="text-v-orange font-bold">✓</span><span>Assistance permanente en cas de contrôle fiscal</span></li>
+          </ul>
+        </div>
+        <a class="block w-full text-center text-xs uppercase tracking-wider font-bold py-3 px-4 border border-v-border hover:border-v-orange hover:text-v-orange transition-colors text-v-sub" href="#contact">Demander un Diagnostic</a>
+      </article>
+    </div>
+    <!-- Banner -->
+    <div class="mt-12 bg-v-surface border border-v-border p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-6">
+        <div class="w-14 h-14 rounded-full bg-v-orange text-v-night flex items-center justify-center font-display text-2xl flex-shrink-0 font-bold">§</div>
+        <div>
+          <h4 class="font-display font-bold text-lg text-v-text">Vous créez votre société ? Pack 'Immatriculation Clé en Main'</h4>
+          <p class="text-xs text-v-sub mt-1">Rédaction des statuts, annonce légale, formalités au greffe et obtention du Kbis offerts sous condition d'adhésion.</p>
+        </div>
+      </div>
+      <a class="text-xs font-mono uppercase tracking-wider underline font-bold whitespace-nowrap text-v-orange hover:text-v-orangeL" href="#contact">En savoir plus →</a>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="py-20 px-6 bg-v-surface border-b border-v-border" id="methode">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div class="lg:col-span-5 space-y-6">
+        <span class="text-xs font-mono uppercase tracking-widest text-v-orange">Processus Digital & Humain</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-v-text leading-tight">
+          Fini les classeurs papier. Votre comptabilité pilotée en temps réel.
+        </h2>
+        <p class="text-sm text-v-sub leading-relaxed">
+          Nous synchronisons vos flux bancaires avec nos suites logicielles sécurisées (Pennylane, Tiime, Cegid). Scannez un reçu depuis votre smartphone : notre IA extrait les montants et la TVA, validés ensuite par votre réviseur comptable.
+        </p>
+        <div class="space-y-4 pt-4 border-t border-v-border">
+          <div class="flex items-start space-x-3">
+            <span class="w-5 h-5 rounded-full bg-v-orange text-v-night text-xs flex items-center justify-center font-mono font-bold flex-shrink-0">1</span>
+            <div>
+              <h5 class="text-xs font-bold uppercase tracking-wider text-v-text">Zéro saisie manuelle</h5>
+              <p class="text-xs text-v-sub">Récupération automatique des relevés et factures fournisseurs.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-5 h-5 rounded-full bg-v-orange text-v-night text-xs flex items-center justify-center font-mono font-bold flex-shrink-0">2</span>
+            <div>
+              <h5 class="text-xs font-bold uppercase tracking-wider text-v-text">Visibilité du solde de trésorerie</h5>
+              <p class="text-xs text-v-sub">Indicateurs clés mis à jour quotidiennement sur votre tableau de bord.</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-3">
+            <span class="w-5 h-5 rounded-full bg-v-orange text-v-night text-xs flex items-center justify-center font-mono font-bold flex-shrink-0">3</span>
+            <div>
+              <h5 class="text-xs font-bold uppercase tracking-wider text-v-text">Équipe accessible par messagerie & visio</h5>
+              <p class="text-xs text-v-sub">Réponse garantie sous 24h ouvrées par votre collaborateur dédié.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Dashboard mock -->
+      <div class="lg:col-span-7 bg-v-bg border border-v-border p-8 shadow-sm">
+        <div class="border border-v-border p-6 bg-v-night">
+          <div class="flex justify-between items-center border-b border-v-border pb-4 mb-6">
+            <div>
+              <span class="text-[10px] font-mono uppercase text-v-sub">PORTAIL CLIENT VANGUARD</span>
+              <div class="text-sm font-bold text-v-text">Tableau de bord financier consolidé</div>
+            </div>
+            <div class="flex space-x-1.5">
+              <div class="w-3 h-3 rounded-full bg-v-faint"></div>
+              <div class="w-3 h-3 rounded-full bg-v-faint"></div>
+              <div class="w-3 h-3 rounded-full bg-v-orange"></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-v-surface p-3 border border-v-border">
+              <div class="text-[10px] uppercase text-v-sub">Chiffre d'Affaires YTD</div>
+              <div class="text-lg font-display font-bold text-v-text">412 850 €</div>
+              <span class="text-[10px] text-v-orange font-mono">+18.4% vs N-1</span>
+            </div>
+            <div class="bg-v-surface p-3 border border-v-border">
+              <div class="text-[10px] uppercase text-v-sub">TVA Estimée Trimestre</div>
+              <div class="text-lg font-display font-bold text-v-text">14 220 €</div>
+              <span class="text-[10px] text-v-sub font-mono">Échéance 19/04</span>
+            </div>
+            <div class="bg-v-surface p-3 border border-v-border">
+              <div class="text-[10px] uppercase text-v-sub">Trésorerie Disponible</div>
+              <div class="text-lg font-display font-bold text-v-orange">128 410 €</div>
+              <span class="text-[10px] text-v-sub font-mono">3 banques sync.</span>
+            </div>
+          </div>
+          <div class="h-32 bg-v-surface border border-v-border p-4 flex items-end justify-between gap-2">
+            <div class="w-full bar-fill-dim h-[35%]"></div>
+            <div class="w-full bar-fill-dim h-[45%]"></div>
+            <div class="w-full bar-fill-dim h-[40%]"></div>
+            <div class="w-full bar-fill-dim h-[60%]"></div>
+            <div class="w-full bar-fill-dim h-[55%]"></div>
+            <div class="w-full bar-fill-dim h-[75%]"></div>
+            <div class="w-full bar-fill-dim h-[70%]"></div>
+            <div class="w-full bar-fill h-[90%]"></div>
+          </div>
+          <div class="flex justify-between text-[9px] font-mono text-v-faint mt-2 px-1">
+            <span>SEP</span><span>OCT</span><span>NOV</span><span>DEC</span><span>JAN</span><span>FEV</span><span>MAR</span><span>AVR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="py-20 px-6 bg-v-bg border-b border-v-border" id="cabinet">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-v-border pb-6">
+      <div>
+        <span class="text-xs uppercase font-mono tracking-widest text-v-orange">L'Équipe Dirigeante</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-v-text mt-1">Les associés du cabinet</h2>
+      </div>
+      <p class="text-xs font-mono uppercase text-v-sub mt-4 md:mt-0 tracking-wider">Diplômés d'État • Experts-Comptables & Commissaires aux Comptes</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <!-- Partner 1 -->
+      <div class="border border-v-border bg-v-surface p-6 hover:border-v-orange/40 transition-colors">
+        <div class="aspect-[4/5] bg-v-bg mb-6 overflow-hidden border border-v-border">
+          <img alt="Marc-Antoine Ferrière, Associé Fondateur" class="w-full h-full object-cover grayscale contrast-125 opacity-80" src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=600&q=80">
+        </div>
+        <span class="text-[10px] font-mono uppercase tracking-widest text-v-orange">Associé Gérant — Paris</span>
+        <h3 class="font-display text-xl font-bold text-v-text mt-1">Marc-Antoine Ferrière</h3>
+        <p class="text-xs text-v-sub mt-2 leading-relaxed">Ancien auditeur Big Four, spécialiste de la structuration de holding, du conseil fiscal transfrontalier et des fusions-acquisitions.</p>
+        <div class="mt-4 pt-4 border-t border-v-border flex items-center justify-between text-xs text-v-sub font-mono">
+          <span>DEC n° 948102</span>
+          <a class="hover:text-v-orange transition-colors" href="#">LinkedIn ↗</a>
+        </div>
+      </div>
+      <!-- Partner 2 -->
+      <div class="border border-v-border bg-v-surface p-6 hover:border-v-orange/40 transition-colors">
+        <div class="aspect-[4/5] bg-v-bg mb-6 overflow-hidden border border-v-border">
+          <img alt="Hélène Roussel, Associée Directrice Bordeaux" class="w-full h-full object-cover grayscale contrast-125 opacity-80" src="https://images.unsplash.com/photo-1585240975858-7264fd020798?w=600&q=80">
+        </div>
+        <span class="text-[10px] font-mono uppercase tracking-widest text-v-orange">Associée Directrice — Bordeaux</span>
+        <h3 class="font-display text-xl font-bold text-v-text mt-1">Hélène Roussel</h3>
+        <p class="text-xs text-v-sub mt-2 leading-relaxed">Experte-comptable spécialisée dans la transition numérique des flux comptables, la gestion sociale et le pilotage financier de PME industrielles.</p>
+        <div class="mt-4 pt-4 border-t border-v-border flex items-center justify-between text-xs text-v-sub font-mono">
+          <span>DEC n° 883194</span>
+          <a class="hover:text-v-orange transition-colors" href="#">LinkedIn ↗</a>
+        </div>
+      </div>
+      <!-- Partner 3 -->
+      <div class="border border-v-border bg-v-surface p-6 hover:border-v-orange/40 transition-colors">
+        <div class="aspect-[4/5] bg-v-bg mb-6 overflow-hidden border border-v-border">
+          <img alt="Julien Benoit-Gras, Associé Tech & Audit Lyon" class="w-full h-full object-cover grayscale contrast-125 opacity-80" src="https://images.unsplash.com/photo-1559718062-361155fad299?w=600&q=80">
+        </div>
+        <span class="text-[10px] font-mono uppercase tracking-widest text-v-orange">Associé Tech & Audit — Lyon</span>
+        <h3 class="font-display text-xl font-bold text-v-text mt-1">Julien Benoit-Gras</h3>
+        <p class="text-xs text-v-sub mt-2 leading-relaxed">Accompagnateur de plus de 80 start-ups & scale-ups dans l'intégration de logiciels comptables connectés, CIR/CII et levées de Série A/B.</p>
+        <div class="mt-4 pt-4 border-t border-v-border flex items-center justify-between text-xs text-v-sub font-mono">
+          <span>DEC n° 910443</span>
+          <a class="hover:text-v-orange transition-colors" href="#">LinkedIn ↗</a>
+        </div>
+      </div>
+    </div>
+    <!-- Essentials -->
+    <div class="bg-v-surface border border-v-border p-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h4 class="text-xs font-mono uppercase tracking-wider text-v-sub mb-3">Horaires d'ouverture</h4>
+        <p class="text-sm font-bold text-v-text">Du Lundi au Vendredi</p>
+        <p class="text-xs text-v-sub mt-1">08h30 – 19h00 sans interruption</p>
+        <p class="text-[11px] text-v-orange mt-2 font-mono">Accueil sur rendez-vous</p>
+      </div>
+      <div>
+        <h4 class="text-xs font-mono uppercase tracking-wider text-v-sub mb-3">Bureaux Principaux</h4>
+        <address class="text-xs not-italic text-v-sub leading-relaxed">
+          <strong class="text-v-text">Paris :</strong> 34 Boulevard Malesherbes, 75008<br>
+          <strong class="text-v-text">Bordeaux :</strong> 12 Cours de l'Intendance, 33000<br>
+          <strong class="text-v-text">Lyon :</strong> 25 Quai Riboud, 69002
+        </address>
+      </div>
+      <div>
+        <h4 class="text-xs font-mono uppercase tracking-wider text-v-sub mb-3">Ligne Directe Client</h4>
+        <p class="text-sm font-bold text-v-text">+33 (0)1 42 68 00 00</p>
+        <p class="text-xs text-v-sub mt-1">contact@vanguard-expertise.fr</p>
+        <p class="text-[11px] text-v-sub mt-2">Support logiciel 7j/7 via chat</p>
+      </div>
+      <div>
+        <h4 class="text-xs font-mono uppercase tracking-wider text-v-sub mb-3">Garanties & Agrément</h4>
+        <p class="text-xs text-v-sub leading-relaxed">
+          Membre de la Compagnie Nationale des Commissaires aux Comptes & assuré en Responsabilité Civile Professionnelle à hauteur de 5.000.000 €.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="py-20 px-6 bg-v-surface border-b border-v-border">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-xs uppercase font-mono tracking-widest text-v-orange">Témoignages</span>
+      <h2 class="font-display text-3xl font-bold text-v-text mt-1">Ils nous confient leurs chiffres</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <blockquote class="bg-v-bg p-8 border border-v-border flex flex-col justify-between hover:border-v-orange/30 transition-colors">
+        <p class="italic text-v-sub text-base mb-6 leading-relaxed">« Passer chez Vanguard a divisé par 4 le temps que nous consacrions au traitement des notes de frais. Notre bilan a été clôturé en un temps record. »</p>
+        <div class="border-t border-v-border pt-4 flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-v-orange text-v-night flex items-center justify-center font-bold text-xs">CL</div>
+          <div>
+            <cite class="not-italic text-xs font-bold text-v-text block">Camille Laurent</cite>
+            <span class="text-[11px] text-v-sub">Fondatrice de Studio Lumina (Design, 14 salariés)</span>
+          </div>
+        </div>
+      </blockquote>
+      <blockquote class="bg-v-bg p-8 border border-v-border flex flex-col justify-between hover:border-v-orange/30 transition-colors">
+        <p class="italic text-v-sub text-base mb-6 leading-relaxed">« Lors de notre audit d'acquisition, Marc-Antoine Ferrière nous a évité un redressement majeur en décelant des passifs cachés. Un accompagnement exceptionnel. »</p>
+        <div class="border-t border-v-border pt-4 flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-v-orange text-v-night flex items-center justify-center font-bold text-xs">AR</div>
+          <div>
+            <cite class="not-italic text-xs font-bold text-v-text block">Antoine Roche</cite>
+            <span class="text-[11px] text-v-sub">Directeur Général, Groupe Roche & Cie (BTP)</span>
+          </div>
+        </div>
+      </blockquote>
+      <blockquote class="bg-v-bg p-8 border border-v-border flex flex-col justify-between hover:border-v-orange/30 transition-colors">
+        <p class="italic text-v-sub text-base mb-6 leading-relaxed">« L'interface temps réel nous permet d'avoir toujours une vision nette de notre solde prévisionnel d'impôt et de TVA. Plus aucune mauvaise surprise. »</p>
+        <div class="border-t border-v-border pt-4 flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-full bg-v-orange text-v-night flex items-center justify-center font-bold text-xs">SD</div>
+          <div>
+            <cite class="not-italic text-xs font-bold text-v-text block">Sophie Dupond</cite>
+            <span class="text-[11px] text-v-sub">Co-fondatrice de Kroma Tech (SaaS B2B)</span>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="py-20 px-6 bg-v-night text-v-text relative overflow-hidden" id="contact">
+  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+    <div class="md:col-span-7 space-y-6">
+      <span class="text-xs font-mono uppercase tracking-widest text-v-orange">Diagnostic Offert (30 min)</span>
+      <h2 class="font-display text-3xl sm:text-5xl font-bold leading-tight">Prêt à moderniser la gestion de votre entreprise ?</h2>
+      <p class="text-sm text-v-sub leading-relaxed max-w-lg">Rencontrez un expert-comptable associé à Paris, Bordeaux, Lyon ou en visioconférence sécurisée. Nous analysons vos déclarations précédentes sans aucun engagement.</p>
+      <div class="flex items-center space-x-6 text-xs text-v-faint pt-4 font-mono">
+        <span>✓ Confidentialité garantie</span>
+        <span>✓ Audit fiscal préliminaire</span>
+      </div>
+    </div>
+    <div class="md:col-span-5 bg-v-surface text-v-text p-8 border border-v-border shadow-2xl">
+      <form class="space-y-4" onsubmit="event.preventDefault()">
+        <h3 class="font-display font-bold text-lg border-b border-v-border pb-2">Prendre rendez-vous</h3>
+        <div>
+          <label class="block text-[11px] uppercase tracking-wider font-semibold mb-1 text-v-sub">Nom complet</label>
+          <input class="w-full text-xs p-2.5" placeholder="ex. Alexandre Dumas" type="text">
+        </div>
+        <div>
+          <label class="block text-[11px] uppercase tracking-wider font-semibold mb-1 text-v-sub">Email professionnel</label>
+          <input class="w-full text-xs p-2.5" placeholder="alexandre@entreprise.fr" type="email">
+        </div>
+        <div>
+          <label class="block text-[11px] uppercase tracking-wider font-semibold mb-1 text-v-sub">Structure actuelle</label>
+          <select class="w-full text-xs p-2.5">
+            <option>Projet de création / En cours d'immatriculation</option>
+            <option>Société existante (SAS, SARL, SASU)</option>
+            <option>Profession libérale / Indépendant</option>
+            <option>Changement d'expert-comptable</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] uppercase tracking-wider font-semibold mb-1 text-v-sub">Bureau souhaité</label>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs">
+            <label class="border border-v-border p-2 cursor-pointer hover:border-v-orange transition-colors has-[:checked]:bg-v-orange has-[:checked]:text-v-night has-[:checked]:border-v-orange">
+              <input checked class="sr-only" name="city" type="radio">Paris
+            </label>
+            <label class="border border-v-border p-2 cursor-pointer hover:border-v-orange transition-colors has-[:checked]:bg-v-orange has-[:checked]:text-v-night has-[:checked]:border-v-orange">
+              <input class="sr-only" name="city" type="radio">Bordeaux
+            </label>
+            <label class="border border-v-border p-2 cursor-pointer hover:border-v-orange transition-colors has-[:checked]:bg-v-orange has-[:checked]:text-v-night has-[:checked]:border-v-orange">
+              <input class="sr-only" name="city" type="radio">Visio
+            </label>
+          </div>
+        </div>
+        <button class="w-full py-3 bg-v-orange text-v-night hover:bg-v-orangeL text-xs uppercase tracking-wider font-bold transition-colors mt-2" type="submit">
+          Confirmer la demande de consultation
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-v-night border-t border-v-border pt-16 pb-12 text-v-text">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-16 border-b border-v-border">
+      <div class="md:col-span-4 space-y-4">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 bg-v-orange text-v-night flex items-center justify-center font-display text-xl font-bold">V</div>
+          <span class="font-display font-bold tracking-widest text-sm uppercase">Vanguard Expertise</span>
+        </div>
+        <p class="text-xs text-v-sub leading-relaxed pr-6">Société d'expertise comptable et de commissariat aux comptes inscrite à l'Ordre des Experts-Comptables de Paris et à la CRCC.</p>
+        <div class="text-[11px] font-mono text-v-faint">SIRET : 894 123 789 00018 — Code NAF 6920Z</div>
+      </div>
+      <div class="md:col-span-2 space-y-3 text-xs">
+        <h5 class="font-mono uppercase tracking-wider font-bold text-v-sub">Missions</h5>
+        <ul class="space-y-2 text-v-faint">
+          <li><a class="hover:text-v-orange transition-colors" href="#">Tenue & Bilan comptable</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Gestion de paie & RH</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Optimisation fiscale</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Secrétariat juridique annuel</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Audit d'acquisition (M&A)</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-2 space-y-3 text-xs">
+        <h5 class="font-mono uppercase tracking-wider font-bold text-v-sub">Ressources</h5>
+        <ul class="space-y-2 text-v-faint">
+          <li><a class="hover:text-v-orange transition-colors" href="#">Simulateur SASU vs EURL</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Guide du Crédit Impôt Recherche</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Calendrier des échéances fiscales</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Barème kilométrique 2026</a></li>
+          <li><a class="hover:text-v-orange transition-colors" href="#">Blog & Analyses économiques</a></li>
+        </ul>
+      </div>
+      <div class="md:col-span-4 space-y-4">
+        <h5 class="font-mono uppercase tracking-wider font-bold text-v-sub">La Veille Fiscale Vanguard</h5>
+        <p class="text-xs text-v-faint">Recevez chaque mois notre lettre d'information synthétique : changements réglementaires, seuils fiscaux et conseils de gestion.</p>
+        <form class="flex items-stretch" onsubmit="event.preventDefault()">
+          <input class="text-xs p-2.5 flex-grow" placeholder="Votre email pro..." type="email">
+          <button class="bg-v-orange text-v-night text-xs uppercase tracking-wider font-bold px-4 hover:bg-v-orangeL transition-colors" type="submit">S'inscrire</button>
+        </form>
+        <span class="text-[10px] text-v-faint block">Désinscription possible à tout moment. Données hébergées en France.</span>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-v-faint space-y-4 sm:space-y-0">
+      <div>© 2026 VANGUARD EXPERTISE COMPTABLE SAS. Tous droits réservés.</div>
+      <div class="flex items-center space-x-6">
+        <a class="hover:text-v-sub" href="#">Mentions Légales</a>
+        <a class="hover:text-v-sub" href="#">Politique de Confidentialité (RGPD)</a>
+        <a class="hover:text-v-sub" href="#">Conditions Générales de Service</a>
+        <a class="text-v-orange font-bold flex items-center space-x-1 hover:text-v-orangeL" href="#top"><span>Haut de page</span><span>↑</span></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

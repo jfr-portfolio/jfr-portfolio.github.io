@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Applications · Product Builder</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=block" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #EDEBEF;
+  --surface: #FFFFFF;
+  --deep: #251C33;
+  --ink: #251C33;
+  --ink-2: #665D74;
+  --line: #D6D2DC;
+  --carmine: #BF1E42;
+  --ochre: #EFB63C;
+  --teal: #0E6B62;
+  --shell: min(1040px, 100% - 48px);
+  --pad: clamp(1.15rem, 5vw, 2rem);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: Literata, Georgia, serif;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; }
+}
+
+::selection { background: var(--carmine); color: #fff; }
+:focus-visible { outline: 2.5px solid var(--carmine); outline-offset: 3px; border-radius: 2px; }
+
+.shell { width: var(--shell); margin-inline: auto; }
+
+/* ---------- TOP NAV (sticky) ---------- */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--deep);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.topnav-inner {
+  max-width: min(1040px, 100%);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 1.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.topnav-brand {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: .82rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: #F4F1F7;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 1rem 0;
+  transition: color .18s ease;
+}
+.topnav-brand:hover { color: var(--ochre); }
+.topnav-links {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.topnav-links::-webkit-scrollbar { display: none; }
+.topnav-links a {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: #9F94AE;
+  text-decoration: none;
+  padding: 1rem .9rem;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color .18s ease, border-color .18s ease;
+  margin-bottom: -1px;
+}
+.topnav-links a:last-child { padding-right: 0; }
+.topnav-links a:hover { color: #F4F1F7; }
+.topnav-links a.active {
+  color: var(--ochre);
+  border-bottom-color: var(--ochre);
+}
+.topnav-links a.external::after {
+  content: " ↗";
+  font-size: .7em;
+  opacity: .6;
+}
+@media (max-width: 640px) {
+  .topnav-brand { display: none; }
+}
+@view-transition { navigation: auto; }
+.topnav { view-transition-name: topnav; }
+
+/* ---------- HERO ---------- */
+.hero {
+  background: var(--deep);
+  color: #F4F1F7;
+  padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+  position: relative;
+  overflow: hidden;
+}
+.hero-watermark {
+  position: absolute;
+  left: calc(50% + 40px);
+  top: 40px;
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  opacity: 0.04;
+  filter: brightness(0) invert(1);
+  pointer-events: none;
+  user-select: none;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px);
+  background-size: 100% 1.6rem;
+  pointer-events: none;
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  display: block;
+  margin-bottom: 1.1rem;
+}
+.hero h1 {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  line-height: .96;
+  letter-spacing: -.035em;
+  font-weight: 800;
+  margin-bottom: 1.1rem;
+}
+.hero p {
+  color: #BDB2CC;
+  font-size: 1rem;
+  max-width: 46ch;
+  line-height: 1.65;
+}
+
+/* ---------- GRILLE ---------- */
+.work-section { padding: clamp(2.5rem, 7vw, 4rem) 0 clamp(3rem, 9vw, 5.5rem); }
+
+.work {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+@media (max-width: 820px) { .work { grid-template-columns: 1fr; } }
+
+.project { display: flex; flex-direction: column; gap: 14px; }
+
+.project .tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .63rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--carmine);
+  display: block;
+}
+
+.project h2 {
+  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.project .sub {
+  font-family: Literata, Georgia, serif;
+  font-size: .88rem;
+  line-height: 1.68;
+  color: var(--ink-2);
+}
+
+/* ==========================================
+   THÈMES PAR VIGNETTE
+   ========================================== */
+
+/* Groupe Céleste : violet + carmine (palette maison) */
+.thumb-app {
+  --a-top:    #251C33;
+  --a-chrome: #1E1628;
+  --a-accent: #BF1E42;
+  --a-bg:     #F7F5FA;
+  --a-stage:  #2A1F3D;
+  --af: 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+/* Thermoclim : navy + orange technique */
+.thumb-app.tc {
+  --a-top:    #1B3F6E;
+  --a-chrome: #122C4F;
+  --a-accent: #E07528;
+  --a-bg:     #F2F5F8;
+  --a-stage:  #122C4F;
+  --af: 'Inter', system-ui, sans-serif;
+}
+
+/* Cabinet Ledoux : bleu marine + or */
+.thumb-app.ld {
+  --a-top:    #1C2B47;
+  --a-chrome: #131E33;
+  --a-accent: #B8892A;
+  --a-bg:     #F9F7F2;
+  --a-stage:  #1C2B47;
+  --af: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+/* Clearflow : indigo + teal électrique */
+.thumb-app.cf {
+  --a-top:    #2D1F6E;
+  --a-chrome: #1E1456;
+  --a-accent: #00B89C;
+  --a-bg:     #F5F4FE;
+  --a-stage:  #1E1456;
+  --af: 'DM Sans', system-ui, sans-serif;
+}
+
+/* Groupe Lacroix : vert forêt, look enterprise */
+.thumb-app.gl {
+  --a-top:    #1E3D2C;
+  --a-chrome: #142A1E;
+  --a-accent: #2A7A4F;
+  --a-bg:     #F3F6F4;
+  --a-stage:  #142A1E;
+  --af: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* Méridian : brun chaud + sauge */
+.thumb-app.mr {
+  --a-top:    #3C2B1E;
+  --a-chrome: #2A1E15;
+  --a-accent: #7A8E5E;
+  --a-bg:     #F8F5EF;
+  --a-stage:  #2A1E15;
+  --af: Literata, Georgia, serif;
+}
+
+/* ==========================================
+   COMPOSANTS APP (utilisent les variables)
+   ========================================== */
+
+.thumb-app {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface);
+  transition: border-color .2s ease;
+}
+.thumb-app:hover { border-color: var(--a-accent); }
+
+/* Chrome */
+.app-chrome {
+  background: var(--a-chrome);
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.chrome-dots { display: flex; gap: 5px; }
+.chrome-dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  display: block;
+}
+.chrome-url {
+  flex: 1;
+  background: rgba(255,255,255,.07);
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem;
+  color: rgba(255,255,255,.35);
+  letter-spacing: .02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Topbar */
+.app-body { background: var(--a-bg); }
+.app-topbar {
+  background: var(--a-top);
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-brand {
+  font-family: var(--af);
+  font-size: .82rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -.01em;
+}
+.app-user {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .58rem;
+  color: rgba(255,255,255,.4);
+  letter-spacing: .04em;
+}
+.app-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--a-accent);
+  border: 1px solid color-mix(in srgb, var(--a-accent) 40%, transparent);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* Contenu */
+.app-content { padding: 13px; }
+.app-greeting {
+  font-family: var(--af);
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin-bottom: 11px;
+}
+
+/* KPIs */
+.kpi-row   { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 9px; }
+.kpi-row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 9px; }
+
+.kpi {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+.kpi-val {
+  font-family: var(--af);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  line-height: 1;
+}
+.kpi-lg .kpi-val { font-size: 1.1rem; }
+.kpi-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .46rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-top: 3px;
+  line-height: 1.35;
+}
+.kpi-trend     { font-family: 'JetBrains Mono', monospace; font-size: .55rem; margin-top: 2px; color: var(--teal); }
+.kpi-trend.dn  { color: var(--carmine); }
+
+/* Sections */
+.app-row      { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+.app-row.full { grid-template-columns: 1fr; }
+
+.app-section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 10px 11px;
+}
+.app-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .5rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 9px;
+}
+
+/* Graphique */
+.mini-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 48px;
+  padding-bottom: 16px;
+}
+.mbar {
+  flex: 1;
+  background: var(--line);
+  border-radius: 2px 2px 0 0;
+  position: relative;
+}
+.mbar.hi { background: var(--a-accent); }
+.mbar-label {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .44rem;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+/* Alertes */
+.alert-list { display: flex; flex-direction: column; gap: 6px; }
+.alert-item {
+  font-family: Literata, Georgia, serif;
+  font-size: .72rem;
+  color: var(--ink);
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  line-height: 1.4;
+}
+.adot { width: 6px; height: 6px; border-radius: 50%; background: var(--ochre); flex-shrink: 0; margin-top: 4px; }
+.adot.ok  { background: var(--teal); }
+.adot.red { background: var(--carmine); }
+
+/* Activité */
+.activity-list { display: flex; flex-direction: column; gap: 8px; }
+.act-item { display: flex; align-items: flex-start; gap: 8px; }
+.act-av {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--a-top);
+  color: rgba(255,255,255,.8);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .46rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.act-text { font-family: Literata, Georgia, serif; font-size: .72rem; color: var(--ink); line-height: 1.45; }
+.act-text strong { font-weight: 600; }
+.act-time { display: block; font-family: 'JetBrains Mono', monospace; font-size: .48rem; color: var(--ink-2); margin-top: 1px; }
+
+/* ==========================================
+   MOBILE FRAMES
+   ========================================== */
+
+.phone-stage {
+  background: var(--a-stage);
+  padding: 18px 14px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+.phone-stage.single { padding: 20px 20%; }
+
+.phone {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  flex: 1;
+  max-width: 200px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.35);
+}
+.phone-stage.single .phone { max-width: 280px; }
+
+.phone-bar {
+  background: color-mix(in srgb, var(--a-top) 90%, black);
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.phone-bar span { font-family: 'JetBrains Mono', monospace; font-size: .42rem; color: rgba(255,255,255,.45); }
+
+.phone-topbar {
+  background: var(--a-top);
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.phone-topbar-title { font-family: var(--af); font-size: .72rem; font-weight: 700; color: #fff; }
+.phone-topbar-sub   { font-family: 'JetBrains Mono', monospace; font-size: .5rem; color: rgba(255,255,255,.4); }
+
+.phone-body { padding: 9px; background: var(--a-bg); }
+
+/* ── Thermoclim : planning + intervention ── */
+.plan-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .52rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 8px;
+}
+
+.interv-list { display: flex; flex-direction: column; gap: 6px; }
+.interv {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 7px 8px;
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+}
+.interv.active { border-color: var(--a-accent); background: color-mix(in srgb, var(--a-accent) 8%, white); }
+
+.interv-time { font-family: 'JetBrains Mono', monospace; font-size: .52rem; color: var(--ink-2); flex-shrink: 0; padding-top: 1px; }
+.interv-info { flex: 1; }
+.interv-info strong { font-family: var(--af); font-size: .65rem; font-weight: 700; color: var(--ink); display: block; line-height: 1.2; }
+.interv-info span   { font-family: Literata, Georgia, serif; font-size: .62rem; color: var(--ink-2); }
+
+.interv-badge { font-family: 'JetBrains Mono', monospace; font-size: .46rem; letter-spacing: .04em; text-transform: uppercase; padding: 2px 5px; border-radius: 2px; flex-shrink: 0; }
+.interv-badge.on   { background: var(--a-accent); color: #fff; }
+.interv-badge.next { background: var(--line); color: var(--ink-2); }
+
+.client-block { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; margin-bottom: 8px; }
+.client-name { font-family: var(--af); font-size: .72rem; font-weight: 700; color: var(--ink); }
+.client-ref  { font-family: 'JetBrains Mono', monospace; font-size: .48rem; color: var(--ink-2); margin-top: 2px; }
+
+.checklist { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.check-item { font-family: Literata, Georgia, serif; font-size: .68rem; color: var(--ink-2); display: flex; align-items: center; gap: 5px; }
+.check-item.done { color: var(--teal); }
+.check-item.done::before  { content: "✓"; font-weight: 700; }
+.check-item:not(.done)::before { content: "○"; color: var(--line); }
+
+.phone-cta {
+  background: var(--a-accent);
+  color: #fff;
+  font-family: var(--af);
+  font-size: .68rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 7px 10px;
+  border-radius: 5px;
+}
+
+/* ── Cabinet Ledoux : portail client ── */
+.portal-prog { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 10px 11px; margin-bottom: 6px; }
+.prog-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+.prog-label  { font-family: 'JetBrains Mono', monospace; font-size: .5rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.prog-pct    { font-family: var(--af); font-size: .9rem; font-weight: 700; color: var(--ink); }
+.prog-bar    { background: var(--line); border-radius: 3px; height: 6px; overflow: hidden; }
+.prog-fill   { height: 100%; background: var(--a-accent); border-radius: 3px; }
+
+.milestone-block { background: var(--a-top); color: #fff; border-radius: 5px; padding: 9px 11px; margin-bottom: 6px; }
+.milestone-label { font-family: 'JetBrains Mono', monospace; font-size: .48rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); margin-bottom: 3px; }
+.milestone-name  { font-family: var(--af); font-size: .8rem; font-weight: 700; color: #fff; line-height: 1.2; }
+.milestone-date  { font-family: 'JetBrains Mono', monospace; font-size: .5rem; color: var(--a-accent); margin-top: 3px; }
+
+.doc-list { display: flex; flex-direction: column; gap: 0; }
+.doc-item {
+  font-family: Literata, Georgia, serif; font-size: .72rem; color: var(--ink-2);
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 0; border-bottom: 1px solid var(--line);
+}
+.doc-item:last-child { border: none; }
+.doc-item.done    { color: var(--teal); }
+.doc-item.pending { color: var(--ink); font-style: italic; }
+.doc-item.done::before    { content: "✓"; color: var(--teal); font-size: .7rem; flex-shrink: 0; }
+.doc-item.pending::before { content: "→"; color: var(--a-accent); font-size: .7rem; flex-shrink: 0; }
+.doc-item:not(.done):not(.pending)::before { content: "○"; color: var(--line); font-size: .7rem; flex-shrink: 0; }
+
+.msg-preview { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 9px 11px; }
+.msg-preview + .msg-preview { margin-top: 5px; }
+.msg-preview.unread { border-left: 3px solid var(--a-accent); }
+.msg-preview.unread .msg-from::after { content: " ●"; color: var(--a-accent); font-size: .6rem; }
+.msg-from  { font-family: var(--af); font-size: .72rem; font-weight: 700; color: var(--ink); }
+.msg-subj  { font-family: Literata, Georgia, serif; font-size: .7rem; color: var(--ink-2); margin-top: 2px; }
+.msg-meta-time { font-family: 'JetBrains Mono', monospace; font-size: .48rem; color: var(--ink-2); margin-top: 3px; }
+
+/* ── Clearflow : réception IA ── */
+.inbox-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 9px; }
+.istat { background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 8px 10px; text-align: center; }
+.istat-val   { font-family: var(--af); font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+.istat-val.red { color: var(--carmine); }
+.istat-label { font-family: 'JetBrains Mono', monospace; font-size: .46rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); margin-top: 3px; }
+
+.inbox-cats { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 9px; }
+.icat { font-family: 'JetBrains Mono', monospace; font-size: .52rem; letter-spacing: .04em; padding: 3px 8px; border-radius: 3px; display: flex; align-items: center; gap: 4px; }
+.icat span { font-weight: 700; font-size: .6rem; }
+.icat.sales   { background: #E8F4FF; color: #1A5C9E; }
+.icat.support { background: #E2F5EF; color: #0E5C3A; }
+.icat.billing { background: #FFF3E0; color: #8A5200; }
+.icat.urgent  { background: #FBE9ED; color: var(--carmine); }
+.icat.other   { background: var(--bg); color: var(--ink-2); }
+
+.msg-list { display: flex; flex-direction: column; gap: 6px; }
+.msg-row {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  border-left-width: 3px; padding: 8px 10px;
+}
+.msg-row.urgent  { border-left-color: var(--carmine); }
+.msg-row.support { border-left-color: var(--teal); }
+.msg-row.sales   { border-left-color: #1A5C9E; }
+
+.msg-row-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.msg-sender { font-family: var(--af); font-size: .7rem; font-weight: 700; color: var(--ink); }
+.msg-tag    { font-family: 'JetBrains Mono', monospace; font-size: .48rem; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+.msg-subject { font-family: Literata, Georgia, serif; font-size: .7rem; color: var(--ink); margin-bottom: 3px; }
+.msg-ai { font-family: 'JetBrains Mono', monospace; font-size: .48rem; color: var(--ink-2); }
+.msg-ai::before { content: "⬡ "; color: var(--a-accent); }
+
+/* ── Groupe Lacroix : validation mobile ── */
+.approve-greeting { font-family: var(--af); font-size: .78rem; font-weight: 700; color: var(--ink-2); margin-bottom: 3px; }
+.approve-count    { font-family: 'JetBrains Mono', monospace; font-size: .52rem; letter-spacing: .04em; color: var(--ink-2); margin-bottom: 10px; }
+
+.approve-card {
+  background: #fff; border: 1px solid var(--line); border-radius: 7px;
+  padding: 12px; margin-bottom: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.approve-amount { font-family: var(--af); font-size: 1.4rem; font-weight: 700; letter-spacing: -.03em; color: var(--ink); }
+.approve-desc   { font-family: Literata, Georgia, serif; font-size: .8rem; color: var(--ink); margin: 3px 0; }
+.approve-from   { font-family: 'JetBrains Mono', monospace; font-size: .5rem; color: var(--ink-2); margin-bottom: 11px; }
+.approve-btns   { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.btn-reject  { font-family: var(--af); font-size: .68rem; font-weight: 600; padding: 7px; border-radius: 5px; border: 1.5px solid var(--line); background: #fff; color: var(--ink-2); cursor: default; }
+.btn-approve { font-family: var(--af); font-size: .68rem; font-weight: 700; padding: 7px; border-radius: 5px; border: none; background: var(--a-top); color: #fff; cursor: default; }
+
+.approve-last { font-family: 'JetBrains Mono', monospace; font-size: .5rem; color: var(--teal); letter-spacing: .02em; line-height: 1.4; }
+
+.approve-summary {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 10px;
+}
+.approve-stat {
+  flex: 1;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 7px 9px;
+  text-align: center;
+}
+.approve-stat-val   { font-family: var(--af); font-size: .9rem; font-weight: 700; color: var(--ink); }
+.approve-stat-label { font-family: 'JetBrains Mono', monospace; font-size: .44rem; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-2); margin-top: 2px; }
+
+.approve-mini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 7px 9px;
+  margin-bottom: 5px;
+}
+.approve-mini-desc  { font-family: var(--af); font-size: .65rem; font-weight: 600; color: var(--ink); }
+.approve-mini-from  { font-family: 'JetBrains Mono', monospace; font-size: .46rem; color: var(--ink-2); margin-top: 2px; }
+.approve-mini-amt   { font-family: var(--af); font-size: .72rem; font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+.approve-history-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .48rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  margin: 10px 0 6px;
+}
+.approve-history-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .5rem;
+  color: var(--teal);
+  letter-spacing: .02em;
+  line-height: 1.6;
+}
+
+/* ── Cabinet Ledoux : timeline procédure ── */
+.stages {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  padding: 11px 12px; margin-bottom: 6px;
+}
+.stages-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .5rem; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-2); margin-bottom: 10px;
+}
+.stage {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding-bottom: 9px; position: relative;
+}
+.stage:last-child { padding-bottom: 0; }
+.stage:not(:last-child)::after {
+  content: ""; position: absolute; left: 5px; top: 14px; bottom: 0;
+  width: 2px; background: var(--line);
+}
+.stage.done:not(:last-child)::after { background: var(--a-accent); }
+.stage-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--line); background: #fff;
+  flex-shrink: 0; margin-top: 2px; z-index: 1;
+}
+.stage.done .stage-dot { background: var(--a-accent); border-color: var(--a-accent); }
+.stage.now .stage-dot {
+  border-color: var(--a-accent); background: #fff;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--a-accent) 22%, transparent);
+}
+.stage-body { flex: 1; padding-bottom: 0; }
+.stage-name {
+  font-family: var(--af); font-size: .72rem; font-weight: 600;
+  color: var(--ink); line-height: 1.3;
+}
+.stage.done .stage-name { color: var(--ink-2); font-weight: 500; }
+.stage.now .stage-name { color: var(--ink); font-weight: 700; }
+.stage-date {
+  font-family: 'JetBrains Mono', monospace; font-size: .48rem;
+  color: var(--ink-2); margin-top: 2px; letter-spacing: .04em;
+}
+.stage.now .stage-date { color: var(--a-accent); }
+
+/* ── Thermoclim : pièces jointes ── */
+.interv-attach {
+  display: flex; gap: 5px; margin: 8px 0;
+  flex-wrap: wrap;
+}
+.attach-chip {
+  background: #fff; border: 1px solid var(--line); border-radius: 3px;
+  padding: 3px 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: .48rem;
+  color: var(--ink-2); letter-spacing: .04em;
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.phone-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .5rem; letter-spacing: .06em;
+  color: var(--ink-2); text-align: center;
+  margin-bottom: 6px;
+}
+.phone-cta.disabled {
+  background: var(--line); color: var(--ink-2);
+  border: 1px dashed color-mix(in srgb, var(--ink-2) 40%, transparent);
+}
+.phone-cta.next {
+  background: var(--a-top); color: #fff;
+}
+
+/* ── Clearflow : états IA ── */
+.msg-state {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .46rem; letter-spacing: .06em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 2px; margin-top: 5px;
+}
+.msg-state.pending {
+  color: var(--a-accent);
+  border: 1px solid color-mix(in srgb, var(--a-accent) 40%, transparent);
+}
+.msg-state.auto {
+  background: color-mix(in srgb, var(--teal) 12%, white);
+  color: var(--teal);
+}
+.msg-state.review {
+  color: #8A5200;
+  border: 1px solid color-mix(in srgb, #8A5200 30%, transparent);
+}
+
+/* ── Groupe Lacroix : vue liste + détail ── */
+.approve-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; background: #fff; border: 1px solid var(--line);
+  border-radius: 5px; padding: 8px 10px; margin-bottom: 5px;
+}
+.approve-item.active { border-color: var(--a-accent); background: color-mix(in srgb, var(--a-accent) 6%, white); }
+.approve-item-desc { font-family: var(--af); font-size: .67rem; font-weight: 600; color: var(--ink); line-height: 1.25; }
+.approve-item-from { font-family: 'JetBrains Mono', monospace; font-size: .46rem; color: var(--ink-2); margin-top: 2px; letter-spacing: .02em; }
+.approve-item-amt  { font-family: var(--af); font-size: .78rem; font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+.detail-hdr {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  padding: 10px 11px; margin-bottom: 6px;
+}
+.detail-amount { font-family: var(--af); font-size: 1.25rem; font-weight: 700; letter-spacing: -.02em; color: var(--ink); line-height: 1; }
+.detail-desc   { font-family: var(--af); font-size: .7rem; font-weight: 600; color: var(--ink); margin-top: 5px; }
+.detail-from   { font-family: 'JetBrains Mono', monospace; font-size: .48rem; color: var(--ink-2); margin-top: 3px; }
+
+.detail-block {
+  background: #fff; border: 1px solid var(--line); border-radius: 5px;
+  padding: 8px 10px; margin-bottom: 5px;
+}
+.detail-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .46rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-2); margin-bottom: 5px;
+}
+.detail-just  { font-family: Literata, Georgia, serif; font-size: .64rem; color: var(--ink); line-height: 1.45; }
+.detail-budget-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+.detail-budget-val { font-family: var(--af); font-size: .62rem; font-weight: 600; color: var(--ink); }
+.detail-budget-cap { font-family: 'JetBrains Mono', monospace; font-size: .46rem; color: var(--ink-2); }
+.detail-budget-bar { background: var(--line); border-radius: 2px; height: 4px; overflow: hidden; }
+.detail-budget-fill { height: 100%; background: var(--a-accent); border-radius: 2px; }
+
+.detail-doc {
+  font-family: 'JetBrains Mono', monospace; font-size: .5rem;
+  color: var(--ink-2); padding: 2px 0;
+  display: flex; align-items: center; gap: 5px;
+}
+.detail-doc::before { content: "◧"; color: var(--a-accent); font-size: .55rem; }
+
+.detail-chain { display: flex; flex-direction: column; gap: 3px; }
+.detail-chain-item {
+  font-family: 'JetBrains Mono', monospace; font-size: .5rem;
+  color: var(--ink-2); letter-spacing: .02em;
+}
+.detail-chain-item.done { color: var(--teal); }
+.detail-chain-item.done::before { content: "✓ "; }
+.detail-chain-item.now  { color: var(--ink); font-weight: 700; }
+.detail-chain-item.now::before  { content: "▸ "; color: var(--a-accent); }
+
+.detail-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 4px; }
+
+/* ── Méridian : légende agences ── */
+.agency-legend {
+  display: flex; flex-wrap: wrap; gap: 4px 10px;
+  margin-top: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: .48rem;
+  color: var(--ink-2);
+}
+.agency-legend span::before {
+  content: ""; display: inline-block; width: 7px; height: 7px;
+  background: var(--a-accent); border-radius: 1px;
+  margin-right: 4px; vertical-align: middle;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  background: var(--deep);
+  color: #9F94AE;
+  padding: 2.4rem var(--pad);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .05em;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Navigation principale">
+  <div class="topnav-inner">
+    <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+    <div class="topnav-links">
+      <a href="metier.html">Le métier</a>
+      <a href="sites.html">Sites web</a>
+      <a href="apps.html" class="active">Applications</a>
+      <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+      <a href="creatif.html">Direction créative</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="shell">
+    <span class="eyebrow">Applications</span>
+    <h1>Quand le tableur<br>ne suffit plus.</h1>
+    <p>Un fichier Excel partagé par dix personnes, des données dans trois endroits différents, un reporting qui se fait à la main chaque lundi : ce type de friction a une solution concrète, livrable en quelques semaines.</p>
+  </div>
+  <img src="appli.png" class="hero-watermark" aria-hidden="true">
+</header>
+
+<main>
+  <div class="work-section">
+    <div class="shell">
+      <div class="work">
+
+        <!-- ══════════════════════════════════════
+             1 · Groupe Céleste
+             Hub opérationnel · violet + carmine
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app">
+            <div class="app-chrome">
+              <div class="chrome-dots"><span></span><span></span><span></span></div>
+              <div class="chrome-url">app.groupeceleste.fr/dashboard</div>
+            </div>
+            <div class="app-body">
+              <div class="app-topbar">
+                <span class="app-brand">Groupe Céleste</span>
+                <span class="app-user">Thomas Mercier</span>
+              </div>
+              <div class="app-content">
+                <div class="app-greeting">Bonjour, Thomas</div>
+                <div class="kpi-row">
+                  <div class="kpi"><div class="kpi-val">284 320 €</div><div class="kpi-label">Chiffre ce mois</div><div class="kpi-trend">↑ 12 %</div></div>
+                  <div class="kpi"><div class="kpi-val">7</div><div class="kpi-label">Événements cette semaine</div></div>
+                  <div class="kpi"><div class="kpi-val">162</div><div class="kpi-label">Couverts moyens / event</div></div>
+                  <div class="kpi"><div class="kpi-val">4</div><div class="kpi-label">Commandes en attente</div></div>
+                </div>
+                <div class="app-row">
+                  <div class="app-section">
+                    <div class="app-section-title">CA · 6 derniers mois</div>
+                    <div class="mini-chart">
+                      <div class="mbar" style="height:52%"><span class="mbar-label">Avr</span></div>
+                      <div class="mbar" style="height:61%"><span class="mbar-label">Mai</span></div>
+                      <div class="mbar" style="height:48%"><span class="mbar-label">Juin</span></div>
+                      <div class="mbar" style="height:74%"><span class="mbar-label">Juil</span></div>
+                      <div class="mbar" style="height:67%"><span class="mbar-label">Août</span></div>
+                      <div class="mbar hi" style="height:88%"><span class="mbar-label">Sep</span></div>
+                    </div>
+                  </div>
+                  <div class="app-section">
+                    <div class="app-section-title">Prochains événements</div>
+                    <div class="alert-list">
+                      <div class="alert-item"><span class="adot red"></span><span>Sam. 12 oct · <strong>Gala INRAE</strong> · 320 couverts · Palais Brongniart</span></div>
+                      <div class="alert-item"><span class="adot"></span><span>Dim. 13 oct · <strong>Mariage Fontaine</strong> · 180 couverts · Domaine de Chantilly</span></div>
+                      <div class="alert-item"><span class="adot ok"></span><span>Ven. 18 oct · <strong>Séminaire Altair</strong> · 60 couverts · Hôtel Rothschild</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="app-row full">
+                  <div class="app-section">
+                    <div class="app-section-title">Activité récente</div>
+                    <div class="activity-list">
+                      <div class="act-item"><div class="act-av">CM</div><div class="act-text"><strong>Camille Moureau</strong> a validé la commande Rungis n° 2024-0483<span class="act-time">Il y a 2 h</span></div></div>
+                      <div class="act-item"><div class="act-av">PL</div><div class="act-text"><strong>Pierre Lacombe</strong> a mis à jour le devis Séminaire Altair<span class="act-time">Il y a 3 h</span></div></div>
+                      <div class="act-item"><div class="act-av">SR</div><div class="act-text"><strong>Sophie Renard</strong> a affecté l'équipe pour le Gala INRAE<span class="act-time">Hier, 17 h 32</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Web app · Dashboard · Traiteur &amp; Événementiel</span>
+          <h2>Groupe Céleste · Hub opérationnel</h2>
+          <p class="sub">Une PME de 48 personnes qui gérait ses événements entre WhatsApp, trois fichiers Excel et des emails. Trois semaines d'ateliers avec les métiers concernés — salle, logistique, direction — pour cartographier les flux réels et modéliser les rôles avant la moindre ligne de code. Résultat : un seul outil qui centralise planning, équipes terrain, commandes fournisseurs et suivi du chiffre d'affaires en temps réel. Automatisation des relances fournisseurs via n8n.</p>
+        </article>
+
+        <!-- ══════════════════════════════════════
+             2 · Thermoclim Services
+             App terrain · navy + orange
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app tc">
+            <div class="phone-stage">
+              <div class="phone">
+                <div class="phone-bar"><span>09:42</span><span>▲▲▲</span></div>
+                <div class="phone-topbar">
+                  <span class="phone-topbar-title">Thermoclim</span>
+                  <span class="phone-topbar-sub">T. Reboul</span>
+                </div>
+                <div class="phone-body">
+                  <div class="plan-date">Lundi 7 octobre</div>
+                  <div class="interv-list">
+                    <div class="interv active">
+                      <div class="interv-time">09:00</div>
+                      <div class="interv-info"><strong>Résidence Les Pins · Apt. 4B</strong><span>Entretien chaudière</span></div>
+                      <div class="interv-badge on">En cours</div>
+                    </div>
+                    <div class="interv">
+                      <div class="interv-time">11:30</div>
+                      <div class="interv-info"><strong>Clinique Saint-Marc</strong><span>Maintenance PAC</span></div>
+                      <div class="interv-badge next">À venir</div>
+                    </div>
+                    <div class="interv">
+                      <div class="interv-time">14:00</div>
+                      <div class="interv-info"><strong>Lycée Monnet · Bât. C</strong><span>Diagnostic clim</span></div>
+                      <div class="interv-badge next">À venir</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="phone">
+                <div class="phone-bar"><span>09:42</span><span>▲▲▲</span></div>
+                <div class="phone-topbar">
+                  <span class="phone-topbar-title">← Intervention</span>
+                </div>
+                <div class="phone-body">
+                  <div class="client-block">
+                    <div class="client-name">Résidence Les Pins</div>
+                    <div class="client-ref">Contrat n° TCL-2024-0312</div>
+                  </div>
+                  <div class="checklist">
+                    <div class="check-item done">Arrivée confirmée · 09:04</div>
+                    <div class="check-item done">Vérification brûleur</div>
+                    <div class="check-item done">Remplacement filtre</div>
+                    <div class="check-item">Test pression circuit</div>
+                    <div class="check-item">Rapport &amp; signature client</div>
+                  </div>
+                  <div class="interv-attach">
+                    <span class="attach-chip">◧ 4 photos</span>
+                    <span class="attach-chip">✎ note technique</span>
+                  </div>
+                  <div class="phone-progress">Étape 4 / 5 · Test pression</div>
+                  <div class="phone-cta next">Continuer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Application mobile · Terrain · Maintenance CVC</span>
+          <h2>Thermoclim Services · App techniciens</h2>
+          <p class="sub">Les techniciens partaient chaque matin avec un planning imprimé et rentraient avec des fiches papier à ressaisir. Deux journées d'immersion sur le terrain pour comprendre les vraies contraintes — gants, extérieur, connexion aléatoire — ont dicté chaque choix d'interface. L'app remplace le tout : planning quotidien, checklist d'intervention, photos, rapport signé sur place. Le bureau reçoit les comptes-rendus en temps réel, sans appel ni ressaisie. Intégration directe avec le logiciel de facturation, formation des équipes incluse.</p>
+        </article>
+
+        <!-- ══════════════════════════════════════
+             3 · Cabinet Ledoux
+             Portail client · bleu marine + or
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app ld">
+            <div class="app-chrome">
+              <div class="chrome-dots"><span></span><span></span><span></span></div>
+              <div class="chrome-url">espace.cabinet-ledoux.fr/dossier/2024-0847</div>
+            </div>
+            <div class="app-body">
+              <div class="app-topbar">
+                <span class="app-brand">Cabinet Ledoux &amp; Associés</span>
+                <span class="app-user">Sarah Ortiz</span>
+              </div>
+              <div class="app-content">
+                <div class="app-greeting">Bonjour, Sarah</div>
+                <div class="stages">
+                  <div class="stages-title">Étapes de la procédure</div>
+                  <div class="stage done">
+                    <div class="stage-dot"></div>
+                    <div class="stage-body">
+                      <div class="stage-name">Dépôt du dossier</div>
+                      <div class="stage-date">3 juin 2024</div>
+                    </div>
+                  </div>
+                  <div class="stage done">
+                    <div class="stage-dot"></div>
+                    <div class="stage-body">
+                      <div class="stage-name">Tentative de conciliation</div>
+                      <div class="stage-date">18 juillet 2024, échec</div>
+                    </div>
+                  </div>
+                  <div class="stage now">
+                    <div class="stage-dot"></div>
+                    <div class="stage-body">
+                      <div class="stage-name">Audience au Conseil de Prud'hommes</div>
+                      <div class="stage-date">14 novembre 2024, à venir</div>
+                    </div>
+                  </div>
+                  <div class="stage">
+                    <div class="stage-dot"></div>
+                    <div class="stage-body">
+                      <div class="stage-name">Jugement</div>
+                      <div class="stage-date">Délibéré sous 4 à 6 semaines</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="app-row">
+                  <div class="app-section">
+                    <div class="app-section-title">Documents à fournir</div>
+                    <div class="doc-list">
+                      <div class="doc-item done">Contrat de travail</div>
+                      <div class="doc-item done">Bulletins de paie (12 mois)</div>
+                      <div class="doc-item pending">Attestation employeur</div>
+                      <div class="doc-item">Courriers échangés avec RH</div>
+                    </div>
+                  </div>
+                  <div class="app-section">
+                    <div class="app-section-title">Messages</div>
+                    <div class="msg-preview unread">
+                      <div class="msg-from">Me Ledoux</div>
+                      <div class="msg-subj">Pièces complémentaires bien reçues</div>
+                      <div class="msg-meta-time">Hier, 16 h 48</div>
+                    </div>
+                    <div class="msg-preview">
+                      <div class="msg-from">Me Castillo</div>
+                      <div class="msg-subj">Confirmation de la date d'audience</div>
+                      <div class="msg-meta-time">Il y a 3 j</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Portail client · Web app · Cabinet juridique</span>
+          <h2>Cabinet Ledoux &amp; Associés · Espace client</h2>
+          <p class="sub">Les clients du cabinet recevaient des mises à jour par email, demandaient des nouvelles par téléphone et ne savaient jamais vraiment où en était leur dossier. Cadrage démarré avec le DPO du cabinet pour modéliser dossier par dossier les droits d'accès avant tout développement. L'espace client centralise ensuite l'avancement, les documents, les échéances et les échanges avec les avocats. Accès sécurisé par lien personnalisé, sans création de compte. Données hébergées en France, conformité RGPD by design.</p>
+        </article>
+
+        <!-- ══════════════════════════════════════
+             4 · Clearflow
+             Réception IA · indigo + teal électrique
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app cf">
+            <div class="app-chrome">
+              <div class="chrome-dots"><span></span><span></span><span></span></div>
+              <div class="chrome-url">inbox.clearflow.io/today</div>
+            </div>
+            <div class="app-body">
+              <div class="app-topbar">
+                <span class="app-brand">Clearflow · Réception</span>
+                <span class="app-badge">IA active</span>
+              </div>
+              <div class="app-content">
+                <div class="inbox-stats">
+                  <div class="istat"><div class="istat-val">47</div><div class="istat-label">Messages traités</div></div>
+                  <div class="istat"><div class="istat-val">8</div><div class="istat-label">Actions créées</div></div>
+                  <div class="istat"><div class="istat-val red">3</div><div class="istat-label">Urgents</div></div>
+                </div>
+                <div class="inbox-cats">
+                  <div class="icat sales">Ventes <span>12</span></div>
+                  <div class="icat support">Support <span>18</span></div>
+                  <div class="icat billing">Facturation <span>8</span></div>
+                  <div class="icat urgent">Urgent <span>3</span></div>
+                  <div class="icat other">Autre <span>6</span></div>
+                </div>
+                <div class="msg-list">
+                  <div class="msg-row urgent">
+                    <div class="msg-row-meta"><span class="msg-sender">Béatrice Aumont</span><span class="msg-tag">Urgent</span></div>
+                    <div class="msg-subject">Problème de facturation, blocage comptable</div>
+                    <div class="msg-ai">Escalade proposée vers L. Fournier</div>
+                    <span class="msg-state pending">à valider</span>
+                  </div>
+                  <div class="msg-row support">
+                    <div class="msg-row-meta"><span class="msg-sender">Fabrice Monceau</span><span class="msg-tag">Support</span></div>
+                    <div class="msg-subject">Accès impossible depuis ce matin</div>
+                    <div class="msg-ai">Réponse type envoyée · reset mot de passe</div>
+                    <span class="msg-state auto">auto · niveau 1</span>
+                  </div>
+                  <div class="msg-row sales">
+                    <div class="msg-row-meta"><span class="msg-sender">Sophie Chen · Groupe Heliox</span><span class="msg-tag">Ventes</span></div>
+                    <div class="msg-subject">Demande de devis · 12 licences</div>
+                    <div class="msg-ai">Brouillon rédigé pour J. Marchal</div>
+                    <span class="msg-state review">brouillon à relire</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Web app · IA · Automatisation · SaaS</span>
+          <h2>Clearflow · Réception intelligente</h2>
+          <p class="sub">L'équipe support traitait 40 à 60 messages par jour venant de l'email, du formulaire web et de Slack, sans priorité claire et sans assignation automatique. Analyse préalable de six mois d'historique et deux ateliers avec l'équipe pour définir les catégories, les seuils de confiance de l'IA et les cas où un humain doit rester dans la boucle. L'IA lit, classe et priorise ensuite chaque message dès qu'il arrive : urgents remontés immédiatement, réponses simples traitées automatiquement, demandes commerciales transmises au bon interlocuteur. Construit avec n8n et Claude API.</p>
+        </article>
+
+        <!-- ══════════════════════════════════════
+             5 · Groupe Lacroix
+             Validation mobile · vert forêt
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app gl">
+            <div class="phone-stage">
+              <div class="phone">
+                <div class="phone-bar"><span>14:23</span><span>▲▲▲</span></div>
+                <div class="phone-topbar">
+                  <span class="phone-topbar-title">Valider</span>
+                  <span style="background:var(--a-accent);color:#fff;padding:1px 7px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.46rem;font-weight:700;">3</span>
+                </div>
+                <div class="phone-body">
+                  <div class="approve-greeting">Bonjour, Laurent</div>
+                  <div class="approve-count">3 validations · 12 460 €</div>
+
+                  <div class="approve-item active">
+                    <div>
+                      <div class="approve-item-desc">Campagne Google Ads · Q4</div>
+                      <div class="approve-item-from">Marie Dupont · Marketing</div>
+                    </div>
+                    <div class="approve-item-amt">4 280 €</div>
+                  </div>
+                  <div class="approve-item">
+                    <div>
+                      <div class="approve-item-desc">Salesforce · abonnement</div>
+                      <div class="approve-item-from">Karine Morel · IT</div>
+                    </div>
+                    <div class="approve-item-amt">6 840 €</div>
+                  </div>
+                  <div class="approve-item">
+                    <div>
+                      <div class="approve-item-desc">Formation Excel · 4 pers.</div>
+                      <div class="approve-item-from">David Sancery · RH</div>
+                    </div>
+                    <div class="approve-item-amt">1 340 €</div>
+                  </div>
+
+                  <div class="approve-history-title">Validées cette semaine</div>
+                  <div class="approve-history-item">✓ Commande fournisseur · 1 840 €</div>
+                  <div class="approve-history-item">✓ Supports salon Batimat · 920 €</div>
+                </div>
+              </div>
+              <div class="phone">
+                <div class="phone-bar"><span>14:23</span><span>▲▲▲</span></div>
+                <div class="phone-topbar">
+                  <span class="phone-topbar-title">← Demande</span>
+                  <span class="phone-topbar-sub">#DA-1287</span>
+                </div>
+                <div class="phone-body">
+                  <div class="detail-hdr">
+                    <div class="detail-amount">4 280 €</div>
+                    <div class="detail-desc">Campagne Google Ads · Q4 2024</div>
+                    <div class="detail-from">Marie Dupont · Marketing · 6 oct</div>
+                  </div>
+
+                  <div class="detail-block">
+                    <div class="detail-label">Justification</div>
+                    <div class="detail-just">Reprise des campagnes sur la gamme pro. Objectif : 180 leads qualifiés d'ici décembre.</div>
+                  </div>
+
+                  <div class="detail-block">
+                    <div class="detail-label">Enveloppe Marketing Q4</div>
+                    <div class="detail-budget-row">
+                      <span class="detail-budget-val">18 200 € engagés</span>
+                      <span class="detail-budget-cap">/ 24 000 €</span>
+                    </div>
+                    <div class="detail-budget-bar"><div class="detail-budget-fill" style="width:76%"></div></div>
+                  </div>
+
+                  <div class="detail-block">
+                    <div class="detail-label">Pièces jointes</div>
+                    <div class="detail-doc">devis-google-ads-oct.pdf</div>
+                    <div class="detail-doc">plan-media-q4.xlsx</div>
+                  </div>
+
+                  <div class="detail-block">
+                    <div class="detail-label">Circuit de validation</div>
+                    <div class="detail-chain">
+                      <div class="detail-chain-item done">Sophie Bertin · Finance</div>
+                      <div class="detail-chain-item now">Vous · Direction</div>
+                    </div>
+                  </div>
+
+                  <div class="detail-btns">
+                    <button class="btn-reject">Refuser</button>
+                    <button class="btn-approve">Approuver</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Application mobile · Validation · Distribution</span>
+          <h2>Groupe Lacroix · Validation des dépenses</h2>
+          <p class="sub">Les responsables recevaient des demandes de validation par email, répondaient parfois trois jours plus tard, et personne n'avait de vue globale sur les dépenses en cours. Cartographie préalable des circuits d'approbation par montant et par département, avec la direction financière et les valideurs opérationnels, pour identifier exactement quelle information manque au moment de décider. Chaque demande arrive maintenant avec le contexte suffisant pour trancher : justification, budget restant, pièces jointes, circuit de validation. Approuvable en 30 secondes depuis mobile, historique complet et rappels automatiques.</p>
+        </article>
+
+        <!-- ══════════════════════════════════════
+             6 · Méridian Immobilier
+             Vue dirigeant · brun chaud + sauge
+        ══════════════════════════════════════ -->
+        <article class="project">
+          <div class="thumb-app mr">
+            <div class="app-chrome">
+              <div class="chrome-dots"><span></span><span></span><span></span></div>
+              <div class="chrome-url">pilotage.meridian-immo.fr</div>
+            </div>
+            <div class="app-body">
+              <div class="app-topbar">
+                <span class="app-brand">Méridian Immobilier</span>
+                <span class="app-user">Nathalie Véron</span>
+              </div>
+              <div class="app-content">
+                <div class="app-greeting">Octobre 2024 · Vue réseau, 4 agences</div>
+                <div class="kpi-row-3">
+                  <div class="kpi kpi-lg"><div class="kpi-val">1 284 200 €</div><div class="kpi-label">CA ce trimestre</div><div class="kpi-trend">↑ 18 % vs T3</div></div>
+                  <div class="kpi kpi-lg"><div class="kpi-val">47</div><div class="kpi-label">Mandats actifs</div><div class="kpi-trend dn">↓ 3 vs mois der.</div></div>
+                  <div class="kpi kpi-lg"><div class="kpi-val">62 j</div><div class="kpi-label">Délai moyen vente</div><div class="kpi-trend">↓ 8 j vs T3</div></div>
+                </div>
+                <div class="app-row">
+                  <div class="app-section">
+                    <div class="app-section-title">Compromis signés · par agence</div>
+                    <div class="mini-chart">
+                      <div class="mbar hi" style="height:92%"><span class="mbar-label">Aix</span></div>
+                      <div class="mbar" style="height:78%"><span class="mbar-label">Marseille</span></div>
+                      <div class="mbar" style="height:62%"><span class="mbar-label">Nice</span></div>
+                      <div class="mbar" style="height:38%"><span class="mbar-label">Lyon Sud</span></div>
+                    </div>
+                    <div class="agency-legend"><span>T4 · réseau consolidé</span></div>
+                  </div>
+                  <div class="app-section">
+                    <div class="app-section-title">Points de vigilance</div>
+                    <div class="alert-list">
+                      <div class="alert-item"><span class="adot red"></span><span>Lyon Sud · taux de transformation en baisse</span></div>
+                      <div class="alert-item"><span class="adot"></span><span>Nice · 4 mandats sans visite depuis 30 j</span></div>
+                      <div class="alert-item"><span class="adot ok"></span><span>Aix &amp; Marseille · objectif T4 atteignable</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="app-row full">
+                  <div class="app-section">
+                    <div class="app-section-title">Activité récente</div>
+                    <div class="activity-list">
+                      <div class="act-item"><div class="act-av">JB</div><div class="act-text"><strong>Jean-Baptiste Arnaud</strong> · Aix · a signé le compromis Villa des Cèdres<span class="act-time">Il y a 1 h</span></div></div>
+                      <div class="act-item"><div class="act-av">MC</div><div class="act-text"><strong>Marie Cormier</strong> · Marseille · a ajouté un mandat T4 rue Paradis, 485 000 €<span class="act-time">Ce matin, 9 h 14</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="tag">Dashboard · Vue dirigeant · Immobilier</span>
+          <h2>Méridian Immobilier · Pilotage réseau</h2>
+          <p class="sub">La directrice consolidait ses indicateurs chaque lundi matin à partir de trois logiciels différents et d'un tableau Excel, pour quatre agences. Recueil des besoins mené en parallèle avec la directrice et les quatre responsables d'agence pour définir les indicateurs pertinents à chaque niveau — un dashboard national ne pilote pas comme une vue agence. Accompagnement des équipes sur les deux premières semaines pour lâcher les vieux fichiers Excel. Chiffre d'affaires, mandats, délais de vente et alertes sont calculés en temps réel, agrégés au niveau réseau et détaillés par agence, avec une vue filtrée par responsable.</p>
+        </article>
+
+      </div><!-- /work -->
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="shell">
+    <p>Product Builder · applications</p>
+  </div>
+</footer>
+
+</body>
+</html>

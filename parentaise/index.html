@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="(parent)aise — Douze suites scandinaves premium en Normandie sur 50 hectares préservés. Une parenthèse nature pour les parents qui ont besoin de souffler.">
+<meta property="og:title" content="(parent)aise Normandie">
+<meta property="og:description" content="Douze suites premium au cœur du vivant. Déconnexion réelle, confort nordique, engagements éco-responsables prouvés.">
+<meta property="og:image" content="./img/hero-photo.webp">
+<meta property="og:type" content="website">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,wght@0,600;1,500;1,600&display=swap" rel="stylesheet">
+<!-- Leaflet : librairie de carte gratuite/open source (OpenStreetMap), utilisée pour tracer l'itinéraire réel -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    color:#16251B;font-family:'Outfit',sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;
+    background-color:#B5C4A0;
+  }
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;padding:15px 30px;border-radius:4px;background:#1E5A32;color:#fff;font-weight:600;font-size:0.92rem;transition:transform .25s ease,box-shadow .25s ease;border:none;cursor:pointer;font-family:inherit;}
+  .btn-primary:hover{background:#123D22;}
+  .btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:4px;background:transparent;color:#2F7A3A;border:2px solid #2F7A3A;font-weight:700;font-size:0.9rem;transition:background .25s ease,transform .25s ease;cursor:pointer;font-family:inherit;}
+  .btn-secondary:hover{background:#F1F8EC;transform:translateY(-2px);}
+  .btn-secondary-dark{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:4px;background:rgba(255,255,255,0.08);color:#EAF6E4;border:1.5px solid rgba(255,255,255,0.35);font-weight:600;font-size:0.92rem;transition:background .25s ease,transform .25s ease;cursor:pointer;font-family:inherit;backdrop-filter:blur(8px);}
+  .btn-secondary-dark:hover{background:rgba(255,255,255,0.15);transform:translateY(-2px);}
+  .btn-tertiary{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:4px;background:#E8F0E4;color:#1E5A32;border:none;font-weight:600;font-size:0.88rem;transition:background .25s ease;cursor:pointer;font-family:inherit;}
+  .btn-tertiary:hover{background:#D3E8CA;}
+  :focus-visible{outline:2px solid #2F7A3A;outline-offset:3px;border-radius:4px;}
+  input,select{font-family:inherit;}
+  a{color:#2F7A3A;text-decoration:none;}
+  a:hover{color:#2F7A3A;}
+  ul{list-style:none;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes marqueeUp{from{transform:translateY(0)}to{transform:translateY(calc(-50% - 10px))}}
+  /* Apparition au scroll */
+  .reveal{opacity:1;transform:none;}
+  .reveal.in{opacity:1;transform:none;}
+  
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}.reveal{opacity:1!important;transform:none!important;}}
+  /* Survol des cartes : léger soulèvement + zoom photo */
+  .lift{transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease;}
+  .lift:hover{transform:translateY(-8px);}
+  .zoomimg{transition:transform .6s cubic-bezier(.16,1,.3,1);}
+  .zoomwrap:hover .zoomimg{transform:scale(1.06);}
+  #photoCarouselTrack::-webkit-scrollbar{display:none;}
+  .zoomwrap:hover .carousel-zoom-badge{opacity:1;}
+  #photoCarouselTrack:active{cursor:grabbing;}
+  /* Grille des 4 réponses du quiz : toujours 2x2, jamais 3+1. Liste verticale seulement en dessous de 560px. */
+  .quiz-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:560px){.quiz-options-grid{grid-template-columns:1fr;}}
+  .review-column{animation:marqueeUp linear infinite;will-change:transform;transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+  /* Flip card : recto photo pleine, verso info détaillée. La rotation 3D se déclenche au survol. */
+  .flip-card{position:relative;perspective:1600px;cursor:pointer;aspect-ratio:3/4;}
+  .flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d;border-radius:38px;}
+  .flip-card:hover .flip-inner{transform:rotateY(180deg);}
+  .flip-face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:38px;overflow:hidden;}
+  .flip-back{transform:rotateY(180deg);}
+  @media (hover:none){.flip-card:hover .flip-inner{transform:none;}.flip-card.flipped .flip-inner{transform:rotateY(180deg);}}
+.brand-wordmark{font-family:'Fraunces',serif;font-style:italic;font-weight:600;color:#14301F;font-size:1.15rem;cursor:pointer;transition:opacity .2s ease;white-space:nowrap;user-select:none;}
+.brand-wordmark:hover{opacity:.65;}
+
+/* ============ VÉGÉTATION AU SCROLL ============
+   Branches organiques discrètes placées dans les espaces négatifs entre
+   certaines sections. Chaque .veg-zone ne prend aucune place dans le
+   flux (height:0) : le SVG se dessine en position absolue par-dessus
+   l'espace existant, avec un léger débordement volontaire sur les
+   sections voisines. Le tracé (stroke-dashoffset) et les feuilles
+   (opacity/scale) sont pilotés en JS selon la position de scroll. */
+.veg-zone{position:relative;height:0;overflow:visible;pointer-events:none;z-index:4;}
+.veg-zone svg{position:absolute;left:0;width:100%;height:auto;display:block;overflow:visible;}
+.veg-branch{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.veg-leaf{opacity:0;}
+.veg-leaf-scale{transform-origin:center;transform-box:fill-box;}
+@media(max-width:900px){
+  .veg-zone{display:none;}
+}
+@media(prefers-reduced-motion:reduce){
+  .veg-branch{stroke-dashoffset:0!important;}
+  .veg-leaf{opacity:1!important;}
+  .veg-leaf-scale{transform:none!important;}
+}
+@media(max-width:768px){
+  /* Header 2 lignes */
+  header{padding:0 8px!important;top:8px!important;}
+  header>div{flex-wrap:wrap!important;gap:0!important;padding:8px 10px!important;align-items:center!important;}
+  /* Ligne 1 : badge caché, logo à gauche */
+  .header-eco{display:none!important;}
+  .header-logo{order:1;flex:0 0 auto!important;justify-content:flex-start!important;min-width:0!important;}
+  .brand-wordmark{height:32px!important;width:auto!important;}
+  /* Ligne 2 : nav centré */
+  nav{order:2;flex:0 0 100%!important;justify-content:center!important;gap:16px!important;font-size:0.82rem!important;padding-top:8px!important;margin-top:6px!important;border-top:1px solid rgba(49,70,58,0.12);}
+  nav a{white-space:nowrap;}
+  /* Bouton caché */
+  header .btn-primary{display:none!important;}
+  /* Badge Normandie : caché sur mobile */
+  .hero-badge{display:none!important;}
+  /* Hero */
+  section[style*="margin-top:-84px"] div[style*="height:92vh"]{height:60vh!important;min-height:380px!important;}
+  /* Texte hero : espace sous le menu sticky */
+  section[style*="margin-top:-84px"] div[style*="padding:0 28px"]{padding-top:70px!important;padding-left:18px!important;padding-right:18px!important;padding-bottom:60px!important;}
+  /* Texte "Douze suites premium" */
+  section[style*="margin-top:-84px"] p{font-size:0.88rem!important;max-width:90vw!important;}
+  /* Titre tronqué */
+  h2{white-space:normal!important;word-break:break-word!important;font-size:clamp(1.6rem,6vw,2.5rem)!important;}
+  /* Hero texte : fond arrondi pour lisibilité */
+  .hero-content{padding:0!important;justify-content:center!important;}
+  .hero-content h1{
+    background:rgba(8,28,16,0.52);
+    backdrop-filter:blur(4px);
+    border-radius:18px;
+    padding:14px 16px!important;
+    margin:4px 12px 16px!important;
+    font-size:clamp(1.6rem,6vw,2.4rem)!important;
+  }
+  .hero-content p{
+    background:rgba(8,28,16,0.52);
+    backdrop-filter:blur(4px);
+    border-radius:18px;
+    padding:14px 16px!important;
+    margin:0 12px!important;
+    font-size:0.8rem!important;
+  }
+  .hero-cta{font-size:0.74rem!important;padding:10px 16px!important;margin:20px 12px 8px!important;}
+  .addr-pin{display:none!important;}
+  /* Avis clients : 1 colonne visible */
+  .review-mask{height:420px!important;}
+  .review-mask>div{grid-template-columns:1fr!important;gap:0!important;}
+  .review-mask>div>div:nth-child(n+2){display:none!important;}
+  /* Section verte formules : padding-bottom augmenté */
+  #formules{padding-bottom:180px!important;}
+}
+</style>
+</helmet>
+
+<div id="top" style="position:relative;overflow-x:hidden;background:transparent;">
+
+  <!-- ============ HEADER ============ -->
+  <header style="position:sticky;top:14px;z-index:60;padding:0 20px;">
+    <div style="position:relative;max-width:1180px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:10px 10px 10px 10px;border-radius:4px;background:rgba(255,255,255,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.8);box-shadow:0 18px 40px -22px rgba(14,48,26,0.5);">
+      <div class="header-eco" style="position:relative;left:6px;height:40px;width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;z-index:5;" onMouseEnter="{{ keepEcoBadge }}" onMouseLeave="{{ scheduleEcoHide }}" onClick="{{ keepEcoBadge }}">
+          <svg width="66" height="88" viewBox="0 0 44 56" style="cursor:default;display:block;overflow:visible;">
+            <defs>
+              <linearGradient id="ecoSealGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#C9A961"/>
+                <stop offset="1" stop-color="#1E5A32"/>
+              </linearGradient>
+            </defs>
+            <!-- Double ruban, plus courts, plus larges, davantage écartés -->
+            <path d="M8 34 L19 32 L15 50 L11 44 L4 49 Z" fill="#1E5A32"/>
+            <path d="M36 34 L25 32 L29 50 L33 44 L40 49 Z" fill="#1E5A32"/>
+            <!-- Sceau rond -->
+            <circle cx="22" cy="22" r="20" fill="url(#ecoSealGrad)" stroke="#14301F" stroke-width="1.2"/>
+            <circle cx="22" cy="22" r="15.5" fill="none" stroke="#EAF6E4" stroke-width="1" stroke-dasharray="2.4 2.4" opacity="0.85"/>
+            <svg x="9.5" y="9" width="25" height="25" viewBox="0 0 90 90">
+              <path d="M 30.648 90 h -4.666 c -0.276 0 -0.54 -0.114 -0.729 -0.315 c -0.189 -0.202 -0.287 -0.473 -0.269 -0.748 c 1.473 -23.129 7.78 -37.706 23.516 -52.984 c -11.987 6.803 -23.657 18.781 -25.661 35.247 c -0.051 0.42 -0.361 0.763 -0.774 0.854 c -0.414 0.094 -0.84 -0.086 -1.065 -0.443 c -8.808 -14.02 -8.505 -26.712 0.952 -39.944 c 5.454 -7.272 13.28 -11.279 20.185 -14.815 c 8.346 -4.273 15.554 -7.964 17.098 -16.04 c 0.078 -0.407 0.398 -0.723 0.807 -0.796 c 0.407 -0.073 0.818 0.113 1.032 0.467 c 10.854 17.977 19.798 35.828 10.159 56.542 c -7.694 13.752 -20.459 20.112 -37.994 18.96 c -1.01 4.324 -1.531 8.595 -1.59 13.028 C 31.641 89.561 31.195 90 30.648 90 z" fill="#EAF6E4"/>
+            </svg>
+          </svg>
+          <sc-if value="{{ ecoBadgeOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:calc(100% + 34px);left:-6px;width:280px;padding:22px 24px;border-radius:30px 30px 30px 8px;background:linear-gradient(165deg,#F1F8EC,#E3F1DC);box-shadow:0 20px 40px -16px rgba(20,48,31,0.28);z-index:80;">
+              <div style="font-family:'Outfit',sans-serif;font-weight:600;font-size:0.95rem;color:#14301F;margin-bottom:8px;">Nos engagements</div>
+              <div style="color:#3A5240;font-size:0.8rem;line-height:1.5;margin-bottom:14px;">Gestion raisonnée de l'eau et de l'énergie, matériaux biosourcés, partenaires locaux, biodiversité préservée sur l'ensemble des 50 hectares.</div>
+              <div style="display:flex;gap:8px;">
+                <div style="padding:6px 12px;border-radius:999px 999px 999px 4px;background:#fff;font-size:0.68rem;font-weight:700;color:#1E5A32;">Écolabel Européen</div>
+                <div style="padding:6px 12px;border-radius:999px 999px 999px 4px;background:#fff;font-size:0.68rem;font-weight:700;color:#1E5A32;">Clef Verte</div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      <div class="header-logo" style="flex:1;display:flex;justify-content:center;align-items:center;min-width:0;">
+        <img onClick="{{ goHome }}" onKeyDown="{{ goHomeKey }}" role="button" tabindex="0" aria-label="Retour à l'accueil" class="brand-wordmark" src="./img/logo.webp" alt="(parent)aise Normandie" style="height:64px;width:auto;display:block;">
+      </div>
+      <nav style="display:flex;align-items:center;gap:30px;font-size:0.9rem;font-weight:500;color:#31463A;">
+        <a href="#top" aria-label="Accueil" onClick="{{ goHome }}" style="display:flex;align-items:center;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 1.5 L23 21 H1 Z" fill="#31463A"/></svg>
+        </a>
+        <a href="#" onClick="{{ openEngagements }}" style="color:#31463A;">Nos engagements</a>
+        <a href="#" onClick="{{ openInfos }}" style="color:#31463A;">Infos pratiques</a>
+        <a href="#" onClick="{{ openContact }}" style="color:#31463A;">Contact</a>
+      </nav>
+      <button onClick="{{ openQuiz }}" class="btn-primary" style="font-size:0.86rem;padding:12px 22px;">Trouver mon séjour</button>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <!-- ============ HERO ============ -->
+  <section style="position:relative;margin-top:-84px;">
+    <div style="position:relative;height:92vh;min-height:640px;overflow:hidden;border-radius:0 0 46% 46% / 0 0 15% 15%;background:#0E2A16;" onMouseEnter="{{ heroEnter }}" onMouseLeave="{{ heroLeave }}">
+
+      <!-- deux vidéos superposées : on alterne entre les deux pour créer un fondu enchaîné entre les 3 clips de la séquence (outside → inside → domaine) -->
+      <video id="heroVideoA" muted loop playsInline autoplay preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:1;transition:opacity 1s ease;"></video>
+      <video id="heroVideoB" muted loop playsInline autoplay preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:0;transition:opacity 1s ease;"></video>
+
+      <!-- volet gauche : moitié gauche de la photo (image entière, mais on ne montre que la moitié gauche via clip-path) -->
+      <div style="position:absolute;inset:0;z-index:2;clip-path:inset(0 50% 0 0);transition:transform 1s cubic-bezier(.65,0,.35,1);transform:{{ heroLeftTransform }};will-change:transform;">
+        <img src="./img/hero-left.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 62%;">
+        <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(12,40,22,0.4) 0%,rgba(14,48,26,0.3) 42%,rgba(14,48,26,0.05) 72%);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,18,0.35) 0%,rgba(10,30,18,0) 40%);"></div>
+      </div>
+      <!-- volet droit : moitié droite de la même image, aligné exactement de la même façon -->
+      <div style="position:absolute;inset:0;z-index:2;clip-path:inset(0 0 0 50%);transition:transform 1s cubic-bezier(.65,0,.35,1);transform:{{ heroRightTransform }};will-change:transform;">
+        <img src="./img/hero-right.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 62%;">
+        <div style="position:absolute;inset:0;background:linear-gradient(105deg,rgba(12,40,22,0.4) 0%,rgba(14,48,26,0.3) 42%,rgba(14,48,26,0.05) 72%);"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,18,0.35) 0%,rgba(10,30,18,0) 40%);"></div>
+      </div>
+
+      <div class="hero-content" style="position:relative;height:100%;max-width:1180px;margin:0 auto;padding:0 28px 120px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;z-index:3;pointer-events:none;">
+        <div class="hero-badge" style="display:inline-flex;align-items:stretch;align-self:flex-start;border-radius:4px;overflow:hidden;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.28);backdrop-filter:blur(10px);pointer-events:auto;">
+          <span style="display:flex;align-items:center;padding:9px 18px;background:linear-gradient(135deg,#C9A961,#B8924A);color:#0E2A16;font-weight:800;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;">Normandie</span>
+          <span style="display:flex;align-items:center;padding:9px 18px;color:#fff;font-size:0.78rem;font-weight:500;">Suites scandinaves</span>
+        </div>
+        <h1 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(2.8rem,6vw,4.8rem);line-height:1.02;letter-spacing:-0.03em;margin:22px 0 18px;max-width:14ch;text-wrap:pretty;">Une parenthèse au cœur du vivant</h1>
+        <p style="font-size:1.06rem;max-width:480px;color:rgba(255,255,255,0.88);margin-bottom:32px;">Douze suites premium sur 50 hectares préservés, pensées pour les parents qui ont parfois besoin d’une parenthèse : mettre le quotidien en pause, se retrouver et simplement redevenir soi.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;pointer-events:auto;">
+          <button onClick="{{ openQuiz }}" class="btn-primary hero-cta" style="font-size:0.98rem;padding:17px 32px;">Trouver la formule qui me correspond →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VÉGÉTATION : hero → pourquoi (entrée gauche, discrète) ============ -->
+  <div class="veg-zone" data-veg data-veg-start="0.9" data-veg-end="0.4" data-veg-leaf-window="0.16" style="top:-22px;">
+    <svg width="1200" height="120" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <path class="veg-branch" data-veg-colors="#2F7A3A,#8B5E3C,#5FA83F,#C9A961,#1E5A32" data-veg-leaves="5" data-veg-fork=""
+            d="M -60 72 C 50 41 130 108 250 71 S 470 30 620 55"
+            stroke="#2F7A3A" stroke-width="3.5" stroke-opacity="0.85"/>
+      <g class="veg-leaves"></g>
+    </svg>
+  </div>
+
+  <!-- ============ POURQUOI ============ -->
+  <section id="apropos" style="position:relative;padding:96px 0 100px;">
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div class="reveal" style="max-width:640px;margin:0 auto 58px;text-align:center;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Pourquoi venir ici</div>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.08;letter-spacing:-0.025em;color:#14301F;white-space:nowrap;">Ici, vous n’avez plus à penser à tout</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;">
+        <div class="reveal lift zoomwrap" style="position:relative;overflow:hidden;padding:36px 32px 38px;border-radius:32px;min-height:300px;color:#fff;background:#123D22;">
+          <img class="zoomimg" src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&q=75&auto=format&fit=crop" alt="Sous-bois en forêt normande, lumière filtrée entre les arbres" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;">
+          <div style="position:absolute;inset:0;background:linear-gradient(190deg,rgba(10,34,18,0.58) 15%,rgba(10,34,18,0.88) 78%);"></div>
+          <div style="position:absolute;left:32px;right:32px;top:36px;">
+            <div style="width:52px;height:52px;border-radius:50% 50% 50% 12px;background:#1E5A32;margin-bottom:22px;"></div>
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:600;color:#fff;margin-bottom:10px;">Déconnexion réelle</h3>
+            <p style="font-size:0.95rem;color:rgba(255,255,255,0.85);">Pas de réseau, pas de sollicitations. Chaque suite est isolée, sans <span style="white-space:nowrap">vis-à-vis</span>, pour retrouver le calme, la nature et surtout du temps pour vous.</p>
+          </div>
+        </div>
+        <div class="reveal lift zoomwrap d1" style="position:relative;overflow:hidden;padding:36px 32px 38px;border-radius:32px;min-height:300px;color:#fff;background:#123D22;">
+          <img class="zoomimg" src="./img/hero-photo.webp" alt="Suite scandinave avec verrière sur la forêt" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;">
+          <div style="position:absolute;inset:0;background:linear-gradient(190deg,rgba(10,34,18,0.58) 15%,rgba(10,34,18,0.88) 78%);"></div>
+          <div style="position:absolute;left:32px;right:32px;top:36px;">
+            <div style="width:52px;height:52px;border-radius:50% 12px 50% 50%;background:linear-gradient(140deg,#63B96E,#1E5A32);margin-bottom:22px;"></div>
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:600;color:#fff;margin-bottom:10px;">Confort premium</h3>
+            <p style="font-size:0.95rem;color:rgba(255,255,255,0.85);">Suites scandinaves pensées pour un séjour apaisé : verrières sur la forêt, bain nordique privatif, literie haut de gamme.</p>
+          </div>
+        </div>
+        <div class="reveal lift zoomwrap d2" style="position:relative;overflow:hidden;padding:36px 32px 38px;border-radius:32px 36px 36px 36px;min-height:300px;color:#fff;background:#123D22;">
+          <img class="zoomimg" src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&q=75&auto=format&fit=crop" alt="Végétation naturelle préservée du domaine" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;">
+          <div style="position:absolute;inset:0;background:linear-gradient(190deg,rgba(10,34,18,0.58) 15%,rgba(10,34,18,0.88) 78%);"></div>
+          <div style="position:absolute;left:32px;right:32px;top:36px;">
+            <div style="width:52px;height:52px;border-radius:12px 50% 50% 50%;background:linear-gradient(140deg,#A6DB6B,#4E9F4A);margin-bottom:22px;"></div>
+            <h3 style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:600;color:#fff;margin-bottom:10px;">Engagements prouvés</h3>
+            <p style="font-size:0.95rem;color:rgba(255,255,255,0.85);">Pas de discours, des preuves : bilan énergétique du domaine, partenaires locaux identifiés et biodiversité mesurée.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CARROUSEL PHOTOS ============ -->
+  <section id="galerie" style="position:relative;padding:20px 0 100px;overflow:hidden;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div class="reveal" style="max-width:640px;margin:0 auto 14px;text-align:center;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Un avant-goût</div>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.08;letter-spacing:-0.025em;color:#14301F;">De quoi vous donner envie...</h2>
+      </div>
+      <div style="display:flex;justify-content:center;gap:10px;margin-bottom:58px;">
+        <button onClick="{{ carouselPrev }}" aria-label="Photo précédente" style="width:52px;height:52px;border-radius:50%;background:#F1F8EC;border:1px solid rgba(47,122,58,0.18);display:flex;align-items:center;justify-content:center;cursor:pointer;" class="lift">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#14301F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button onClick="{{ carouselNext }}" aria-label="Photo suivante" style="width:52px;height:52px;border-radius:50%;background:#14301F;display:flex;align-items:center;justify-content:center;cursor:pointer;" class="lift">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="photoCarouselTrack"
+         onMouseDown="{{ carouselDragStart }}" onMouseMove="{{ carouselDragMove }}" onMouseUp="{{ carouselDragEnd }}" onMouseLeave="{{ carouselDragEnd }}"
+         style="display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;padding:0px 28px 20px calc(50% - 590px + 28px);cursor:grab;scrollbar-width:none;-ms-overflow-style:none;">
+      <sc-for list="{{ carouselPhotos }}" as="ph" hint-placeholder-count="10">
+        <div class="lift zoomwrap" onClick="{{ ph.open }}" style="scroll-snap-align:start;flex:0 0 auto;width:320px;height:400px;border-radius:4px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 24px 44px -24px rgba(20,48,31,0.4);">
+          <img class="zoomimg" src="{{ ph.src }}" alt="{{ ph.caption }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(190deg,rgba(10,34,18,0) 55%,rgba(10,34,18,0.82) 100%);"></div>
+          <div style="position:absolute;left:22px;right:22px;bottom:20px;color:#fff;">
+            <div style="font-family:'Outfit',sans-serif;font-weight:600;font-size:1.02rem;">{{ ph.caption }}</div>
+          </div>
+          <div style="position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.16);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s ease;" class="carousel-zoom-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:8px;">
+      <sc-for list="{{ carouselDots }}" as="d" hint-placeholder-count="10">
+        <button onClick="{{ d.select }}" aria-label="Aller à la photo" style="{{ d.style }}"></button>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ VÉGÉTATION : galerie → formules (entrée droite, la plus présente) ============ -->
+  <!-- Zone 2 : chevauche la section verte foncée. On applique un feDropShadow (équivalent SVG
+       du box-shadow des cartes d'avis) : ombre douce sous la branche/feuilles, formes nettes. -->
+  <div class="veg-zone" data-veg data-veg-start="0.92" data-veg-end="0.32" data-veg-leaf-window="0.14" style="top:-46px;">
+    <svg width="1200" height="180" viewBox="0 0 1200 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="overflow:visible;">
+      <defs>
+        <filter id="veg2-lift" x="-10%" y="-10%" width="120%" height="140%">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.45"/>
+        </filter>
+      </defs>
+      <g filter="url(#veg2-lift)">
+        <path class="veg-branch" data-veg-colors="#1E5A32,#8B5E3C,#2F7A3A,#C9A961,#5FA83F,#A0722A" data-veg-leaves="9"
+              d="M 1260 88 C 1100 44 960 134 800 90 S 570 44 420 82 S 250 116 130 98"
+              stroke="#1E5A32" stroke-width="4" stroke-opacity="0.9"/>
+        <path class="veg-branch" data-veg-colors="#2F7A3A,#C9A961,#8B5E3C" data-veg-leaves="3" data-veg-sub="1" data-veg-offset="0.41"
+              d="M 980 94 C 922 114 866 112 806 131"
+              stroke="#2F7A3A" stroke-width="2.8" stroke-opacity="0.8"/>
+        <g class="veg-leaves"></g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ============ LIGHTBOX PHOTOS ============ -->
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:400;background:rgba(9,20,13,0.94);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:40px;">
+      <button onClick="{{ closeLightbox }}" aria-label="Fermer" style="position:absolute;top:24px;right:24px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button onClick="{{ lightboxPrev }}" aria-label="Précédent" style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button onClick="{{ lightboxNext }}" aria-label="Suivant" style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div onClick="{{ stopProp }}" style="max-width:min(90vw,900px);max-height:80vh;">
+        <img src="{{ lightboxSrc }}" alt="{{ lightboxCaption }}" style="max-width:100%;max-height:76vh;border-radius:20px;display:block;margin:0 auto;box-shadow:0 40px 80px -20px rgba(0,0,0,0.6);">
+        <div style="text-align:center;color:#EAF6E4;margin-top:16px;font-family:'Outfit',sans-serif;font-size:0.95rem;">{{ lightboxCaption }}</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ BANDE VERTE : AVIS + FORMULES ============ -->
+  <section id="formules" style="position:relative;background:linear-gradient(180deg,#1B5730 0%,#123D22 45%,#0F3A21 100%);color:#EAF6E4;border-radius:50% 50% 50% 50% / 9% 9% 9% 9%;padding:110px 0 130px;margin-top:90px;">
+
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div class="reveal" style="text-align:center;margin-bottom:40px;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#C9A961;margin-bottom:12px;">Ils nous recommandent</div>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.8rem,3.2vw,2.5rem);letter-spacing:-0.025em;color:#fff;">4,8/5 sur plus de 120 avis clients</h2>
+      </div>
+
+      <!-- Mur d'avis en défilement continu : 4 colonnes, chacune monte à sa propre vitesse.
+           Le fondu haut/bas crée l'apparition/disparition élégante juste sous le titre. -->
+      <div class="review-mask" style="position:relative;height:560px;margin-bottom:96px;overflow:hidden;
+           -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 88%,transparent 100%);
+           mask-image:linear-gradient(180deg,transparent 0,#000 12%,#000 88%,transparent 100%);">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;height:100%;">
+          <sc-for list="{{ reviewColumns }}" as="col" hint-placeholder-count="4">
+            <div style="position:relative;overflow:hidden;">
+              <div class="review-column" style="display:flex;flex-direction:column;gap:20px;animation-duration:{{ col.duration }};animation-delay:{{ col.delay }};">
+                <sc-for list="{{ col.items }}" as="r" hint-placeholder-count="12">
+                  <div style="padding:24px;border-radius:4px;background:linear-gradient(160deg,rgba(255,255,255,0.16),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.22);backdrop-filter:blur(14px);box-shadow:0 20px 40px -22px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.28);flex-shrink:0;">
+                    <div style="color:#C9A961;letter-spacing:0.14em;font-size:0.72rem;margin-bottom:10px;">★★★★★</div>
+                    <p style="font-family:'Outfit',sans-serif;font-size:0.95rem;line-height:1.45;margin-bottom:12px;color:#EAF6E4;">« {{ r.text }} »</p>
+                    <span style="font-size:0.72rem;color:rgba(234,246,228,0.6);">{{ r.author }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div class="reveal" style="max-width:620px;margin-bottom:48px;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#C9A961;margin-bottom:12px;">Choisissez votre formule</div>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(2rem,3.6vw,2.9rem);letter-spacing:-0.025em;color:#fff;line-height:1.08;">Six façons de vivre le domaine</h2>
+        <p style="color:rgba(234,246,228,0.75);margin-top:16px;">Chaque formule est un séjour tout compris : massages, spa et sauna inclus dans toutes. Pas de suppléments, pas de surprise à l'arrivée.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:22px;">
+        <sc-for list="{{ formulas }}" as="f" hint-placeholder-count="6">
+          <div onClick="{{ f.open }}" class="flip-card">
+            <div class="flip-inner">
+
+              <!-- RECTO : photo pleine, nom + prix en surimpression -->
+              <div class="flip-face" style="background:{{ f.color }};box-shadow:0 30px 60px -28px rgba(0,0,0,0.6);">
+                <img src="{{ f.img }}" alt="{{ f.name }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,15,11,0) 40%,rgba(10,15,11,.88) 100%);"></div>
+                <sc-if value="{{ f.sticker }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:absolute;top:18px;right:18px;padding:6px 13px;border-radius:999px;background:rgba(255,255,255,0.92);color:#14301F;font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;box-shadow:0 6px 14px -6px rgba(0,0,0,.3);">{{ f.sticker }}</div>
+                </sc-if>
+                <div style="position:absolute;left:0;right:0;bottom:0;padding:26px;color:#fff;">
+                  <div style="font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;opacity:.8;font-weight:600;">Formule</div>
+                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:600;letter-spacing:-0.02em;margin:6px 0 10px;">{{ f.name }}</h3>
+                  <div style="font-family:'Outfit',sans-serif;font-size:0.78rem;opacity:.9;">{{ f.price }} € TTC le séjour · 3 nuits</div>
+                </div>
+              </div>
+
+              <!-- VERSO : le contenu détaillé actuel -->
+              <div class="flip-face flip-back" style="{{ f.cardStyle }};padding:22px;display:flex;flex-direction:column;">
+                <div style="position:relative;height:150px;border-radius:22px;overflow:hidden;background:{{ f.color }};flex-shrink:0;">
+                  <img src="{{ f.img }}" alt="{{ f.name }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:18px 4px 2px;flex:1;display:flex;flex-direction:column;">
+                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:600;color:#fff;letter-spacing:-0.02em;">{{ f.name }}</h3>
+                  <p style="font-size:0.86rem;color:rgba(234,246,228,0.72);margin:6px 0 14px;">{{ f.tag }}</p>
+                  <ul style="display:flex;flex-direction:column;gap:7px;margin-bottom:16px;flex:1;">
+                    <sc-for list="{{ f.acts }}" as="a" hint-placeholder-count="3">
+                      <li style="display:flex;gap:9px;font-size:0.84rem;color:rgba(234,246,228,0.9);"><span style="color:#C9A961;">✓</span>{{ a }}</li>
+                    </sc-for>
+                  </ul>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(255,255,255,0.18);">
+                    <div>
+                      <div style="font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(234,246,228,0.6);">Prix fixe</div>
+                      <div style="font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:600;color:#fff;">{{ f.price }} € TTC<span style="font-size:0.7rem;font-weight:400;color:rgba(234,246,228,0.65);"> le séjour</span></div>
+                    </div>
+                    <span style="display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:4px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);font-size:0.78rem;font-weight:700;color:#fff;">Découvrir →</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOMAINE ============ -->
+  <section id="domaine" style="position:relative;padding:110px 0 40px;">
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div style="position:relative;overflow:hidden;border-radius:60px 60px 60px 160px;min-height:500px;display:flex;align-items:center;background:linear-gradient(120deg,#123D22,#1E5A32);color:#fff;transform:translateZ(0);">
+        <img data-parallax="0.15" src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?w=1800&q=75&auto=format&fit=crop" alt="" style="position:absolute;left:0;right:0;top:-15%;height:130%;width:100%;object-fit:cover;opacity:0.5;will-change:transform;">
+        <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(12,40,22,0.94) 20%,rgba(12,40,22,0.35) 78%);"></div>
+        <div style="position:relative;padding:64px 56px;max-width:560px;text-align:center;">
+          <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#C9A961;margin-bottom:12px;">Le domaine</div>
+          <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.8rem,3vw,2.4rem);letter-spacing:-0.025em;line-height:1.1;margin-bottom:16px;">Explorez chaque recoin de nos 50 hectares préservés</h2>
+          <p style="color:rgba(255,255,255,0.82);margin-bottom:28px;">Aux portes de la forêt de Lyons, à moins de 2h de Paris. Étang, forêt, verger, centre équestre, spa, et douze suites disséminées pour que vous ne croisiez jamais un autre hébergement du regard.</p>
+          <div style="display:flex;justify-content:center;">
+            <button onClick="{{ openMap }}" class="btn-primary">Voir la carte interactive</button>
+          </div>
+          <div style="display:flex;gap:40px;margin-top:38px;justify-content:center;">
+            <div style="text-align:center;"><div data-count="50" style="font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:600;">0</div><div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Hectares</div></div>
+            <div style="text-align:center;"><div data-count="12" style="font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:600;">0</div><div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Suites</div></div>
+            <div style="text-align:center;"><div style="font-family:'Outfit',sans-serif;font-size:1.9rem;font-weight:600;">0</div><div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);white-space:nowrap;">Vis&#8209;à&#8209;vis</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VÉGÉTATION : domaine → trajet (entrée gauche, très discrète) ============ -->
+  <div class="veg-zone" data-veg data-veg-start="0.88" data-veg-end="0.48" data-veg-leaf-window="0.18" style="top:-24px;">
+    <svg width="1200" height="80" viewBox="0 0 1200 80" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+      <path class="veg-branch" data-veg-colors="#6C8A73,#8B5E3C,#2F7A3A,#C9A961" data-veg-leaves="4"
+            d="M -50 44 C 40 25 108 64 196 42 S 366 20 452 35"
+            stroke="#6C8A73" stroke-width="2.8" stroke-opacity="0.75"/>
+      <g class="veg-leaves"></g>
+    </svg>
+  </div>
+
+  <!-- ============ TRAJET ============ -->
+  <section id="experiences" style="position:relative;padding:90px 0 110px;">
+    <div style="position:relative;max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div style="position:relative;overflow:hidden;border-radius:32px 32px 40px 40px;background:linear-gradient(165deg,#F1F8EC,#E3F1DC);margin-bottom:28px;">
+        <div style="position:relative;min-height:260px;display:flex;align-items:center;color:#fff;background:linear-gradient(120deg,#123D22,#1E5A32);">
+          <img src="./img/hero-thumb.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.4;">
+          <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(12,40,22,0.94) 30%,rgba(12,40,22,0.5) 100%);"></div>
+          <div style="position:relative;padding:56px;max-width:640px;">
+            <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#C9A961;margin-bottom:12px;">Estimez votre temps de trajet</div>
+            <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.5rem,3vw,2.4rem);letter-spacing:-0.025em;color:#fff;white-space:nowrap;">Depuis votre domicile jusqu'au domaine</h2>
+          </div>
+        </div>
+        <div style="padding:24px 34px 0;">
+          <div style="display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:16px;background:#fff;border:1px solid rgba(47,122,58,0.15);box-shadow:0 2px 8px rgba(20,48,31,0.06);">
+            <svg class="addr-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <span style="font-size:0.85rem;color:#516155;white-space:nowrap;">Notre adresse&nbsp;:</span>
+            <span style="font-size:0.85rem;font-weight:600;color:#14301F;">Route de la Forêt de Lyons, 27480 Lyons-la-Forêt</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;padding:34px;">
+          <div style="flex:1;min-width:240px;">
+            <label style="display:block;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#516155;font-weight:700;margin-bottom:9px;">Votre adresse de départ</label>
+            <input type="text" aria-label="Votre adresse de départ" value="{{ depart }}" onChange="{{ setDepart }}" onKeyDown="{{ trajetKeyDown }}" placeholder="Ex : Paris, Lyon, Rennes…" style="width:100%;padding:15px 20px;border-radius:999px;border:1px solid rgba(47,122,58,0.18);background:#fff;font-size:0.95rem;color:#16251B;">
+          </div>
+          <button onClick="{{ estimer }}" style="{{ estimerBtnStyle }}flex-shrink:0;" style-hover="background:#1E5A32;">{{ estimerLabel }}</button>
+        </div>
+      </div>
+      <sc-if value="{{ trajet }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:18px;padding:16px 24px;border-radius:999px;background:#E3F1DC;color:#1E5A32;font-size:0.9rem;font-weight:500;display:inline-block;">{{ trajet }}</div>
+      </sc-if>
+      <sc-if value="{{ hasTrajetMap }}" hint-placeholder-val="{{ false }}">
+        <div id="trajetMapEl" style="margin-top:22px;height:340px;border-radius:4px;overflow:hidden;border:1px solid rgba(47,122,58,0.16);"></div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- ============ CTA FINAL ============ -->
+  <section style="position:relative;overflow:hidden;color:#EAF6E4;border-radius:50% 50% 50% 50% / 9% 9% 9% 9%;padding:130px 0 140px;text-align:center;background:linear-gradient(160deg,#1B5730,#0C3019);">
+    <img data-parallax="0.15" src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1800&q=75&auto=format&fit=crop" alt="" style="position:absolute;left:0;right:0;top:-15%;height:130%;width:100%;object-fit:cover;opacity:0.28;will-change:transform;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,rgba(24,80,44,0.35),rgba(10,32,18,0.92) 78%);"></div>
+    <div class="reveal" style="position:relative;max-width:720px;margin:0 auto;padding:0 28px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:999px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(8px);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;color:#BEE89A;margin-bottom:24px;">Votre parenthèse vous attend</div>
+      <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(2.2rem,4.5vw,3.4rem);letter-spacing:-0.03em;line-height:1.04;color:#fff;margin-bottom:20px;">Et si vous partiez<br>le week-end prochain ?</h2>
+      <p style="font-size:1.02rem;color:rgba(234,246,228,0.82);max-width:520px;margin:0 auto 40px;line-height:1.5;">Un séjour tout compris, à moins de 2h de Paris. Répondez à quelques questions, on trouve la formule faite pour vous.</p>
+      <div style="display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;">
+        <button onClick="{{ openQuiz }}" class="btn-primary lift" style="padding:19px 40px;font-size:1.05rem;">Je trouve mon séjour →</button>
+        <button onClick="{{ openFaq }}" class="btn-secondary-dark lift" style="padding:19px 32px;font-size:0.95rem;">Consulter la FAQ</button>
+      </div>
+      <div style="display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:44px;font-size:0.82rem;color:rgba(234,246,228,0.7);">
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="color:#C9A961;">✓</span> Annulation gratuite jusqu’à 48h avant</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="color:#C9A961;">✓</span> Tout compris, sans surprise</span>
+        <span style="display:inline-flex;align-items:center;gap:7px;"><span style="color:#C9A961;">✓</span> 4,8/5 sur plus de 120 avis</span>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isEngagements }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:140px 0;min-height:50vh;">
+    <div style="max-width:700px;margin:0 auto;padding:0 28px;text-align:center;">
+      <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Page en préparation</div>
+      <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);color:#14301F;margin-bottom:16px;">Nos engagements</h2>
+      <p style="color:#516155;font-size:1rem;">Cette page n'a pas encore de contenu, elle prépare l'arborescence du site pour la suite du projet.</p>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isInfos }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:140px 0;min-height:50vh;">
+    <div style="max-width:700px;margin:0 auto;padding:0 28px;text-align:center;">
+      <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Page en préparation</div>
+      <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);color:#14301F;margin-bottom:16px;">Infos pratiques</h2>
+      <p style="color:#516155;font-size:1rem;">Cette page n'a pas encore de contenu, elle prépare l'arborescence du site pour la suite du projet.</p>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:140px 0;min-height:50vh;">
+    <div style="max-width:700px;margin:0 auto;padding:0 28px;text-align:center;">
+      <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Page en préparation</div>
+      <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.8rem,3.4vw,2.6rem);color:#14301F;margin-bottom:16px;">Contact</h2>
+      <p style="color:#516155;font-size:1rem;">Cette page n'a pas encore de contenu, elle prépare l'arborescence du site pour la suite du projet.</p>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:120px 0 110px;">
+    <div style="max-width:820px;margin:0 auto;padding:0 28px;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Questions fréquentes</div>
+        <h1 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.7rem);color:#14301F;">Tout ce qu'il faut savoir avant de réserver</h1>
+      </div>
+      <sc-for list="{{ faqItems }}" as="item" hint-placeholder-count="12">
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);margin-bottom:14px;overflow:hidden;">
+          <button onClick="{{ item.toggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;text-align:left;background:none;">
+            <span style="font-family:'Outfit',sans-serif;font-weight:600;font-size:1.02rem;color:#14301F;">{{ item.q }}</span>
+            <span style="{{ item.chevronStyle }}">
+              <svg width="13" height="8" viewBox="0 0 13 8" fill="none"><path d="M1 1l5.5 5.5L12 1" stroke="#2F7A3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+          <sc-if value="{{ item.open }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:0 26px 26px;color:#3A5240;font-size:0.93rem;line-height:1.65;">{{ item.a }}</div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ============ POLITIQUE DE CONFIDENTIALITÉ ============ -->
+  <sc-if value="{{ isRgpd }}" hint-placeholder-val="{{ false }}">
+  <section style="padding:120px 0 110px;">
+    <div style="max-width:820px;margin:0 auto;padding:0 28px;">
+      <div style="text-align:center;margin-bottom:52px;">
+        <div style="font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:700;color:#2F7A3A;margin-bottom:14px;">Transparence &amp; données</div>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:clamp(1.9rem,3.6vw,2.7rem);color:#14301F;">Politique de confidentialité</h2>
+        <p style="color:#516155;margin-top:16px;font-size:0.95rem;">Dernière mise à jour : juin 2026</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:32px;">
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">1. Responsable du traitement</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;">Le responsable du traitement des données personnelles collectées sur ce site est <strong>(parent)aise Normandie</strong>, projet fictif réalisé dans le cadre d'un bootcamp de formation. Contact : <a href="mailto:contact@ecolodges-normandie.fr" style="color:#2F7A3A;">contact@ecolodges-normandie.fr</a></p>
+        </div>
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">2. Données collectées</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;margin-bottom:10px;">Nous collectons uniquement les données nécessaires à votre réservation :</p>
+          <ul style="color:#3A5240;font-size:0.93rem;line-height:1.7;padding-left:20px;list-style:disc;">
+            <li><strong>Adresse e-mail</strong> — pour l'envoi de la confirmation de réservation</li>
+            <li><strong>Numéro de téléphone</strong> — pour vous contacter en cas de besoin</li>
+            <li><strong>Ville de départ</strong> — pour calculer votre itinéraire (non conservée)</li>
+            <li><strong>Préférences de séjour</strong> — dates, nombre de personnes (données de réservation)</li>
+          </ul>
+        </div>
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">3. Base légale et finalités</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;">Le traitement est fondé sur l'<strong>exécution du contrat</strong> (article 6.1.b du RGPD) pour les données de réservation, et sur votre <strong>consentement</strong> (article 6.1.a) pour les communications optionnelles. Les données sont utilisées exclusivement pour la gestion de votre séjour et ne font l'objet d'aucune exploitation commerciale.</p>
+        </div>
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">4. Destinataires des données</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;">Vos données sont transmises aux seuls prestataires nécessaires à la réalisation du service :</p>
+          <ul style="color:#3A5240;font-size:0.93rem;line-height:1.7;padding-left:20px;margin-top:10px;list-style:disc;">
+            <li><strong>OpenRouteService</strong> — calcul d'itinéraire (ville de départ uniquement, non conservée)</li>
+            <li><strong>Google Fonts</strong> — chargement des polices d'affichage (adresse IP)</li>
+          </ul>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;margin-top:10px;">Aucune donnée n'est vendue, louée ou cédée à des tiers à des fins commerciales.</p>
+        </div>
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">5. Durée de conservation</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;">Les données de réservation (e-mail, téléphone) sont conservées pendant <strong>1 an</strong> à compter de la date du séjour, puis supprimées. Les données de navigation ne sont pas conservées.</p>
+        </div>
+        <div style="border-radius:24px;background:#fff;border:1px solid rgba(20,48,31,0.1);padding:32px 36px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-weight:700;font-size:1.05rem;color:#14301F;margin-bottom:12px;">6. Vos droits</h3>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;margin-bottom:10px;">Conformément au RGPD, vous disposez des droits suivants :</p>
+          <ul style="color:#3A5240;font-size:0.93rem;line-height:1.7;padding-left:20px;list-style:disc;">
+            <li><strong>Droit d'accès</strong> — obtenir une copie de vos données</li>
+            <li><strong>Droit de rectification</strong> — corriger des données inexactes</li>
+            <li><strong>Droit à l'effacement</strong> — demander la suppression de vos données</li>
+            <li><strong>Droit à la portabilité</strong> — recevoir vos données dans un format structuré</li>
+            <li><strong>Droit d'opposition</strong> — s'opposer à un traitement</li>
+          </ul>
+          <p style="color:#3A5240;font-size:0.93rem;line-height:1.7;margin-top:12px;">Pour exercer vos droits : <a href="mailto:contact@ecolodges-normandie.fr" style="color:#2F7A3A;">contact@ecolodges-normandie.fr</a>. En cas de réponse insatisfaisante, vous pouvez saisir la <strong>CNIL</strong> sur <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style="color:#2F7A3A;">cnil.fr</a>.</p>
+        </div>
+        <div style="border-radius:24px;background:#F1F8EC;border:1px solid rgba(20,48,31,0.08);padding:24px 36px;">
+          <p style="color:#516155;font-size:0.88rem;line-height:1.7;font-style:italic;">Ce site est un projet fictif réalisé dans le cadre d'un bootcamp de formation au design et au développement web. Aucune donnée réelle n'est collectée ni traitée.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:transparent;padding:56px 0 40px;">
+    <div style="max-width:1180px;margin:0 auto;padding:0 28px;">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px;padding-bottom:28px;border-bottom:1px solid rgba(20,48,31,0.12);">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <img src="./img/logo.webp" alt="(parent)aise Normandie" style="height:40px;width:auto;display:block;">
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <a href="#" aria-label="Instagram" style="width:44px;height:44px;border-radius:50%;background:#F1F8EC;display:flex;align-items:center;justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#31463A" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook" style="width:44px;height:44px;border-radius:50%;background:#F1F8EC;display:flex;align-items:center;justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#31463A" stroke-width="1.8"><path d="M15 8.5h-2c-.8 0-1.5.7-1.5 1.5v2h3.4l-.5 3.2h-2.9V21h-3.2v-5.8H6V12h2.3v-2.4C8.3 6.8 10 5 12.6 5H15v3.5Z"/></svg></a>
+          <a href="#" aria-label="TikTok" style="width:44px;height:44px;border-radius:50%;background:#F1F8EC;display:flex;align-items:center;justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#31463A" stroke-width="1.8"><path d="M14 4v10.2a3.3 3.3 0 1 1-3.3-3.3"/><path d="M14 4c.5 2.4 2.3 4 4.8 4.2"/></svg></a>
+          <a href="#" aria-label="LinkedIn" style="width:44px;height:44px;border-radius:50%;background:#F1F8EC;display:flex;align-items:center;justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#31463A" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8" cy="8.5" r="0.6" fill="#31463A"/><path d="M8 11v6M12 11v6c0-2.5 4-4.5 4-1v4"/></svg></a>
+          <a href="#" aria-label="YouTube" style="width:44px;height:44px;border-radius:50%;background:#F1F8EC;display:flex;align-items:center;justify-content:center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#31463A" stroke-width="1.8"><rect x="2.5" y="6" width="19" height="12" rx="4"/><path d="M10.5 9.5 15 12l-4.5 2.5Z" fill="#31463A" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:20px;font-size:0.78rem;color:#2F7A3A;">
+        <span>© 2026 (parent)aise Normandie. Projet fictif, réalisé dans le cadre d'un bootcamp.</span>
+        <span style="display:flex;gap:16px;"><a href="#">Mentions légales</a><a href="#" onClick="{{ openRgpd }}">Confidentialité</a><a href="#">CGV</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ MODAL TUNNEL ============ -->
+  <sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeQuizBackdrop }}" data-ov="1" style="position:fixed;inset:0;z-index:500;background:rgba(9,28,16,0.62);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div id="modal-quiz" role="dialog" aria-modal="true" aria-label="Réservation" style="position:relative;width:100%;max-width:920px;max-height:88vh;overflow-y:auto;border-radius:44px;background:#FBFDF9;box-shadow:0 50px 90px -30px rgba(0,0,0,0.6);animation:fadeUp .25s ease;">
+        <button onClick="{{ closeQuiz }}" aria-label="Fermer" style="position:absolute;top:20px;right:20px;z-index:5;width:40px;height:40px;border-radius:50%;background:#EDF5E8;color:#14301F;display:flex;align-items:center;justify-content:center;font-size:1rem;" style-hover="background:#D8EBCE;">✕</button>
+        <div style="padding:44px 42px 40px;">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:34px;">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <div style="{{ s.dotStyle }}">{{ s.num }}</div>
+                <span style="font-size:0.74rem;color:#516155;">{{ s.label }}</span>
+                <sc-if value="{{ s.line }}" hint-placeholder-val="{{ true }}"><div style="width:18px;height:1px;background:rgba(20,48,31,0.18);"></div></sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <!-- écran dates -->
+          <sc-if value="{{ isDates }}" hint-placeholder-val="{{ true }}">
+            <div>
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.7rem;letter-spacing:-0.025em;color:#14301F;margin-bottom:8px;">Choisissez votre week-end</h2>
+              <p style="color:#516155;font-size:0.95rem;margin-bottom:26px;">Nos séjours se vivent uniquement du week-end : arrivée vendredi soir ou samedi matin, départ dimanche soir ou lundi matin.</p>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+                <sc-for list="{{ weekends }}" as="w" hint-placeholder-count="9">
+                  <div onClick="{{ w.select }}" onKeyDown="{{ w.onKey }}" tabIndex="{{ w.tabIdx }}" role="{{ w.ariaRole }}" aria-pressed="{{ w.ariaSel }}" aria-disabled="{{ w.ariaDisabled }}" aria-label="{{ w.ariaLabel }}" style="{{ w.style }}">
+                    <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;margin-bottom:4px;">{{ w.year }}</div>
+                    <div style="font-family:'Outfit',sans-serif;font-size:1.12rem;font-weight:600;">{{ w.label }}</div>
+                    <div style="{{ w.badgeStyle }}">{{ w.status }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;">
+                <div style="flex:1;min-width:160px;">
+                  <label style="display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#516155;font-weight:700;margin-bottom:8px;">Arrivée</label>
+                  <select value="{{ arrivee }}" onChange="{{ setArrivee }}" style="width:100%;padding:13px 16px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.92rem;"><option>Vendredi soir</option><option>Samedi matin</option></select>
+                </div>
+                <div style="flex:1;min-width:160px;">
+                  <label style="display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#516155;font-weight:700;margin-bottom:8px;">Départ</label>
+                  <select value="{{ departOpt }}" onChange="{{ setDepartOpt }}" style="width:100%;padding:13px 16px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.92rem;"><option>Dimanche soir</option><option>Lundi matin</option></select>
+                </div>
+                <div style="flex:1;min-width:160px;">
+                  <label style="display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:#516155;font-weight:700;margin-bottom:8px;">Voyageurs</label>
+                  <select value="{{ personnes }}" onChange="{{ setPersonnes }}" style="width:100%;padding:13px 16px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.92rem;"><option value="1">1 personne</option><option value="2">2 personnes</option></select>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;margin-top:26px;">
+                <button onClick="{{ goToQuiz }}" style="{{ nextStyle }}">Suivant →</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- écran quiz -->
+          <sc-if value="{{ isQuiz }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#2F7A3A;font-weight:700;margin-bottom:10px;">{{ qProgress }}</div>
+              <div style="height:5px;border-radius:3px;background:#E3F1DC;overflow:hidden;margin-bottom:28px;">
+                <div style="{{ qBarStyle }}"></div>
+              </div>
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.55rem;letter-spacing:-0.02em;color:#14301F;margin-bottom:24px;text-wrap:pretty;">{{ qTitle }}</h2>
+              <div class="quiz-options-grid" style="margin-bottom:26px;">
+                <sc-for list="{{ qOptions }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+              <button onClick="{{ prevQuestion }}" style="font-size:0.86rem;color:#516155;text-decoration:underline;">← Retour</button>
+            </div>
+          </sc-if>
+
+          <!-- écran résultat -->
+          <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:#2F7A3A;font-weight:700;margin-bottom:8px;">Votre profil</div>
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.9rem;letter-spacing:-0.025em;color:#14301F;">{{ profileName }}</h2>
+              <p style="color:#516155;margin:8px 0 26px;">{{ profileDesc }}</p>
+              <p style="font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:#516155;font-weight:700;margin-bottom:14px;">Nous vous recommandons</p>
+              <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:0;border-radius:34px;overflow:hidden;background:#fff;border:1px solid rgba(47,122,58,0.14);">
+                <div style="position:relative;min-height:240px;background:{{ recoColor }};">
+                  <img src="{{ recoImg }}" alt="{{ recoName }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                </div>
+                <div style="padding:26px;">
+                  <div style="font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:#2F7A3A;font-weight:700;">{{ recoName }}</div>
+                  <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:600;color:#14301F;margin:6px 0 14px;">{{ recoTag }}</h3>
+                  <ul style="display:flex;flex-direction:column;gap:7px;margin-bottom:20px;">
+                    <sc-for list="{{ recoActs }}" as="a" hint-placeholder-count="4">
+                      <li style="display:flex;gap:8px;font-size:0.87rem;color:#516155;"><span style="color:#2F7A3A;">✓</span>{{ a }}</li>
+                    </sc-for>
+                  </ul>
+                  <button onClick="{{ showFiche }}" class="btn-secondary" style="width:100%;justify-content:center;">Voir le détail</button>
+                </div>
+              </div>
+              <div style="text-align:center;margin-top:20px;">
+                <button onClick="{{ openOthers }}" style="font-size:1.05rem;color:#2F7A3A;text-decoration:underline;text-underline-offset:3px;" style-hover="color:#14301F;">Voir nos formules</button>
+              </div>
+              <div style="margin-top:18px;"><button onClick="{{ backToQuiz }}" style="font-size:0.86rem;color:#516155;text-decoration:underline;">← Retour</button></div>
+            </div>
+          </sc-if>
+
+          <!-- écran récap -->
+          <sc-if value="{{ isRecap }}" hint-placeholder-val="{{ false }}">
+            <div>
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.6rem;letter-spacing:-0.02em;color:#14301F;margin-bottom:24px;">Récapitulatif de réservation</h2>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;">
+                <div>
+                  <h4 style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#2F7A3A;font-weight:700;margin-bottom:14px;">Votre séjour</h4>
+                  <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px;">
+                    <div style="position:relative;width:70px;height:70px;border-radius:22px;overflow:hidden;flex-shrink:0;background:{{ recoColor }};">
+                      <img src="{{ recoImg }}" alt="{{ recoName }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                    </div>
+                    <div><b style="color:#14301F;">{{ recoName }}</b><div style="font-size:0.82rem;color:#516155;">{{ recoTag }}</div></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Dates</span>
+                    <span style="display:flex;align-items:center;gap:10px;"><b style="color:#14301F;">{{ datesLabel }}</b><button onClick="{{ toggleRecapWk }}" style="font-size:0.78rem;color:#2F7A3A;text-decoration:underline;">{{ recapWkLabel }}</button></span>
+                  </div>
+                  <sc-if value="{{ recapWkOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:14px 0;">
+                      <sc-for list="{{ weekends }}" as="w" hint-placeholder-count="9">
+                        <div onClick="{{ w.select }}" onKeyDown="{{ w.onKey }}" tabIndex="{{ w.tabIdx }}" role="{{ w.ariaRole }}" aria-pressed="{{ w.ariaSel }}" aria-disabled="{{ w.ariaDisabled }}" aria-label="{{ w.ariaLabel }}" style="{{ w.styleSmall }}">
+                          <div style="font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.7;">{{ w.year }}</div>
+                          <div style="font-family:'Outfit',sans-serif;font-size:0.98rem;font-weight:600;">{{ w.label }}</div>
+                          <div style="{{ w.badgeStyle }}">{{ w.status }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Arrivée</span>
+                    <select value="{{ arrivee }}" onChange="{{ setArrivee }}" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.85rem;color:#14301F;"><option>Vendredi soir</option><option>Samedi matin</option></select>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Départ</span>
+                    <select value="{{ departOpt }}" onChange="{{ setDepartOpt }}" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.85rem;color:#14301F;"><option>Dimanche soir</option><option>Lundi matin</option></select>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Voyageurs</span>
+                    <select value="{{ personnes }}" onChange="{{ setPersonnes }}" style="padding:8px 14px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.85rem;color:#14301F;"><option value="1">1 personne</option><option value="2">2 personnes</option></select>
+                  </div>
+                  <sc-if value="{{ singlePerson }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:10px 0;"><span style="color:#516155;">Formule</span><span style="color:#14301F;font-weight:600;">{{ singleFormuleName }}</span></div>
+                  </sc-if>
+                  <sc-if value="{{ showPerPerson }}" hint-placeholder-val="{{ false }}">
+                    <sc-for list="{{ perPersonFormulas }}" as="pp" hint-placeholder-count="2">
+                      <div style="padding:8px 0;border-bottom:1px solid rgba(20,48,31,0.08);">
+                        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;">
+                          <span style="color:#516155;">{{ pp.label }}</span>
+                          <span style="display:flex;align-items:center;gap:10px;">
+                            <b style="color:#14301F;">{{ pp.formulaName }}</b>
+                            <button onClick="{{ pp.toggle }}" style="font-size:0.78rem;color:#2F7A3A;text-decoration:underline;background:none;border:none;cursor:pointer;padding:0;">{{ pp.toggleLabel }}</button>
+                          </span>
+                        </div>
+                        <sc-if value="{{ pp.isOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:7px;padding:10px 0 4px;">
+                            <sc-for list="{{ pp.options }}" as="fo" hint-placeholder-count="6">
+                              <button onClick="{{ fo.pick }}" style="{{ fo.optStyle }}">
+                                <div style="font-size:0.78rem;font-weight:600;">{{ fo.name }}</div>
+                                <div style="font-size:0.67rem;opacity:0.7;margin-top:2px;">{{ fo.tag }}</div>
+                              </button>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </sc-if>
+                </div>
+                <div>
+                  <h4 style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#2F7A3A;font-weight:700;margin-bottom:14px;">Détail du prix</h4>
+                  <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Séjour</span><span>{{ priceBase }}</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Activités incluses</span><span>0 €</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.9rem;padding:10px 0;border-bottom:1px solid rgba(20,48,31,0.1);"><span style="color:#516155;">Options</span><span>0 €</span></div>
+                  <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.1rem;padding:14px 0;color:#14301F;"><span>Total</span><span>{{ priceTotal }}</span></div>
+                  <div style="display:flex;gap:10px;margin-top:6px;">
+                    <input type="text" aria-label="Code promo" value="{{ promo }}" onChange="{{ setPromo }}" placeholder="Code promo" style="flex:1;padding:12px 18px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.88rem;">
+                    <button onClick="{{ applyPromo }}" class="btn-tertiary">Appliquer</button>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:28px;padding:18px 22px;border-radius:26px;background:#F1F8EC;font-size:0.86rem;color:#516155;">Besoin d'aide ? Notre équipe est disponible 7j/7 (9h-19h) : <a href="tel:0233080000">02 33 08 00 00</a></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:14px;flex-wrap:wrap;">
+                <button onClick="{{ backToResult }}" style="font-size:0.86rem;color:#516155;text-decoration:underline;">← Retour</button>
+                <button onClick="{{ goBooking }}" class="btn-primary">Continuer vers la réservation</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- écran réservation -->
+          <sc-if value="{{ isBooking }}" hint-placeholder-val="{{ false }}">
+            <div style="max-width:520px;">
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.6rem;letter-spacing:-0.02em;color:#14301F;margin-bottom:8px;">Pour finaliser votre réservation</h2>
+              <p style="color:#516155;font-size:0.95rem;margin-bottom:26px;">Nous ne revendrons aucune donnée. Confirmation par e-mail et SMS.</p>
+              <div style="margin-bottom:18px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;margin-bottom:8px;">E-mail *</label>
+                <input type="email" aria-label="Adresse e-mail" value="{{ email }}" onChange="{{ setEmail }}" placeholder="exemple@email.com" style="width:100%;padding:14px 20px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.92rem;">
+              </div>
+              <div style="margin-bottom:24px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;margin-bottom:8px;">Téléphone *</label>
+                <input type="tel" aria-label="Numéro de téléphone" value="{{ phone }}" onChange="{{ setPhone }}" placeholder="06 01 02 03 04" style="width:100%;padding:14px 20px;border-radius:999px;border:1px solid rgba(47,122,58,0.2);background:#fff;font-size:0.92rem;">
+              </div>
+              <button onClick="{{ confirmBooking }}" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95rem;">Confirmer et payer</button>
+              <div style="text-align:center;font-size:0.72rem;letter-spacing:0.12em;color:#2F7A3A;margin:20px 0;">OU</div>
+              <button class="btn-secondary" style="width:100%;justify-content:center;">Se connecter / Créer un compte</button>
+            </div>
+          </sc-if>
+
+          <!-- écran confirmation -->
+          <sc-if value="{{ isConfirm }}" hint-placeholder-val="{{ false }}">
+            <div style="max-width:560px;">
+              <div style="width:62px;height:62px;border-radius:50%;background:#1E5A32;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:20px;">✓</div>
+              <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.7rem;letter-spacing:-0.02em;color:#14301F;margin-bottom:10px;">Réservation confirmée !</h2>
+              <p style="color:#516155;font-size:0.95rem;">Merci, votre séjour est bien réservé. Vous allez recevoir un e-mail de confirmation avec tous les détails.</p>
+              <sc-for list="{{ confirmLines }}" as="cl" hint-placeholder-count="2">
+                <div style="display:flex;gap:16px;align-items:center;padding:18px;border-radius:30px;background:#F1F8EC;margin-top:12px;">
+                  <div style="position:relative;width:78px;height:78px;border-radius:24px;overflow:hidden;flex-shrink:0;background:{{ cl.color }};">
+                    <img src="{{ cl.img }}" alt="{{ cl.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                  </div>
+                  <div>
+                    <sc-if value="{{ cl.showPerson }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:0.75rem;font-weight:700;color:#2F7A3A;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;">{{ cl.personLabel }}</div>
+                    </sc-if>
+                    <b style="color:#14301F;">{{ cl.name }}</b>
+                  </div>
+                </div>
+              </sc-for>
+              <div style="padding:14px 18px;border-radius:20px;background:#F1F8EC;margin-top:10px;font-size:0.85rem;color:#516155;">{{ datesLabel }} · {{ voyageurs }}</div>
+              <div style="font-weight:700;color:#2F7A3A;margin-top:8px;font-size:1rem;">{{ priceTotal }} payés</div>
+              <div style="font-size:0.76rem;color:#2F7A3A;margin-top:12px;">Référence : {{ bookingRef }}</div>
+              <button onClick="{{ closeQuiz }}" class="btn-tertiary" style="margin-top:26px;">Retour à l'accueil</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ MODAL FICHE ============ -->
+  <sc-if value="{{ ficheOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeFicheBackdrop }}" data-ov="1" style="position:fixed;inset:0;z-index:510;background:rgba(9,28,16,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div id="modal-fiche" role="dialog" aria-modal="true" aria-label="Détail de la formule" style="position:relative;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;border-radius:44px;background:#FBFDF9;box-shadow:0 50px 90px -30px rgba(0,0,0,0.6);animation:fadeUp .25s ease;">
+        <button onClick="{{ closeFiche }}" aria-label="Fermer" style="position:absolute;top:20px;right:20px;z-index:5;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.92);color:#14301F;display:flex;align-items:center;justify-content:center;">✕</button>
+        <div style="position:relative;height:230px;border-radius:44px 44px 44px 0;overflow:hidden;background:{{ ficheColor }};">
+          <img src="{{ ficheImg }}" alt="{{ ficheName }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div style="padding:28px 38px 38px;">
+          <div style="font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:#2F7A3A;font-weight:700;">{{ ficheName }}</div>
+          <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.7rem;letter-spacing:-0.025em;color:#14301F;margin:8px 0 12px;">{{ ficheTag }}</h2>
+          <p style="color:#516155;font-size:0.95rem;margin-bottom:22px;">{{ ficheDesc }}</p>
+          <ul style="display:flex;flex-direction:column;gap:8px;margin-bottom:22px;">
+            <sc-for list="{{ ficheActs }}" as="a" hint-placeholder-count="5">
+              <li style="display:flex;gap:9px;font-size:0.9rem;color:#31463A;"><span style="color:#2F7A3A;">✓</span>{{ a }}</li>
+            </sc-for>
+          </ul>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+            <span style="padding:9px 16px;border-radius:999px;background:#E3F1DC;font-size:0.82rem;color:#1E5A32;font-weight:600;">{{ fichePrice }} € TTC le séjour</span>
+            <span style="padding:9px 16px;border-radius:999px;background:#E3F1DC;font-size:0.82rem;color:#1E5A32;font-weight:600;">3 nuits</span>
+            <span style="padding:9px 16px;border-radius:999px;background:#E3F1DC;font-size:0.82rem;color:#1E5A32;font-weight:600;">1 à 2 personnes</span>
+          </div>
+          <button onClick="{{ reserveFiche }}" class="btn-primary" style="width:100%;justify-content:center;font-size:0.95rem;">Réserver cette formule</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ MODAL AUTRES FORMULES ============ -->
+  <sc-if value="{{ othersOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeOthersBackdrop }}" data-ov="1" style="position:fixed;inset:0;z-index:510;background:rgba(9,28,16,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div id="modal-others" role="dialog" aria-modal="true" aria-label="Nos formules" style="position:relative;width:100%;max-width:880px;max-height:88vh;overflow-y:auto;border-radius:44px;background:#FBFDF9;padding:42px 38px 38px;animation:fadeUp .25s ease;">
+        <button onClick="{{ closeOthers }}" aria-label="Fermer" style="position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:#EDF5E8;color:#14301F;display:flex;align-items:center;justify-content:center;">✕</button>
+        <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.55rem;letter-spacing:-0.02em;color:#14301F;">Nos formules</h2>
+        <p style="color:#516155;font-size:0.94rem;margin:6px 0 24px;">Choisissez la formule qui vous correspond le mieux.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+          <sc-for list="{{ formulas }}" as="f" hint-placeholder-count="6">
+            <div onClick="{{ f.pick }}" style="border-radius:30px;overflow:hidden;background:#fff;border:1px solid rgba(47,122,58,0.14);cursor:pointer;" style-hover="transform:translateY(-4px);">
+              <div style="position:relative;height:120px;background:{{ f.color }};">
+                <img src="{{ f.img }}" alt="{{ f.name }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+              </div>
+              <div style="padding:16px;">
+                <h4 style="font-family:'Outfit',sans-serif;font-size:1.02rem;font-weight:600;color:#14301F;">{{ f.name }}</h4>
+                <span style="display:block;font-size:0.76rem;color:#516155;margin:4px 0 12px;">{{ f.price }} € TTC le séjour · 3 nuits</span>
+                <span style="display:block;text-align:center;padding:10px;border-radius:4px;border:1px solid #14301F;font-size:0.8rem;font-weight:700;color:#14301F;">Voir</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ MODAL CARTE ============ -->
+  <sc-if value="{{ mapOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMapBackdrop }}" data-ov="1" style="position:fixed;inset:0;z-index:100;background:rgba(9,28,16,0.65);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div id="modal-map" role="dialog" aria-modal="true" aria-label="Plan du domaine" style="position:relative;width:100%;max-width:900px;max-height:88vh;overflow-y:auto;border-radius:44px;background:#FBFDF9;animation:fadeUp .25s ease;">
+        <button onClick="{{ closeMap }}" aria-label="Fermer" style="position:absolute;top:20px;right:20px;z-index:5;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.92);color:#14301F;display:flex;align-items:center;justify-content:center;">✕</button>
+        <div style="padding:32px 36px 18px;">
+          <h2 style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.5rem;letter-spacing:-0.02em;color:#14301F;">Découvrez le domaine</h2>
+          <p style="color:#516155;font-size:0.9rem;margin-top:6px;">Les 12 suites adoptent une disposition en cercle avec la terrasse tournée vers la nature, aucun <span style="white-space:nowrap">vis-à-vis</span> !</p>
+        </div>
+        <div style="position:relative;height:440px;overflow:hidden;background:#0E2A16;">
+          <img src="./img/plan-domaine.jpg" alt="Plan du domaine vu du ciel" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <sc-for list="{{ mapPoints }}" as="p" hint-placeholder-count="15">
+            <div onMouseEnter="{{ p.select }}" onMouseLeave="{{ p.deselect }}" onClick="{{ p.select }}" style="{{ p.style }}">
+              <svg width="26" height="34" viewBox="0 0 26 34" style="filter:drop-shadow(0 4px 5px rgba(0,0,0,0.35));display:block;">
+                <path d="M13 1C6.4 1 1 6.4 1 13c0 8.5 12 20 12 20s12-11.5 12-20C25 6.4 19.6 1 13 1Z" fill="{{ p.pinColor }}" stroke="#fff" stroke-width="2"/>
+                <circle cx="13" cy="13" r="4.6" fill="#fff"/>
+              </svg>
+            </div>
+          </sc-for>
+          <sc-if value="{{ mapSel }}" hint-placeholder-val="{{ false }}">
+            <div onMouseEnter="{{ keepMapCard }}" onMouseLeave="{{ scheduleMapHide }}" style="{{ mapCardStyle }}">
+              <div style="flex:1;min-width:0;padding:14px 14px 14px 16px;">
+                <div style="font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#2F7A3A;font-weight:700;margin-bottom:4px;">{{ mapSelKind }}</div>
+                <div style="font-family:'Outfit',sans-serif;font-size:0.98rem;font-weight:600;color:#14301F;margin-bottom:4px;">{{ mapSelTitle }}</div>
+                <div style="color:#516155;font-size:0.78rem;line-height:1.4;">{{ mapSelDesc }}</div>
+              </div>
+              <sc-if value="{{ mapSelPhoto }}" hint-placeholder-val="{{ false }}">
+                <div style="width:118px;flex-shrink:0;position:relative;overflow:hidden;">
+                  <img src="{{ mapSelPhoto }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+        </div>
+        <div style="padding:22px 36px 34px;">
+          <div style="color:#2F7A3A;font-size:0.9rem;font-style:italic;">Survolez un point de la carte pour en savoir plus.</div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ CHATBOT FAQ ============ -->
+  <div style="position:fixed;bottom:26px;right:26px;z-index:300;display:flex;flex-direction:column;align-items:flex-end;">
+    <sc-if value="{{ chatOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="width:320px;max-height:440px;display:flex;flex-direction:column;background:#fff;border-radius:26px;box-shadow:0 24px 48px -16px rgba(0,0,0,0.35);margin-bottom:14px;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#2F7A3A,#14301F);color:#fff;padding:16px 20px;">
+          <div style="font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1rem;">(parent)aise</div>
+          <div style="font-size:0.76rem;opacity:0.8;">Assistant FAQ</div>
+        </div>
+        <div id="chatMsgList" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:280px;">
+          <sc-for list="{{ chatMessages }}" as="m" hint-placeholder-count="3">
+            <div style="{{ m.style }}">{{ m.text }}</div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;padding:14px;border-top:1px solid rgba(20,48,31,0.08);">
+          <input aria-label="Votre question pour l'assistant" value="{{ chatInput }}" onInput="{{ setChatInput }}" onKeyDown="{{ chatKeyDown }}" placeholder="Votre question..." style="flex:1;border:1px solid rgba(20,48,31,0.15);border-radius:999px;padding:10px 16px;font-size:0.85rem;">
+          <button onClick="{{ sendChat }}" style="width:40px;height:40px;flex-shrink:0;border-radius:50%;background:#14301F;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">→</button>
+        </div>
+      </div>
+    </sc-if>
+    <button onClick="{{ toggleChat }}" style="width:58px;height:58px;border-radius:50%;background:#1E5A32;box-shadow:0 14px 30px -10px rgba(20,48,31,0.6);display:flex;align-items:center;justify-content:center;">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M4 4.5h16v11.5H8.5L4 20V4.5Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <!-- ============ BANDEAU COOKIES ============ -->
+  <sc-if value="{{ cookieBanner }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:0;left:0;right:0;z-index:400;background:#fff;border-top:1px solid rgba(20,48,31,0.12);box-shadow:0 -8px 32px -8px rgba(0,0,0,0.1);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+      <p style="font-size:0.88rem;color:#3A5240;line-height:1.5;max-width:680px;margin:0;">🍪 Ce site utilise Google Fonts (polices) et OpenRouteService (calcul d'itinéraire). Ces services peuvent déposer des cookies techniques. Aucune donnée de navigation n'est collectée à des fins publicitaires. <button onClick="{{ openRgpd }}" style="color:#2F7A3A;font-weight:700;text-decoration:underline;font-size:0.88rem;background:none;border:none;cursor:pointer;padding:0;">En savoir plus</button></p>
+      <div style="display:flex;gap:10px;flex-shrink:0;">
+        <button onClick="{{ cookieRefuse }}" class="btn-tertiary" style="padding:10px 20px;font-size:0.85rem;">Refuser</button>
+        <button onClick="{{ cookieAccept }}" class="btn-primary" style="padding:10px 20px;font-size:0.85rem;">Accepter</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:200;padding:14px 26px;border-radius:4px;background:#14301F;color:#EAF6E4;font-size:0.88rem;box-shadow:0 20px 40px -18px rgba(0,0,0,0.6);">{{ toast }}</div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;curveStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;organique&quot;,&quot;doux&quot;,&quot;droit&quot;],&quot;default&quot;:&quot;organique&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;cardStyle&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;glass&quot;,&quot;solide&quot;],&quot;default&quot;:&quot;glass&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Style&quot;}}">
+const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+// --- Intégration OpenRouteService (géocodage + itinéraire réel) ---
+// Clé gratuite "Standard" — pas de carte bancaire requise. Ne pas réutiliser sur un vrai projet
+// sans passer par un serveur intermédiaire (elle est visible dans le code source côté navigateur).
+const ORS_API_KEY = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImY1NzgwNmI4NzE3ZjQ3OTliZWM5ODQ1NmQ5YTJhZWMzIiwiaCI6Im11cm11cjY0In0=';
+// Position fictive du domaine, dans la campagne à proximité de Rouen (forêt de Lyons, Eure) — à moins de 2h de Paris.
+const DOMAIN_COORDS = [1.5392, 49.4136]; // [longitude, latitude]
+
+const FORMULAS = {
+  romantique:{id:'romantique',name:'Romantique',tag:'Explorer et se retrouver à deux',color:'#8E5F63',sticker:'Coup de cœur',
+    desc:"Dîner aux chandelles, balade à cheval en tête-à-tête et escapade gastronomique : une parenthèse pensée pour renforcer votre complicité, loin de tout.",
+    activities:['Dîner aux chandelles','Balade à cheval','Escapade gastronomique','Atelier peinture','Massages, spa & sauna inclus'],
+    price:590,img:'https://images.unsplash.com/photo-1633767979501-6225d151ba70?w=1000&q=75&auto=format&fit=crop'},
+  farniente:{id:'farniente',name:'Farniente',tag:'Relâcher toutes les tensions',color:'#6E9077',sticker:'Best-seller',
+    desc:"Massages, spa, sauna et silent walk : la formule pensée pour ne rien faire d'autre que respirer, dans un cocon de confort total.",
+    activities:['Massages, spa & sauna','Escapade gastronomique','Silent walk','Atelier peinture','Balade faune & flore'],
+    price:590,img:'https://images.unsplash.com/photo-1544843776-7c98a52e08a4?w=1000&q=75&auto=format&fit=crop'},
+  culturel:{id:'culturel',name:'Culturel',tag:"Découvrir, apprendre, s'enrichir",color:'#A8863F',sticker:null,
+    desc:"Visite du patrimoine local, dégustation de produits du terroir racontée par un guide, et balades pour observer la faune et la flore de la région.",
+    activities:['Escapade gastronomique','Atelier peinture','Visite du patrimoine local','Balade faune & flore','Massages, spa & sauna inclus'],
+    price:590,img:'https://images.unsplash.com/photo-1753079051122-48a75b3c55b5?w=1000&q=75&auto=format&fit=crop'},
+  sportif:{id:'sportif',name:'Sportif',tag:'Se dépasser, relever des défis',color:'#3E7E71',sticker:null,
+    desc:"Randonnée, escalade en extérieur, canoë et trail : pour ceux qui veulent se dépenser autant que se ressourcer.",
+    activities:['Randonnée & trail','Escalade en extérieur','Balade à cheval','Paddle & canoë','Massages, spa & sauna inclus'],
+    price:590,img:'https://images.unsplash.com/photo-1686852047195-941a73dc376c?w=1000&q=75&auto=format&fit=crop'},
+  spirituel:{id:'spirituel',name:'Spirituel / Santé',tag:'Se recentrer, faire le vide',color:'#7E7C9B',sticker:null,
+    desc:"Sophrologie, yoga, méditation et sylvothérapie : un séjour tourné entièrement vers l'intérieur, au rythme de la forêt.",
+    activities:['Sophrologie','Yoga','Méditation','Sylvothérapie','Massages, spa & sauna inclus'],
+    price:590,img:'https://images.unsplash.com/photo-1571111021195-ba7a674141cb?w=1000&q=75&auto=format&fit=crop'},
+  decouverte:{id:'decouverte',name:'Découverte',tag:'Un peu de tout, pour découvrir',color:'#A8703F',sticker:null,
+    desc:"Un échantillon des cinq autres formules : l'entrée idéale si vous hésitez encore entre plusieurs envies.",
+    activities:['Balade à cheval','Escapade gastronomique','Balade faune & flore','Yoga','Massages, spa & sauna inclus'],
+    price:590,img:'https://images.unsplash.com/photo-1771526087639-02bf6d603d4b?w=1000&q=75&auto=format&fit=crop'}
+};
+const ORDER = ['romantique','spirituel','culturel','sportif','farniente','decouverte'];
+
+const QUESTIONS = [
+  {q:"Quand vous partez en séjour, qu'est-ce qui compte le plus pour vous ?",options:[
+    {label:"Me retrouver à deux, vivre des moments uniques",formula:'romantique'},
+    {label:"Me détendre et prendre soin de moi",formula:'farniente'},
+    {label:"Découvrir, apprendre et m'enrichir culturellement",formula:'culturel'},
+    {label:"Bouger, vivre des sensations et relever des défis",formula:'sportif'}]},
+  {q:"Votre soirée idéale ressemble à…",options:[
+    {label:"Un pur moment de cocooning (spa, sauna)",formula:'farniente'},
+    {label:"Une méditation ou sophrologie au calme",formula:'spirituel'},
+    {label:"Une dégustation du terroir, avec une histoire à raconter",formula:'culturel'},
+    {label:"Un défi qui fait monter l'adrénaline",formula:'sportif'}]},
+  {q:"En pleine nature, vous préférez…",options:[
+    {label:"Une balade à cheval en tête-à-tête",formula:'romantique'},
+    {label:"Une sylvothérapie ou un silent walk",formula:'spirituel'},
+    {label:"Observer la faune et la flore, en apprendre plus",formula:'culturel'},
+    {label:"Une randonnée, escalade ou canoë",formula:'sportif'}]},
+  {q:"Ce dont vous avez le plus besoin en ce moment ?",options:[
+    {label:"Se retrouver à deux, loin de tout",formula:'romantique'},
+    {label:"Relâcher toutes les tensions",formula:'farniente'},
+    {label:"Me recentrer, faire le vide",formula:'spirituel'},
+    {label:"Me défouler, me dépasser",formula:'sportif'}]},
+  {q:"Qu'attendez-vous le plus des activités du séjour ?",options:[
+    {label:"Renforcer notre complicité",formula:'romantique'},
+    {label:"Nous apaiser profondément, sans effort",formula:'farniente'},
+    {label:"Nous enseigner quelque chose sur la région",formula:'culturel'},
+    {label:"Nous aider à nous recentrer intérieurement",formula:'spirituel'}]},
+  {q:"En un mot, ce séjour doit être avant tout…",options:[
+    {label:"Romantique",formula:'romantique'},
+    {label:"Régénérant",formula:'farniente'},
+    {label:"Enrichissant",formula:'culturel'},
+    {label:"Grisant",formula:'sportif'}]}
+];
+
+const PROFILES = {
+  romantique:{name:"Amoureux Inséparable",desc:"Vous cherchez avant tout à vous retrouver à deux, loin du bruit du quotidien."},
+  farniente:{name:"Adepte du Cocooning",desc:"Votre priorité : ne rien faire d'autre que vous laisser porter par le calme."},
+  culturel:{name:"Curieux du Terroir",desc:"Vous aimez apprendre, comprendre et savourer les histoires d'un territoire."},
+  sportif:{name:"Aventurier Actif",desc:"Vous vous ressourcez en vous dépensant et en repoussant vos limites."},
+  spirituel:{name:"Chercheur de Calme Intérieur",desc:"Vous avez besoin de vous recentrer, en silence, au rythme de la forêt."},
+  decouverte:{name:"Explorateur Éclectique",desc:"Vos envies sont multiples : vous voulez un avant-goût de plusieurs mondes."}
+};
+
+const CAROUSEL_PHOTOS = [
+  {src:'./photos/Extérieur_1.png', caption:'Une suite au cœur des arbres'},
+  {src:'./photos/Intérieur_1.png', caption:'Intérieur chaleureux, esprit scandinave'},
+  {src:'./photos/Sentier_1.png', caption:'Sentiers en forêt'},
+  {src:'./photos/Etang.png', caption:"L'étang du domaine, au petit matin"},
+  {src:'./photos/Restaurant.png', caption:'Notre restaurant, cuisine de terroir'},
+  {src:'./photos/Terrasse.png', caption:"Un déjeuner au bord de l'eau"},
+  {src:'./photos/Extérieur_2.png', caption:'Façade côté forêt'},
+  {src:'./photos/Intérieur_2.png', caption:'Suite, ambiance cocon'},
+  {src:'./photos/Sentier_2.png', caption:'Balade au cœur des arbres'},
+  {src:'./photos/Extérieur_3.png', caption:'Des logements tout confort'},
+];
+
+const FAQ_ITEMS = [
+  {q:"Que comprend le prix de mon séjour ?", keywords:["prix","tarif","cout","inclus","comprend","supplement","frais","cache","formule","all","inclusive"], a:"Toutes nos formules sont tout compris : hébergement premium, bain nordique privatif, spa & sauna, petit-déjeuner, activités incluses dans votre formule et accès au domaine. Chez nous, pas de frais cachés ni d'options obligatoires."},
+  {q:"Comment choisir la formule qui me correspond ?", keywords:["formule","choisir","choix","convient","adapte","recommande","quiz","test","profil","correspond"], a:"Nous avons conçu un test de personnalité de moins de deux minutes qui vous recommande automatiquement la formule la plus adaptée à vos envies. Bien sûr, vous pouvez également découvrir toutes nos formules librement."},
+  {q:"Combien de personnes peuvent séjourner dans une suite ?", keywords:["personnes","capacite","groupe","couple","famille","amis","voyageurs","combien","personne","max","maximum"], a:"Nos suites accueillent 1 à 2 personnes maximum : idéales pour un séjour en solo ou en couple. Pour venir à plusieurs, chaque duo réserve sa propre suite — les suites étant réparties sur le domaine, chacun garde son intimité tout en partageant les temps forts (repas, spa, activités)."},
+  {q:"Le bain nordique est-il privatif ?", keywords:["bain","nordique","privatif","prive","partage","jacuzzi","spa","sauna","bains","nordiques"], a:"Oui. Chaque suite dispose de son bain nordique privatif, sans aucun vis-à-vis, pour profiter pleinement de votre séjour en toute intimité."},
+  {q:"Les animaux sont-ils acceptés ?", keywords:["animal","animaux","chien","chat","chiens","chats","pet","compagnie","domestique","mascotte","toutou"], a:"Oui, certaines suites accueillent les animaux de compagnie. Cette information est indiquée lors de la réservation afin de garantir le confort de tous nos voyageurs."},
+  {q:"Où se situe exactement le domaine ?", keywords:["situation","localisation","adresse","lieu","normandie","paris","distance","acces","situe","trouve","itineraire"], a:"Le domaine est situé en Normandie, à moins de 2h30 des principales métropoles. L'adresse précise vous est communiquée après votre réservation afin de préserver la tranquillité du lieu."},
+  {q:"Peut-on venir sans voiture ?", keywords:["voiture","train","transport","gare","transports","commun","bus","covoiturage","venir","acces","velo"], a:"Oui. Une gare est accessible à proximité et des solutions de transfert peuvent être proposées selon votre date d'arrivée."},
+  {q:"Y a-t-il du Wi-Fi ?", keywords:["wifi","internet","connexion","reseau","debit","fibre","4g","telephone","portable","network"], a:"Oui. Chaque suite dispose d'une connexion Wi-Fi haut débit. Nous encourageons toutefois nos voyageurs à profiter pleinement de cette parenthèse de déconnexion."},
+  {q:"Les enfants sont-ils les bienvenus ?", keywords:["enfant","enfants","enfantine","bebe","fils","fille","famille","mineur","age","minimum","kids","jeune"], a:"Nous accueillons les jeunes voyageurs à partir de 14 ans, dans la limite de 2 personnes par suite. Ce choix préserve l'atmosphère de calme, d'intimité et de sérénité qui fait l'identité du domaine, afin que chacun puisse profiter pleinement de sa parenthèse en pleine nature."},
+  {q:"Puis-je modifier ou annuler ma réservation ?", keywords:["annuler","annulation","modifier","modification","remboursement","conditions","changer","imprevu","retard","report"], a:"Oui. Les conditions de modification et d'annulation sont précisées lors de votre réservation. Notre équipe reste disponible pour vous accompagner en cas d'imprévu."},
+  {q:"Quels sont vos engagements écologiques ?", keywords:["ecolo","ecologique","ecologie","durable","environnement","label","bio","responsable","nature","vert","carbone","empreinte"], a:"Notre démarche va au-delà des intentions : hébergements éco-conçus, gestion raisonnée des ressources, partenariats avec des producteurs locaux et obtention de labels environnementaux reconnus. Nous privilégions des engagements concrets et mesurables."},
+  {q:"Pourquoi choisir votre domaine plutôt qu'un autre ?", keywords:["pourquoi","difference","avantage","unique","special","meilleur","autre","originalite","insolite"], a:"Parce que nous ne proposons pas simplement un hébergement insolite. Nous avons imaginé une expérience tout compris, où chaque détail est pensé pour vous permettre de ralentir, vous ressourcer et vous reconnecter à la nature, dans un environnement préservé, sans vis-à-vis."}
+];
+
+const MAP_POINTS = [
+  {id:'etang',x:33.0,y:14.0,title:'Étang',desc:"Balades en barque, silent walk au lever du jour, couchers de soleil sur l'eau.",type:'etang',photo:'./photos/Etang.png'},
+  {id:'restaurant',x:53.7,y:16.5,title:'Restaurant & Terrasse',desc:"Cuisine de terroir face à l'étang, produits du potager du domaine.",type:'restaurant',photo:'./photos/Restaurant.png'},
+  {id:'accueil',x:65.0,y:12.0,title:'Accueil & Réception',desc:"Check-in, conciergerie et boutique de producteurs locaux.",type:'accueil',photo:'./photos/Accueil.jpeg'},
+  {id:'foret',x:12.0,y:24.0,title:'Forêt vivifiante',desc:"Sentiers de balade et séances de sylvothérapie encadrées, au cœur d'une forêt préservée. L'endroit idéal pour se ressourcer et respirer.",type:'foret',photo:'./photos/Sentier_1.png'},
+  {id:'s1',x:39.6,y:32.3,title:'Suite 01',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s2',x:60.0,y:34.0,title:'Suite 12',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s3',x:71.6,y:39.9,title:'Suite 11',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s4',x:78.0,y:47.0,title:'Suite 10',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s5',x:82.0,y:65.0,title:'Suite 09',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s6',x:75.0,y:85.0,title:'Suite 08',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s7',x:57.0,y:94.0,title:'Suite 07',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s8',x:32.0,y:90.9,title:'Suite 06',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s9',x:14.4,y:77.9,title:'Suite 05',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s10',x:15.0,y:61.5,title:'Suite 04',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s11',x:18.3,y:45.3,title:'Suite 03',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'},
+  {id:'s12',x:27.2,y:37.0,title:'Suite 02',desc:"Suite scandinave, aucune autre suite visible depuis la terrasse.",type:'suite',photo:'./photos/Intérieur_1.png'}
+];
+
+const REVIEWS = [
+  {text:"Un lieu magique pour déconnecter totalement et se retrouver.", author:"Marion, Rouen"},
+  {text:"Séjour ressourçant, tout est pensé dans le respect de la nature.", author:"Marc, Lille"},
+  {text:"Une expérience unique et inoubliable, rien que pour nous deux.", author:"Camille, Bordeaux"},
+  {text:"Le bain nordique face à la forêt au lever du jour, inoubliable.", author:"Sophie, Nantes"},
+  {text:"Enfin un endroit où « éco-responsable » n'est pas juste un mot marketing.", author:"Thomas, Paris"},
+  {text:"On est arrivés épuisés, on est repartis regonflés à bloc.", author:"Léa & Antoine, Lyon"},
+  {text:"L'intimité totale de la suite, c'est ce qui fait toute la différence.", author:"Julien, Rennes"},
+  {text:"Le silent walk avec le guide était un moment suspendu.", author:"Élodie, Angers"},
+  {text:"Rapport qualité-prix imbattable pour un vrai 5 étoiles nature.", author:"Nicolas, Strasbourg"},
+  {text:"Formule sportive parfaite : escalade le matin, spa le soir.", author:"Charline, Grenoble"},
+  {text:"On a fêté nos 10 ans ici, on ne pouvait pas rêver mieux.", author:"Alice & Paul, Tours"},
+  {text:"Le petit-déjeuner du dimanche, servi en terrasse, une merveille.", author:"Vincent, Caen"},
+  {text:"Aucun bruit, aucun autre lodge en vue. Juste la forêt.", author:"Manon, Poitiers"},
+  {text:"L'équipe est aux petits soins sans jamais être envahissante.", author:"Karim, Marseille"},
+  {text:"On a réservé notre prochain week-end avant même de repartir.", author:"Céline, Le Mans"},
+  {text:"La séance de sylvothérapie a été révélatrice, sincèrement.", author:"Aurélien, Dijon"},
+  {text:"Design scandinave impeccable, confort d'un vrai hôtel de charme.", author:"Julie, Reims"},
+  {text:"Le domaine est immense, on a l'impression d'avoir la forêt pour nous.", author:"Damien, Metz"},
+  {text:"Balade à cheval au coucher de soleil, moment magique.", author:"Claire, Bordeaux"},
+  {text:"Une pause bien-être qui vaut largement ses trois jours de congé.", author:"Fabien, Toulouse"},
+  {text:"Discrétion, calme, qualité : exactement ce qu'on cherchait.", author:"Ophélie, Amiens"},
+  {text:"La cuisine du restaurant sublime les produits du potager.", author:"Guillaume, Orléans"},
+  {text:"Trois nuits qui valent une semaine de vacances classiques.", author:"Aïcha, Nancy"},
+  {text:"On reviendra. Et on parle déjà d'y emmener nos amis.", author:"Baptiste & Sarah, Clermont-Ferrand"}
+];
+
+class Component extends DCLogic {
+  state = {
+    quizOpen:false, ficheOpen:false, othersOpen:false, mapOpen:false, heroHover:false,
+    screen:'dates', qIndex:0, answers:[], recommended:null, selected:null, ficheId:null,
+    weekendId:null, arrivee:'Vendredi soir', departOpt:'Dimanche soir', personnes:'2',
+    promo:'', promoApplied:false, email:'', phone:'', bookingRef:'',
+    depart:'', trajet:'', trajetLoading:false, trajetRoute:null, mapSel:null, toast:'', route:'home', ecoBadgeOpen:false, faqOpen:null,
+    chatOpen:false, chatMessages:[], chatInput:'', recapWkOpen:false, cookieBanner:false,
+    personFormulas:[], openPersonIdx:null,
+    carouselIndex:0, lightboxOpen:false, lightboxIndex:0, carouselDragging:false, carouselDragStartX:0, carouselDragStartScroll:0
+  };
+
+  componentDidMount(){
+    // Ferme les volets dès qu'on scrolle + parallaxe des fonds tagués [data-parallax]
+    this._heroScrollHandler = () => {
+      if(this.state.heroHover) this.setState({heroHover:false});
+      this.updateParallax();
+    };
+    window.addEventListener('scroll', this._heroScrollHandler, {passive:true});
+
+    // Ferme la carte trajet dès que la section sort du viewport (scroll vers le bas)
+    this._trajetMapScrollHandler = () => {
+      if(!this.state.trajetRoute) return;
+      const el = document.getElementById('trajetMapEl');
+      if(!el) return;
+      const r = el.getBoundingClientRect();
+      if(r.bottom < 0 || r.top > window.innerHeight) this.setState({trajetRoute:null, trajet:''});
+    };
+    window.addEventListener('scroll', this._trajetMapScrollHandler, {passive:true});
+
+    // Colonnes d'avis : calculées une seule fois pour ne pas réinitialiser les animations CSS à chaque setState
+    this._reviewColumns = [0,1,2,3].map(col => {
+      const perCol = 6, start = col * perCol, items = [];
+      for(let k=0;k<perCol;k++) items.push(REVIEWS[(start+k)%REVIEWS.length]);
+      return { items:[...items,...items].map((r,i)=>({...r,key:col+'-'+i})), duration:(30+col*3)+'s', delay:(col*-5)+'s' };
+    });
+
+    // Séquence des vidéos du hero, dans l'ordre. Le dernier clip boucle.
+    this._heroSeq = ['./videos/outside.mp4', './videos/inside.mp4', './videos/domaine.mp4'];
+    this._heroStep = 0;
+    this._heroActive = 'A'; // laquelle des deux balises est visible en ce moment
+    this._heroCrossfadeMs = 1000; // durée du fondu (doit rester ≤ transition CSS)
+
+    setTimeout(()=>this.startHeroSequence(), 100);
+    this._lastRoute = this.state.route;
+    setTimeout(()=>this.initReveals(), 150);
+    setTimeout(()=>this.updateParallax(), 200);
+
+    // Carrousel photos : points de progression synchronisés au scroll
+    this._carouselScrollHandler = ()=>{
+      if(this._carouselRaf) return;
+      this._carouselRaf = requestAnimationFrame(()=>{ this._carouselRaf = null; this.carouselSyncIndex(); });
+    };
+    setTimeout(()=>{
+      const track = document.getElementById('photoCarouselTrack');
+      if(track) track.addEventListener('scroll', this._carouselScrollHandler, {passive:true});
+    }, 200);
+
+    // Lightbox : navigation et fermeture au clavier
+    this._lightboxKeyHandler = (e)=>{
+      if(!this.state.lightboxOpen) return;
+      if(e.key === 'Escape') this.closeLightbox();
+      if(e.key === 'ArrowLeft') this.lightboxPrev();
+      if(e.key === 'ArrowRight') this.lightboxNext();
+    };
+    window.addEventListener('keydown', this._lightboxKeyHandler);
+
+    // Focus trap pour toutes les modales : Tab cycle dans la modale, Echap ferme
+    this._prevFocus = null;
+    this._modalKeyHandler = (e) => {
+      const s = this.state;
+      const modals = [
+        {open:s.quizOpen,    id:'modal-quiz',    close:()=>this.setState({quizOpen:false})},
+        {open:s.ficheOpen,   id:'modal-fiche',   close:()=>this.setState({ficheOpen:false})},
+        {open:s.othersOpen,  id:'modal-others',  close:()=>this.setState({othersOpen:false})},
+        {open:s.mapOpen,     id:'modal-map',     close:()=>this.setState({mapOpen:false})},
+      ];
+      const active = modals.filter(m=>m.open).pop();
+      if(!active) return;
+      if(e.key==='Escape'){ active.close(); return; }
+      if(e.key!=='Tab') return;
+      const el = document.getElementById(active.id);
+      if(!el) return;
+      const focusable = Array.from(el.querySelectorAll(
+        'button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+      )).filter(n=>n.offsetParent!==null);
+      if(!focusable.length) return;
+      const first=focusable[0], last=focusable[focusable.length-1];
+      if(e.shiftKey){
+        if(document.activeElement===first||!el.contains(document.activeElement)){e.preventDefault();last.focus();}
+      } else {
+        if(document.activeElement===last||!el.contains(document.activeElement)){e.preventDefault();first.focus();}
+      }
+    };
+    window.addEventListener('keydown', this._modalKeyHandler);
+
+    // Végétation décorative liée au scroll (branches + feuilles dans les
+    // espaces entre certaines sections). Init après le premier rendu, puis
+    // suivie sur scroll/resize comme le parallax.
+    this._vegReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._vegScrollHandler = () => this.updateVegetation();
+    window.addEventListener('scroll', this._vegScrollHandler, {passive:true});
+    window.addEventListener('resize', this._vegScrollHandler, {passive:true});
+    setTimeout(()=>this.initVegetation(), 220);
+  }
+
+  _focusModal(id){
+    this._prevFocus = document.activeElement;
+    requestAnimationFrame(()=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const first = el.querySelector('button:not([disabled]),[href],input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])');
+      if(first) first.focus();
+    });
+  }
+  _restoreFocus(){
+    const prev = this._prevFocus;
+    this._prevFocus = null;
+    if(prev && prev.focus) requestAnimationFrame(()=>prev.focus());
+  }
+
+  // Décale doucement chaque image [data-parallax] selon sa position à l'écran.
+  // L'image est surdimensionnée (130% de haut, calée à -15%) pour ne jamais
+  // laisser de bord vide pendant le déplacement.
+  updateParallax(){
+    if(this._parallaxRaf) return;
+    this._parallaxRaf = requestAnimationFrame(()=>{
+      this._parallaxRaf = null;
+      const vh = window.innerHeight;
+      document.querySelectorAll('[data-parallax]').forEach(img=>{
+        const wrap = img.parentElement;
+        if(!wrap) return;
+        const rect = wrap.getBoundingClientRect();
+        if(rect.bottom < 0 || rect.top > vh) return; // hors écran : on saute
+        const speed = parseFloat(img.getAttribute('data-parallax')) || 0.15;
+        // position relative : -1 (bloc sous l'écran) → +1 (bloc au-dessus)
+        const progress = (rect.top + rect.height/2 - vh/2) / (vh/2 + rect.height/2);
+        const shift = -progress * rect.height * speed;
+        img.style.transform = `translate3d(0, ${shift.toFixed(1)}px, 0)`;
+      });
+    });
+  }
+
+  // --- Carrousel photos : défilement, glisser-déposer à la souris, points de progression ---
+  carouselStep(){
+    const track = document.getElementById('photoCarouselTrack');
+    if(!track) return 340;
+    const card = track.querySelector('div');
+    return card ? card.getBoundingClientRect().width + 22 : 340;
+  }
+  carouselPrev(){
+    const track = document.getElementById('photoCarouselTrack');
+    if(track) track.scrollBy({left:-this.carouselStep(), behavior:'smooth'});
+  }
+  carouselNext(){
+    const track = document.getElementById('photoCarouselTrack');
+    if(track) track.scrollBy({left:this.carouselStep(), behavior:'smooth'});
+  }
+  carouselGoTo(i){
+    const track = document.getElementById('photoCarouselTrack');
+    if(!track) return;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const n = CAROUSEL_PHOTOS.length - 1;
+    const target = n>0 ? (i/n)*maxScroll : 0;
+    track.scrollTo({left:target, behavior:'smooth'});
+  }
+  carouselSyncIndex(){
+    const track = document.getElementById('photoCarouselTrack');
+    if(!track) return;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    const n = CAROUSEL_PHOTOS.length - 1;
+    const i = maxScroll>0 ? Math.round((track.scrollLeft/maxScroll)*n) : 0;
+    if(i !== this.state.carouselIndex) this.setState({carouselIndex: Math.max(0, Math.min(i, n))});
+  }
+  carouselDragStart(e){
+    const track = document.getElementById('photoCarouselTrack');
+    if(!track) return;
+    this._carouselDragMoved = false;
+    this.setState({carouselDragging:true, carouselDragStartX:e.clientX, carouselDragStartScroll:track.scrollLeft});
+  }
+  carouselDragMove(e){
+    if(!this.state.carouselDragging) return;
+    const track = document.getElementById('photoCarouselTrack');
+    if(!track) return;
+    const delta = e.clientX - this.state.carouselDragStartX;
+    if(Math.abs(delta) > 4) this._carouselDragMoved = true;
+    track.scrollLeft = this.state.carouselDragStartScroll - delta;
+  }
+  carouselDragEnd(){
+    if(this.state.carouselDragging) this.setState({carouselDragging:false});
+  }
+
+  openLightbox(i){ this.setState({lightboxOpen:true, lightboxIndex:i}); }
+  closeLightbox(){ this.setState({lightboxOpen:false}); }
+  lightboxPrev(){ this.setState({lightboxIndex:(this.state.lightboxIndex - 1 + CAROUSEL_PHOTOS.length) % CAROUSEL_PHOTOS.length}); }
+  lightboxNext(){ this.setState({lightboxIndex:(this.state.lightboxIndex + 1) % CAROUSEL_PHOTOS.length}); }
+
+  // --- Végétation décorative (branches + feuilles) dans les espaces entre sections ---
+  // Prépare chaque tracé (longueur réelle → stroke-dasharray) et génère les
+  // feuilles positionnées le long de la courbe via getPointAtLength, pour
+  // rester exact quel que soit le tracé SVG choisi.
+  initVegetation(){
+    this._vegZones = Array.from(document.querySelectorAll('.veg-zone[data-veg]'));
+    if(!this._vegZones.length) return;
+    this._vegZones.forEach(zone=>{
+      const branches = Array.from(zone.querySelectorAll('.veg-branch'));
+      const leavesGroup = zone.querySelector('.veg-leaves');
+      const zoneLW = parseFloat(zone.getAttribute('data-veg-leaf-window')) || 0.15;
+      zone._vegBranches = branches.map(path=>{
+        const len = path.getTotalLength();
+        path.style.strokeDasharray = String(len);
+        path.style.strokeDashoffset = String(len);
+        const colors = (path.getAttribute('data-veg-colors') || '#2F7A3A').split(',');
+        const leafCount = parseInt(path.getAttribute('data-veg-leaves'), 10) || 0;
+        const isSub = path.hasAttribute('data-veg-sub');
+        const leaves = [];
+        for(let i=0;i<leafCount;i++){
+          const base = leafCount>1 ? i/(leafCount-1) : 0.5;
+          const jitter = (Math.sin(i*12.9898 + branches.length*3.1)*0.5+0.5 - 0.5) * 0.06;
+          const frac = Math.min(0.96, Math.max(0.06, (isSub?0.42:0.08) + base*(isSub?0.52:0.86) + jitter));
+          const d = len*frac;
+          const p1 = path.getPointAtLength(d);
+          const p2 = path.getPointAtLength(Math.min(len, d+1.5));
+          const tangentDeg = Math.atan2(p2.y-p1.y, p2.x-p1.x) * 180/Math.PI;
+          const side = i%2===0 ? 1 : -1;
+          const spread = 78 + (i*17)%34;
+          const angle = tangentDeg + side*spread;
+          const scale = 1.4 + ((i*37)%6)/10;
+          const fill = colors[i % colors.length].trim();
+          const variant = i%2===0
+            ? 'M0,0 C-5,-7 -4,-16 0,-22 C4,-16 5,-7 0,0 Z'
+            : 'M0,0 C-7,-6 -8,-15 -2,-21 C2,-17 6,-8 0,0 Z';
+          const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+          g.setAttribute('class','veg-leaf');
+          g.setAttribute('transform', `translate(${p1.x.toFixed(1)},${p1.y.toFixed(1)}) rotate(${angle.toFixed(1)})`);
+          g.innerHTML = `<g class="veg-leaf-scale" style="transform:scale(${(scale*0.5).toFixed(2)});">`
+            + `<path d="${variant}" fill="${fill}"/>`
+            + `<path d="M0,-3 L0,-18" stroke="${fill}" stroke-width="1" stroke-opacity="0.55"/>`
+            + `</g>`;
+          leavesGroup.appendChild(g);
+          leaves.push({el:g, scaleEl:g.querySelector('.veg-leaf-scale'), frac, scale, lw:zoneLW});
+        }
+        let tipLeaf = null;
+        {
+          const tg = document.createElementNS('http://www.w3.org/2000/svg','g');
+          tg.setAttribute('class','veg-leaf');
+          tg.style.opacity = '0';
+          const tf = colors[0].trim();
+          const ts = isSub ? '1.1' : '1.7';
+          tg.innerHTML = `<g class="veg-leaf-scale" style="transform:scale(${ts});">`
+            + `<path d="M0,0 C-5,-7 -4,-16 0,-22 C4,-16 5,-7 0,0 Z" fill="${tf}"/>`
+            + `<path d="M0,-3 L0,-18" stroke="${tf}" stroke-width="1" stroke-opacity="0.55"/>`
+            + `</g>`;
+          leavesGroup.appendChild(tg);
+          tipLeaf = tg;
+        }
+        return {path, len, leaves, tipLeaf};
+      });
+    });
+    if(this._vegReducedMotion){
+      this._vegZones.forEach(zone=>(zone._vegBranches||[]).forEach(b=>{
+        b.path.style.strokeDashoffset = '0';
+        b.leaves.forEach(l=>{ l.el.style.opacity = '1'; l.scaleEl.style.transform = `scale(${l.scale.toFixed(2)})`; });
+        if(b.tipLeaf){ const p=b.path.getPointAtLength(b.len); b.tipLeaf.setAttribute('transform',`translate(${p.x.toFixed(1)},${p.y.toFixed(1)})`); b.tipLeaf.style.opacity='1'; }
+      }));
+      return;
+    }
+    this.updateVegetation();
+  }
+
+  updateVegetation(){
+    if(!this._vegZones || !this._vegZones.length || this._vegReducedMotion) return;
+    if(this._vegRaf) return;
+    this._vegRaf = requestAnimationFrame(()=>{
+      this._vegRaf = null;
+      const vh = window.innerHeight;
+      this._vegZones.forEach(zone=>{
+        const branches = zone._vegBranches;
+        if(!branches) return;
+        const rect = zone.getBoundingClientRect();
+        const startFrac = parseFloat(zone.getAttribute('data-veg-start')) || 0.9;
+        const endFrac = parseFloat(zone.getAttribute('data-veg-end')) || 0.35;
+        const leafWindow = parseFloat(zone.getAttribute('data-veg-leaf-window')) || 0.15;
+        const startY = vh*startFrac, endY = vh*endFrac;
+        let progress = (startY - rect.top) / (startY - endY);
+        progress = Math.max(0, Math.min(1, progress));
+        branches.forEach(b=>{
+          const vegOffset = b.path.hasAttribute('data-veg-sub') ? (parseFloat(b.path.getAttribute('data-veg-offset')||'0')) : 0;
+          const adjProgress = vegOffset > 0 ? Math.max(0,(progress-vegOffset)/(1-vegOffset)) : progress;
+          b.path.style.strokeDashoffset = (b.len*(1-adjProgress)).toFixed(1);
+          b.leaves.forEach(l=>{
+            const w = Math.min(l.lw, Math.max(0.01, 1 - l.frac));
+            const lp = Math.max(0, Math.min(1, (progress - l.frac) / w));
+            l.el.style.opacity = lp.toFixed(2);
+            l.scaleEl.style.transform = `scale(${(l.scale*(0.45+0.55*lp)).toFixed(2)})`;
+          });
+          if(b.tipLeaf && !b.path.hasAttribute('data-veg-sub')){
+            if(progress < 0.04){
+              b.tipLeaf.style.opacity = '0';
+            } else {
+              const d = b.len * progress;
+              const p1 = b.path.getPointAtLength(d);
+              const p2 = b.path.getPointAtLength(Math.max(0, d - 2));
+              const ang = Math.atan2(p1.y-p2.y, p1.x-p2.x) * 180/Math.PI - 90;
+              b.tipLeaf.setAttribute('transform', `translate(${p1.x.toFixed(1)},${p1.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+              b.tipLeaf.style.opacity = Math.min(1, (progress-0.04)/0.06).toFixed(2);
+            }
+          }
+        });
+      });
+    });
+  }
+
+  initReveals(){
+    if(!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+      return;
+    }
+    if(this._revealObs) this._revealObs.disconnect();
+    this._revealObs = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          if(entry.target.hasAttribute('data-count')) this.animateCounter(entry.target);
+          this._revealObs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>this._revealObs.observe(el));
+    document.querySelectorAll('[data-count]').forEach(el=>this._revealObs.observe(el));
+  }
+
+  animateCounter(el){
+    if(el._counted) return; el._counted = true;
+    const target = parseInt(el.getAttribute('data-count'), 10) || 0;
+    const dur = 1400, start = performance.now();
+    const step = (now)=>{
+      const p = Math.min((now-start)/dur, 1);
+      const eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(target*eased);
+      if(p < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    };
+    requestAnimationFrame(step);
+  }
+
+  componentDidUpdate(){
+    // Le hero (et ses balises <video>) est démonté/remonté à chaque changement de page
+    // (voir sc-if isHome). On relance donc la séquence vidéo à chaque retour sur l'accueil.
+    if(this.state.route === 'home' && this._lastRoute !== 'home'){
+      setTimeout(()=>this.startHeroSequence(), 100);
+    }
+    if(this.state.route !== this._lastRoute){
+      setTimeout(()=>this.initReveals(), 120);
+      // Les zones de végétation sont démontées/remontées avec la page "home" :
+      // on réinitialise les tracés + feuilles pour ne pas garder des références DOM mortes.
+      if(this.state.route === 'home') setTimeout(()=>this.initVegetation(), 220);
+      else this._vegZones = null;
+    }
+    this._lastRoute = this.state.route;
+
+    if(this.state.trajetRoute && this.state.trajetRoute !== this._lastTrajetRoute){
+      this._lastTrajetRoute = this.state.trajetRoute;
+      this.renderTrajetMap();
+    }
+  }
+
+  startHeroSequence(){
+    const a = document.getElementById('heroVideoA');
+    const b = document.getElementById('heroVideoB');
+    if(!a || !b) return;
+
+    // Configuration initiale : première vidéo sur A, deuxième pré-chargée sur B
+    a.src = this._heroSeq[0];
+    b.src = this._heroSeq[1] || this._heroSeq[0];
+    a.style.opacity = '1';
+    b.style.opacity = '0';
+    this._heroStep = 0;
+    this._heroActive = 'A';
+
+    // Sur chaque vidéo, on écoute `timeupdate` pour déclencher le fondu vers la suivante
+    // juste avant la fin. On rebranche l'écouteur à chaque changement de src.
+    const setupWatcher = (el, other) => {
+      el.ontimeupdate = () => {
+        if(!el.duration || isNaN(el.duration)) return;
+        const remaining = el.duration - el.currentTime;
+        // Déclenche le fondu 1s avant la fin (= la durée du crossfade)
+        // On passe au clip suivant, ou on revient au premier si on est à la fin de la séquence.
+        if(remaining <= this._heroCrossfadeMs/1000 && !el._crossfading){
+          el._crossfading = true;
+          this.crossfadeToNext();
+        }
+      };
+    };
+    setupWatcher(a, b);
+    setupWatcher(b, a);
+
+    a.muted = true; b.muted = true;
+    a.play().catch(err => console.warn('Hero video autoplay blocked:', err));
+  }
+
+  crossfadeToNext(){
+    const a = document.getElementById('heroVideoA');
+    const b = document.getElementById('heroVideoB');
+    if(!a || !b) return;
+
+    const wasActive = this._heroActive === 'A' ? a : b;
+    const nowActive = this._heroActive === 'A' ? b : a;
+    // Avance dans la séquence, en revenant à 0 après le dernier clip pour boucler indéfiniment
+    this._heroStep = (this._heroStep + 1) % this._heroSeq.length;
+
+    // On lance la vidéo qui va prendre le relais, puis on croise les opacités
+    // (elle a déjà été préchargée à 0 lors du cycle précédent : on ne la
+    // re-seek que si nécessaire, pour éviter un flash de décodage vidéo)
+    if(nowActive.currentTime > 0.05) nowActive.currentTime = 0;
+    nowActive.muted = true;
+    nowActive.loop = false;
+    nowActive.play().catch(()=>{});
+    // Fondu : la nouvelle apparaît, l'ancienne disparaît
+    nowActive.style.opacity = '1';
+    wasActive.style.opacity = '0';
+
+    this._heroActive = this._heroActive === 'A' ? 'B' : 'A';
+
+    // Après le fondu, on pré-charge la suivante (en circulaire) sur la balise qui vient d'être masquée
+    setTimeout(()=>{
+      wasActive._crossfading = false;
+      wasActive.pause();
+      const upcomingIndex = (this._heroStep + 1) % this._heroSeq.length;
+      wasActive.src = this._heroSeq[upcomingIndex];
+      wasActive.load();
+    }, this._heroCrossfadeMs);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this._heroScrollHandler);
+    window.removeEventListener('scroll', this._trajetMapScrollHandler);
+    window.removeEventListener('keydown', this._lightboxKeyHandler);
+    window.removeEventListener('scroll', this._vegScrollHandler);
+    window.removeEventListener('resize', this._vegScrollHandler);
+    if(this._vegRaf) cancelAnimationFrame(this._vegRaf);
+    const track = document.getElementById('photoCarouselTrack');
+    if(track && this._carouselScrollHandler) track.removeEventListener('scroll', this._carouselScrollHandler);
+    if(this._trajetMap){ this._trajetMap.remove(); this._trajetMap=null; }
+  }
+
+  // Attend que Leaflet (chargé via <helmet>) soit disponible sur window, puis exécute cb.
+  waitForLeaflet(cb, triesLeft=100){
+    if(window.L){ cb(); return; }
+    if(triesLeft<=0){ console.warn('Leaflet ne s\'est pas chargé à temps'); return; }
+    setTimeout(()=>this.waitForLeaflet(cb, triesLeft-1), 100);
+  }
+
+  renderTrajetMap(){
+    this.waitForLeaflet(()=>{
+      const el = document.getElementById('trajetMapEl');
+      const route = this.state.trajetRoute;
+      if(!el || !route) return;
+      const L = window.L;
+
+      // On (re)crée la carte à chaque nouveau calcul, plus simple et robuste
+      // que de tenter de réutiliser une instance existante après un changement de conteneur.
+      if(this._trajetMap){ this._trajetMap.remove(); this._trajetMap=null; }
+
+      const map = L.map(el, { scrollWheelZoom:false });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 18
+      }).addTo(map);
+
+      const startLatLng = [route.start[1], route.start[0]]; // [lat, lon]
+      const endLatLng = [route.end[1], route.end[0]];
+      const lineLatLngs = route.coords.map(c => [c[1], c[0]]);
+
+      L.marker(startLatLng).addTo(map).bindPopup('Départ : '+route.startLabel);
+      L.marker(endLatLng).addTo(map).bindPopup('(parent)aise Normandie');
+      const line = L.polyline(lineLatLngs, {color:'#2F7A3A', weight:4});
+      line.addTo(map);
+
+      map.fitBounds(line.getBounds(), {padding:[28,28]});
+      this._trajetMap = map;
+    });
+  }
+
+  weekends(){
+    if(this._wk) return this._wk;
+    const out=[]; const d=new Date();
+    d.setDate(d.getDate() + ((5 - d.getDay() + 7) % 7 || 7));
+    for(let i=0;i<9;i++){
+      const friday=new Date(d), sunday=new Date(d); sunday.setDate(sunday.getDate()+2);
+      out.push({id:'wk'+i,friday,sunday,full:(i===2||i===5)});
+      d.setDate(d.getDate()+7);
+    }
+    this._wk=out; return out;
+  }
+  wkLabel(w,long){
+    const same=w.friday.getMonth()===w.sunday.getMonth();
+    const y=long?' '+w.friday.getFullYear():'';
+    return same ? `${w.friday.getDate()}–${w.sunday.getDate()} ${MOIS[w.friday.getMonth()]}${y}`
+      : `${w.friday.getDate()} ${MOIS[w.friday.getMonth()].slice(0,3)} – ${w.sunday.getDate()} ${MOIS[w.sunday.getMonth()].slice(0,3)}${y}`;
+  }
+  toast(msg){ this.setState({toast:msg}); clearTimeout(this._t); this._t=setTimeout(()=>this.setState({toast:''}),2600); }
+
+  // --- Chatbot FAQ basique : pas d'IA, juste une correspondance de mots-clés
+  // entre la question posée et les 12 questions de la FAQ_ITEMS. ---
+  normalizeChatText(s){
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,' ');
+  }
+  findFaqAnswer(text){
+    const STOPWORDS = new Set(['les','des','une','un','le','la','de','du','et','est','vous','votre','nos','notre','sont','pour','avec','dans','que','qui','peut','peux','ce','cette','au','aux','sur','ou','il','elle','etes','avez','avons','avez','avoir','etre','fait','faut','cest','cela','ca','si','mais','donc','car','ni','par','pas','ne','plus','tout','bien','tres','oui','non']);
+    const query = this.normalizeChatText(text);
+    const queryWords = query.split(/\s+/).filter(w=>w.length>2 && !STOPWORDS.has(w));
+    if(queryWords.length===0) return null;
+    let best=null, bestScore=0;
+    FAQ_ITEMS.forEach(item=>{
+      const hayK = (item.keywords||[]).map(k=>this.normalizeChatText(k));
+      const hayQ = this.normalizeChatText(item.q);
+      const hayA = this.normalizeChatText(item.a);
+      let kScore=0, score=0;
+      queryWords.forEach(w=>{
+        if(hayK.some(k=>k===w||k.startsWith(w)||w.startsWith(k))){ kScore+=5; score+=5; }
+        else if(hayQ.includes(w)) score+=2;
+        else if(hayA.includes(w)) score+=1;
+      });
+      if(kScore>0 && score>bestScore){ bestScore=score; best=item; }
+    });
+    return best;
+  }
+  toggleChat(){
+    const opening = !this.state.chatOpen;
+    if(opening && this.state.chatMessages.length===0){
+      this.setState({chatOpen:true, chatMessages:[{from:'bot', text:"Bonjour ! Posez-moi une question sur votre séjour (prix, suites, animaux, Wi-Fi, réservation...), je regarde dans notre FAQ."}]});
+    } else {
+      this.setState({chatOpen:opening});
+    }
+  }
+  sendChat(){
+    const q = this.state.chatInput.trim();
+    if(!q) return;
+    const match = this.findFaqAnswer(q);
+    const botText = match ? match.a : "Je n'ai pas trouvé de réponse précise à cette question dans notre FAQ. Vous pouvez consulter la page FAQ complète, ou nous contacter directement.";
+    this.setState({
+      chatMessages:[...this.state.chatMessages, {from:'user', text:q}, {from:'bot', text:botText}],
+      chatInput:''
+    });
+    setTimeout(()=>{ const el=document.getElementById('chatMsgList'); if(el) el.scrollTop=el.scrollHeight; }, 50);
+  }
+
+  // Calcule un vrai trajet via OpenRouteService : géocodage de l'adresse tapée,
+  // puis calcul d'itinéraire réel (voiture) jusqu'au domaine.
+  async estimerTrajet(){
+    const v = this.state.depart.trim();
+    if(!v){ this.toast('Indiquez une ville de départ'); return; }
+    this.setState({trajetLoading:true, trajet:'', trajetRoute:null});
+
+    try{
+      // 1) Géocodage : adresse tapée -> coordonnées GPS
+      const geoUrl = `https://api.openrouteservice.org/geocode/search?api_key=${ORS_API_KEY}&text=${encodeURIComponent(v)}&size=1&boundary.country=FR`;
+      const geoRes = await fetch(geoUrl);
+      if(!geoRes.ok) throw new Error('geocode_http_'+geoRes.status);
+      const geoData = await geoRes.json();
+      const feature = geoData.features && geoData.features[0];
+      if(!feature){ this.toast("Adresse introuvable, essayez une ville plus précise"); this.setState({trajetLoading:false}); return; }
+      const startCoords = feature.geometry.coordinates; // [lon, lat]
+      const label = feature.properties.label || v;
+
+      // 2) Itinéraire réel en voiture depuis ce point jusqu'au domaine
+      const dirUrl = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${ORS_API_KEY}&start=${startCoords[0]},${startCoords[1]}&end=${DOMAIN_COORDS[0]},${DOMAIN_COORDS[1]}`;
+      const dirRes = await fetch(dirUrl);
+      if(!dirRes.ok) throw new Error('directions_http_'+dirRes.status);
+      const dirData = await dirRes.json();
+      const summary = dirData.features && dirData.features[0] && dirData.features[0].properties.summary;
+      if(!summary){ this.toast("Impossible de calculer l'itinéraire depuis cette adresse"); this.setState({trajetLoading:false}); return; }
+
+      const totalMinutes = Math.round(summary.duration/60);
+      const h = Math.floor(totalMinutes/60);
+      const m = String(totalMinutes%60).padStart(2,'0');
+      const km = Math.round(summary.distance/1000);
+      const dureeLabel = h>0 ? `${h}h${m}` : `${m} min`;
+
+      const routeCoords = dirData.features[0].geometry.coordinates; // [[lon,lat], ...]
+      this.setState({
+        trajet:`Depuis ${label}, environ ${dureeLabel} · ${km} km en voiture.`,
+        trajetLoading:false,
+        trajetRoute:{ start:startCoords, end:DOMAIN_COORDS, coords:routeCoords, startLabel:label }
+      });
+    }catch(err){
+      console.warn('Erreur ORS:', err);
+      this.toast("Le service d'itinéraire est momentanément indisponible");
+      this.setState({trajetLoading:false});
+    }
+  }
+  total(){
+    const f=FORMULAS[this.state.selected||this.state.recommended||'decouverte'];
+    if(this.state.promoApplied==='NATURE10') return Math.round(f.price*0.9);
+    if(this.state.promoApplied==='THEBRIDGE50') return Math.round(f.price*0.5);
+    return f.price;
+  }
+  compute(){
+    const scores={}; ORDER.forEach(f=>scores[f]=0);
+    this.state.answers.forEach(f=>{ if(f) scores[f]=(scores[f]||0)+1; });
+    const ranked=Object.entries(scores).filter(([k])=>k!=='decouverte').sort((a,b)=>b[1]-a[1]);
+    const top=ranked[0][1];
+    const contenders=ranked.filter(([,v])=>v>=top-1 && top>0);
+    const reco=(contenders.length>=3||top===0)?'decouverte':ranked[0][0];
+    this.setState({recommended:reco,selected:reco,screen:'result'});
+  }
+
+  renderVals(){
+    const s=this.state;
+    const cardGlass = (this.props.cardStyle ?? 'glass') === 'glass';
+    const curve = this.props.curveStyle ?? 'organique';
+    const heroCurve = curve==='droit' ? '0' : (curve==='doux' ? '0 0 60px 60px' : '0 0 46% 46% / 0 0 15% 15%');
+    const bandCurve = curve==='droit' ? '0' : (curve==='doux' ? '60px 60px 60px 60px' : '50% 50% 50% 50% / 9% 9% 9% 9%');
+
+    const reco = FORMULAS[s.selected||s.recommended||'decouverte'];
+    const prof = PROFILES[s.recommended||'decouverte'];
+    const fiche = FORMULAS[s.ficheId||s.selected||'decouverte'];
+    const wk = this.weekends().find(w=>w.id===s.weekendId);
+    const datesLabel = wk ? 'Week-end du '+this.wkLabel(wk,true) : '—';
+    const q = QUESTIONS[s.qIndex];
+
+    const cardBase = cardGlass
+      ? 'padding:18px;border-radius:38px;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.3,1);background:linear-gradient(160deg,rgba(255,255,255,0.18),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.24);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 30px 60px -28px rgba(0,0,0,0.75),inset 0 1px 0 rgba(255,255,255,0.38);'
+      : 'padding:18px;border-radius:38px;cursor:pointer;transition:transform .3s cubic-bezier(.2,.8,.3,1);background:#17462A;border:1px solid rgba(255,255,255,0.12);box-shadow:0 24px 50px -28px rgba(0,0,0,0.7);';
+
+    const steps=[
+      {key:'dates',label:'Test',screens:['dates','quiz']},
+      {key:'result',label:'Résultat',screens:['result']},
+      {key:'recap',label:'Récapitulatif',screens:['recap']},
+      {key:'booking',label:'Réservation',screens:['booking']},
+      {key:'confirm',label:'Confirmation',screens:['confirm']}
+    ];
+    const active = steps.findIndex(st=>st.screens.includes(s.screen));
+    const nPersons = parseInt(s.personnes) || 2;
+    const baseFormula = s.selected || 'decouverte';
+    const pf = Array.from({length:nPersons}, (_,i) => (s.personFormulas && s.personFormulas[i]) || baseFormula);
+
+    return {
+      heroCurve, bandCurve,
+      heroEnter:()=>this.setState({heroHover:true}),
+      heroLeave:()=>this.setState({heroHover:false}),
+      heroLeftTransform: s.heroHover ? 'translateX(-100%)' : 'translateX(0)',
+      heroRightTransform: s.heroHover ? 'translateX(100%)' : 'translateX(0)',
+
+      formulas: ORDER.map(id=>{
+        const f=FORMULAS[id];
+        return {...f, acts:f.activities.slice(0,3), cardStyle:cardBase,
+          open:()=>{ this.setState({ficheId:id,selected:id,ficheOpen:true}); this._focusModal('modal-fiche'); },
+          pick:()=>{ this.setState({othersOpen:false,ficheId:id,selected:id,ficheOpen:true}); this._focusModal('modal-fiche'); }};
+      }),
+
+      depart:s.depart, setDepart:e=>this.setState({depart:e.target.value}),
+      trajetKeyDown:e=>{ if(e.key==='Enter' && !s.trajetLoading) this.estimerTrajet(); },
+      trajet:s.trajet, trajetLoading:s.trajetLoading,
+      hasTrajetMap: !!s.trajetRoute,
+      estimer:()=>{ if(!s.trajetLoading) this.estimerTrajet(); },
+      estimerLabel: s.trajetLoading ? 'Calcul en cours…' : 'Estimer le trajet',
+      estimerBtnStyle: 'padding:16px 30px;border-radius:4px;background:#14301F;color:#EAF6E4;font-weight:700;font-size:0.92rem;'+(s.trajetLoading?'opacity:0.6;cursor:wait;':'cursor:pointer;'),
+
+      quizOpen:s.quizOpen,
+      openQuiz:()=>{ this.setState({quizOpen:true,screen:'dates',qIndex:0,answers:[],recommended:null,promoApplied:false,trajetRoute:null,trajet:''}); this._focusModal('modal-quiz'); },
+      closeQuiz:()=>{ this.setState({quizOpen:false}); this._restoreFocus(); },
+      closeQuizBackdrop:e=>{ if(e.target.dataset.ov){ this.setState({quizOpen:false}); this._restoreFocus(); } },
+
+      steps: steps.map((st,i)=>({
+        label:st.label, num:i<active?'✓':(i+1), line:i<steps.length-1,
+        dotStyle:'width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;'+
+          (i<active?'background:#C9A961;color:#14301F;':(i===active?'background:#14301F;color:#EAF6E4;':'border:1px solid rgba(20,48,31,0.2);color:#2F7A3A;'))
+      })),
+
+      isDates:s.screen==='dates', isQuiz:s.screen==='quiz', isResult:s.screen==='result',
+      isRecap:s.screen==='recap', isBooking:s.screen==='booking', isConfirm:s.screen==='confirm',
+
+      weekends:this.weekends().map(w=>{
+        const sel=s.weekendId===w.id;
+        return {
+          year:w.friday.getFullYear(), label:this.wkLabel(w,false), status:w.full?'Complet':'Disponible',
+          style:'padding:16px 16px 14px;border-radius:26px;transition:transform .2s ease;'+
+            (w.full?'background:#EDF0EA;color:#98A69C;cursor:not-allowed;border:1px solid rgba(20,48,31,0.06);'
+              :(sel?'background:#14301F;color:#EAF6E4;cursor:pointer;border:1px solid #14301F;'
+                :'background:#fff;color:#16251B;cursor:pointer;border:1px solid rgba(47,122,58,0.16);')),
+          styleSmall:'padding:12px 14px 10px;border-radius:20px;transition:transform .2s ease;'+
+            (w.full?'background:#EDF0EA;color:#98A69C;cursor:not-allowed;border:1px solid rgba(20,48,31,0.06);'
+              :(sel?'background:#14301F;color:#EAF6E4;cursor:pointer;border:1px solid #14301F;'
+                :'background:#fff;color:#16251B;cursor:pointer;border:1px solid rgba(47,122,58,0.16);')),
+          badgeStyle:'display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;'+
+            (w.full?'background:rgba(20,48,31,0.08);color:#98A69C;'
+              :(sel?'background:rgba(255,255,255,0.2);color:#EAF6E4;':'background:#E3F1DC;color:#2F7A3A;')),
+          select:()=>{ if(!w.full) this.setState({weekendId:w.id, recapWkOpen:false}); },
+          tabIdx: 0,
+          ariaRole: 'button',
+          ariaSel: sel ? 'true' : 'false',
+          ariaDisabled: w.full ? 'true' : 'false',
+          ariaLabel: `Week-end du ${this.wkLabel(w,true)}${w.full?' (complet)':sel?' (sélectionné)':''}`,
+          onKey:(e)=>{ if((e.key==='Enter'||e.key===' ')&&!w.full){ e.preventDefault(); this.setState({weekendId:w.id,recapWkOpen:false}); } }
+        };
+      }),
+      recapWkOpen:s.recapWkOpen,
+      recapWkLabel:s.recapWkOpen?'Fermer':'Modifier',
+      toggleRecapWk:()=>this.setState({recapWkOpen:!s.recapWkOpen}),
+      arrivee:s.arrivee, setArrivee:e=>this.setState({arrivee:e.target.value}),
+      departOpt:s.departOpt, setDepartOpt:e=>this.setState({departOpt:e.target.value}),
+      personnes:s.personnes, setPersonnes:e=>this.setState({personnes:e.target.value, personFormulas:[], openPersonIdx:null}),
+      nextStyle:'padding:15px 30px;border-radius:999px;font-weight:700;font-size:0.92rem;'+
+        (s.weekendId?'background:#1E5A32;color:#fff;cursor:pointer;':'background:#E3E9DF;color:#9AA79F;cursor:not-allowed;'),
+      goToQuiz:()=>{ if(s.weekendId) this.setState({screen:'quiz',qIndex:0}); },
+
+      qProgress:`Question ${s.qIndex+1} sur ${QUESTIONS.length}`,
+      qBarStyle:`width:${(s.qIndex/QUESTIONS.length)*100}%;height:100%;background:#C9A961;border-radius:3px;transition:width .3s ease;`,
+      qTitle:q.q,
+      qOptions:q.options.map(o=>({
+        label:o.label,
+        style:'text-align:left;padding:22px 20px;border-radius:4px;font-size:0.94rem;font-weight:600;transition:all .18s ease;min-height:96px;'+
+          (s.answers[s.qIndex]===o.formula?'background:#14301F;color:#EAF6E4;border:2px solid #14301F;':'background:#fff;color:#16251B;border:2px solid rgba(47,122,58,0.14);'),
+        pick:()=>{
+          const answers=s.answers.slice(); answers[s.qIndex]=o.formula;
+          this.setState({answers});
+          setTimeout(()=>{
+            if(this.state.qIndex<QUESTIONS.length-1) this.setState({qIndex:this.state.qIndex+1});
+            else this.compute();
+          },200);
+        }
+      })),
+      prevQuestion:()=>{ if(s.qIndex>0) this.setState({qIndex:s.qIndex-1}); else this.setState({screen:'dates'}); },
+
+      profileName:prof.name, profileDesc:prof.desc,
+      recoName:reco.name, recoTag:reco.tag, recoColor:reco.color, recoImg:reco.img,
+      recoActs:reco.activities.slice(0,4),
+      showFiche:()=>{ this.setState({ficheId:reco.id,ficheOpen:true}); this._focusModal('modal-fiche'); },
+      backToQuiz:()=>this.setState({screen:'quiz',qIndex:QUESTIONS.length-1}),
+      openOthers:()=>{ this.setState({othersOpen:true}); this._focusModal('modal-others'); },
+      othersOpen:s.othersOpen,
+      closeOthers:()=>{ this.setState({othersOpen:false}); this._restoreFocus(); },
+      closeOthersBackdrop:e=>{ if(e.target.dataset.ov){ this.setState({othersOpen:false}); this._restoreFocus(); } },
+
+      ficheOpen:s.ficheOpen, ficheName:fiche.name, ficheTag:fiche.tag, ficheDesc:fiche.desc,
+      ficheColor:fiche.color, ficheImg:fiche.img, fichePrice:fiche.price, ficheActs:fiche.activities,
+      closeFiche:()=>{ this.setState({ficheOpen:false}); this._restoreFocus(); },
+      closeFicheBackdrop:e=>{ if(e.target.dataset.ov){ this.setState({ficheOpen:false}); this._restoreFocus(); } },
+      reserveFiche:()=>{
+        const upd={ficheOpen:false,selected:fiche.id,quizOpen:true,screen:'recap'};
+        if(!s.weekendId){ const w=this.weekends().find(x=>!x.full); upd.weekendId=w.id; }
+        this.setState(upd); this._focusModal('modal-quiz');
+      },
+
+      datesLabel, voyageurs:`${s.personnes} ${s.personnes==='1'?'personne':'personnes'} · ${s.arrivee} → ${s.departOpt}`,
+      singlePerson: nPersons === 1,
+      showPerPerson: nPersons > 1,
+      singleFormuleName: FORMULAS[baseFormula].name,
+      perPersonFormulas: pf.map((fId,i)=>{
+        const f = FORMULAS[fId];
+        return {
+          label:`Voyageur ${i+1}`,
+          formulaName:f.name,
+          isOpen:s.openPersonIdx===i,
+          toggleLabel:s.openPersonIdx===i?'Fermer':'Changer',
+          toggle:()=>this.setState({openPersonIdx:s.openPersonIdx===i?null:i}),
+          options:ORDER.map(oid=>{
+            const of2=FORMULAS[oid]; const isSel=fId===oid;
+            return {
+              name:of2.name, tag:of2.tag,
+              optStyle:'padding:10px 12px;border-radius:16px;cursor:pointer;text-align:left;width:100%;border:'+
+                (isSel?'2px solid #14301F;background:#14301F;color:#EAF6E4;':'1px solid rgba(47,122,58,0.2);background:#fff;color:#14301F;'),
+              pick:()=>{ const next=pf.slice(); next[i]=oid; this.setState({personFormulas:next,openPersonIdx:null}); }
+            };
+          })
+        };
+      }),
+      confirmLines: pf.map((fId,i)=>{ const f=FORMULAS[fId]; return {name:f.name,color:f.color,img:f.img,showPerson:nPersons>1,personLabel:'Voyageur '+(i+1)}; }),
+      priceBase:reco.price+' € TTC', priceTotal:this.total()+' € TTC',
+      promo:s.promo, setPromo:e=>this.setState({promo:e.target.value}),
+      applyPromo:()=>{
+        const code = s.promo.trim().toUpperCase();
+        if(code==='NATURE10'){ this.setState({promoApplied:'NATURE10'}); this.toast('Code promo appliqué : -10%'); }
+        else if(code==='THEBRIDGE50'){ this.setState({promoApplied:'THEBRIDGE50'}); this.toast('Code promo appliqué : -50%'); }
+        else this.toast(code?'Code promo invalide':'Entrez un code promo');
+      },
+      backToResult:()=>this.setState({screen:'result'}),
+      goBooking:()=>this.setState({screen:'booking'}),
+
+      email:s.email, setEmail:e=>this.setState({email:e.target.value}),
+      phone:s.phone, setPhone:e=>this.setState({phone:e.target.value}),
+      confirmBooking:()=>{
+        if(!s.email.includes('@')){ this.toast('Merci de renseigner un e-mail valide'); return; }
+        if(!s.phone.trim()){ this.toast('Merci de renseigner un numéro de téléphone'); return; }
+        this.setState({screen:'confirm',bookingRef:'ECO-2026-'+Math.random().toString(36).slice(2,8).toUpperCase()});
+      },
+      bookingRef:s.bookingRef,
+
+      mapOpen:s.mapOpen,
+      openMap:()=>{ this.setState({mapOpen:true}); this._focusModal('modal-map'); },
+      closeMap:()=>{ this.setState({mapOpen:false}); this._restoreFocus(); },
+      closeMapBackdrop:e=>{ if(e.target.dataset.ov){ this.setState({mapOpen:false}); this._restoreFocus(); } },
+
+      // 4 colonnes d'avis en défilement continu. Chaque colonne reçoit 6 avis distincts,
+      reviewColumns: this._reviewColumns,
+      mapPoints:MAP_POINTS.map(p=>({
+        style:`position:absolute;left:${p.x}%;top:${p.y}%;transform:translate(-50%,-100%);cursor:pointer;transition:transform .15s ease;`,
+        pinColor: ({suite:'#E23B3B', etang:'#2F80C4', restaurant:'#E08A1E', accueil:'#8E44C4', foret:'#2E9E4F'})[p.type] || '#B31D1D',
+        select:()=>{ clearTimeout(this._mapHideTimer); this.setState({mapSel:p.id}); },
+        deselect:()=>{ this._mapHideTimer = setTimeout(()=>this.setState({mapSel:null}), 150); }
+      })),
+      mapSel:s.mapSel,
+      keepMapCard:()=>clearTimeout(this._mapHideTimer),
+      scheduleMapHide:()=>{ this._mapHideTimer = setTimeout(()=>this.setState({mapSel:null}), 150); },
+      mapSelKind:s.mapSel?(({suite:'Hébergement', etang:'Point d\'eau', restaurant:'Restauration', accueil:'Services', foret:'Nature & bien-être'})[MAP_POINTS.find(p=>p.id===s.mapSel).type]||"Point d'intérêt"):'',
+      mapSelTitle:s.mapSel?MAP_POINTS.find(p=>p.id===s.mapSel).title:'',
+      mapSelDesc:s.mapSel?MAP_POINTS.find(p=>p.id===s.mapSel).desc:'',
+      mapSelPhoto:s.mapSel&&window.innerWidth>=500?MAP_POINTS.find(p=>p.id===s.mapSel).photo:'',
+      mapCardStyle: (()=>{
+        if(!s.mapSel) return '';
+        const p = MAP_POINTS.find(pt=>pt.id===s.mapSel);
+        // Carte flottante ancrée sur le point cliqué : au-dessus par défaut,
+        // mais affichée en-dessous pour les points de la moitié haute afin de ne pas
+        // chevaucher le bandeau blanc du haut de la modale.
+        const showBelow = p.y < 42;
+        const vOffset = showBelow ? 'translateY(18px)' : 'translateY(calc(-100% - 40px))';
+        const mapContainerW = Math.min(900, window.innerWidth - 40);
+        const cardWidth = Math.min(p.photo ? 320 : 210, mapContainerW - 20);
+        // Décalage horizontal adaptatif : si le point est trop proche d'un bord pour que
+        // la carte centrée tienne entièrement dans le cadre, on la colle au point plutôt
+        // que de la centrer, en s'étendant vers l'intérieur.
+        const halfPct = (cardWidth/2/mapContainerW)*100; // largeur réelle du conteneur carte
+        let hOffset = 'translateX(-50%)';
+        if(p.x < halfPct + 6) hOffset = 'translateX(-8px)';
+        else if(p.x > 100 - halfPct - 6) hOffset = 'translateX(calc(-100% + 8px))';
+        const mobileCard = window.innerWidth < 500;
+        const posStyle = mobileCard
+          ? `position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:calc(100% - 24px);`
+          : `position:absolute;left:${p.x}%;top:${p.y}%;transform:${hOffset} ${vOffset};width:${cardWidth}px;`;
+        return posStyle+`display:flex;align-items:stretch;border-radius:20px;background:rgba(255,255,255,0.97);backdrop-filter:blur(6px);box-shadow:0 16px 32px -12px rgba(0,0,0,0.35);overflow:hidden;z-index:6;`;
+      })(),
+
+      toast:s.toast,
+
+      // Widget chatbot FAQ
+      // Carrousel photos
+      carouselPhotos: CAROUSEL_PHOTOS.map((ph,i)=>({
+        src:ph.src, caption:ph.caption,
+        open:()=>{ if(this._carouselDragMoved) return; this.openLightbox(i); }
+      })),
+      carouselDots: CAROUSEL_PHOTOS.map((ph,i)=>({
+        select:()=>this.carouselGoTo(i),
+        style: i===s.carouselIndex
+          ? 'width:22px;height:8px;border-radius:999px;background:#14301F;border:none;cursor:pointer;transition:all .25s ease;'
+          : 'width:8px;height:8px;border-radius:999px;background:rgba(20,48,31,0.25);border:none;cursor:pointer;transition:all .25s ease;'
+      })),
+      carouselPrev:()=>this.carouselPrev(),
+      carouselNext:()=>this.carouselNext(),
+      carouselDragStart:e=>this.carouselDragStart(e),
+      carouselDragMove:e=>this.carouselDragMove(e),
+      carouselDragEnd:()=>this.carouselDragEnd(),
+
+      // Lightbox
+      lightboxOpen:s.lightboxOpen,
+      lightboxSrc: CAROUSEL_PHOTOS[s.lightboxIndex] ? CAROUSEL_PHOTOS[s.lightboxIndex].src : '',
+      lightboxCaption: CAROUSEL_PHOTOS[s.lightboxIndex] ? CAROUSEL_PHOTOS[s.lightboxIndex].caption : '',
+      closeLightbox:()=>this.closeLightbox(),
+      lightboxPrev:e=>{ e.stopPropagation(); this.lightboxPrev(); },
+      lightboxNext:e=>{ e.stopPropagation(); this.lightboxNext(); },
+      stopProp:e=>e.stopPropagation(),
+
+      chatOpen:s.chatOpen,
+      toggleChat:()=>this.toggleChat(),
+      chatInput:s.chatInput,
+      setChatInput:e=>this.setState({chatInput:e.target.value}),
+      chatKeyDown:e=>{ if(e.key==='Enter') this.sendChat(); },
+      sendChat:()=>this.sendChat(),
+      chatMessages:s.chatMessages.map(m=>({
+        text:m.text,
+        style: m.from==='user'
+          ? 'align-self:flex-end;max-width:82%;padding:10px 15px;border-radius:16px 16px 4px 16px;background:#14301F;color:#EAF6E4;font-size:0.85rem;line-height:1.4;'
+          : 'align-self:flex-start;max-width:82%;padding:10px 15px;border-radius:16px 16px 16px 4px;background:#F1F8EC;color:#31463A;font-size:0.85rem;line-height:1.4;'
+      })),
+
+      // Rubriques de navigation préparant l'arborescence du site (vraies pages, contenu à venir)
+      goHome:()=>this.setState({route:'home'}),
+      goHomeKey:e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); this.setState({route:'home'}); } },
+      openEngagements:()=>this.setState({route:'engagements'}),
+      openInfos:()=>this.setState({route:'infos'}),
+      openContact:()=>this.setState({route:'contact'}),
+      openFaq:()=>this.setState({route:'faq'}),
+      openRgpd:()=>this.setState({route:'rgpd'}),
+      cookieAccept:()=>this.setState({cookieBanner:false}),
+      cookieRefuse:()=>this.setState({cookieBanner:false}),
+      isHome:s.route==='home', isEngagements:s.route==='engagements', isInfos:s.route==='infos',
+      isContact:s.route==='contact', isFaq:s.route==='faq', isRgpd:s.route==='rgpd',
+      cookieBanner:s.cookieBanner,
+      faqItems: FAQ_ITEMS.map((item,i)=>({
+        q:item.q, a:item.a,
+        open: s.faqOpen===i,
+        toggle:()=>this.setState({faqOpen: s.faqOpen===i ? null : i}),
+        chevronStyle: `display:flex;align-items:center;justify-content:center;flex-shrink:0;width:26px;height:26px;border-radius:50%;background:#F1F8EC;transition:transform 0.25s ease;transform:rotate(${s.faqOpen===i?180:0}deg);`
+      })),
+
+      // Badge écologique du header, affiché au survol
+      keepEcoBadge:()=>{ clearTimeout(this._ecoHideTimer); this.setState({ecoBadgeOpen:true}); },
+      scheduleEcoHide:()=>{ this._ecoHideTimer = setTimeout(()=>this.setState({ecoBadgeOpen:false}), 150); },
+      ecoBadgeOpen:s.ecoBadgeOpen
+    };
+  }
+}
+</script>
+<script>
+// Flip cards touch support (mobile)
+(function(){
+  if(!window.matchMedia('(hover:none)').matches) return;
+  document.addEventListener('click', function(e){
+    const card = e.target.closest('.flip-card');
+    if(!card) return;
+    if(!card.classList.contains('flipped')){
+      e.stopPropagation();
+      document.querySelectorAll('.flip-card.flipped').forEach(c=>c.classList.remove('flipped'));
+      card.classList.add('flipped');
+    }
+  }, true);
+})();
+</script>
+</body>
+</html>

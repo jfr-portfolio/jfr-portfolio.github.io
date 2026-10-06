@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Réalisations — Product Builder</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --line-2: #EBE8EE;
+      --carmine: #BF1E42;
+      --ochre: #EFB63C;
+      --ochre-deep: #8A6108;
+      --shell: min(1180px, 100% - 48px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .shell {
+      width: var(--shell);
+      margin-inline: auto;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+      }
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 40px);
+      top: 40px;
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero p {
+      color: #BDB2CC;
+      font-family: Literata, Georgia, serif;
+      font-size: 1rem;
+      max-width: 42ch;
+      line-height: 1.55;
+    }
+
+    /* ---------- GRILLE ---------- */
+    .work-section {
+      padding: clamp(2.5rem, 7vw, 4rem) 0 clamp(3rem, 9vw, 5.5rem);
+    }
+
+    .work {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    @media(max-width: 820px) {
+      .work {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .project {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Vignette desktop (16/10) */
+    .thumb {
+      position: relative;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      display: block;
+      width: 100%;
+      transition: border-color .2s ease;
+    }
+
+    .thumb:hover {
+      border-color: var(--carmine);
+    }
+
+    .thumb iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1440px;
+      height: 900px;
+      border: 0;
+      transform-origin: 0 0;
+      transform: scale(var(--scale, .28));
+      pointer-events: none;
+    }
+
+    /* Vignette mobile */
+    .thumb-mobile {
+      aspect-ratio: auto;
+      height: var(--pair-h, 220px);
+    }
+
+    .thumb-mobile iframe {
+      width: 390px;
+      height: 844px;
+    }
+
+    /* Skeleton de chargement */
+    .thumb .skeleton {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--ink-2);
+      background: var(--surface);
+      z-index: 1;
+    }
+
+    .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: default;
+    }
+
+    .scroll-zone {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 22%;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: transparent;
+      opacity: 0;
+      transition: opacity .22s ease, background .22s ease;
+      cursor: ns-resize;
+    }
+
+    .thumb:hover .scroll-zone {
+      opacity: 1;
+      background: rgba(37, 28, 51, 0.48);
+    }
+
+    .scroll-zone::before {
+      content: '↕';
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.95);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .scroll-zone::after {
+      content: 'Scroll';
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .64rem;
+      letter-spacing: .08em;
+      color: rgba(255, 255, 255, 0.75);
+      pointer-events: none;
+    }
+
+    /* Paire de vignettes mobiles */
+    .mobile-pair {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .mobile-pair .project {
+      flex: 1;
+      min-width: 0;
+    }
+
+    /* ---------- TEXTE CARDS ---------- */
+    .project .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .63rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--carmine);
+      display: block;
+    }
+
+    .project h2 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    .project .sub {
+      font-family: Literata, Georgia, serif;
+      font-size: .88rem;
+      line-height: 1.68;
+      color: var(--ink-2);
+    }
+
+    .project .sub code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8em;
+      color: var(--ink);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--deep);
+      color: #9F94AE;
+      padding: 2.4rem var(--pad, clamp(1.15rem,5vw,2rem));
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* ---------- TOP NAV (sticky) ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .topnav-inner {
+      max-width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+    .topnav-brand:hover { color: var(--ochre); }
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .topnav-links::-webkit-scrollbar { display: none; }
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+    .topnav-links a:last-child { padding-right: 0; }
+    .topnav-links a:hover { color: #F4F1F7; }
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: .7em;
+      opacity: .6;
+    }
+    @media (max-width: 640px) {
+      .topnav-brand { display: none; }
+    }
+    @view-transition { navigation: auto; }
+    .topnav { view-transition-name: topnav; }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html">Le métier</a>
+        <a href="sites.html" class="active">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="creatif.html">Direction créative</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="shell">
+      <span class="eyebrow">Sites web</span>
+      <h1>Un site qui fait le travail,<br>pas juste une carte de visite.</h1>
+      <p>Attirer les bons profils, rassurer avant un premier rendez-vous, transformer les visiteurs en contacts : chaque projet ci-dessous répond à une demande précise, livré avec un back-office que le client peut piloter seul.</p>
+    </div>
+    <img src="sites.png" class="hero-watermark" aria-hidden="true">
+  </header>
+
+  <main>
+    <div class="work-section">
+      <div class="shell">
+        <div class="work" id="work">
+
+          <!-- Rangée 1 -->
+          <article class="project">
+            <div class="thumb" data-src="parentaise/index.html" data-dc="true">
+              <div class="skeleton">chargement…</div>
+              <div class="thumb-overlay"></div>
+              <div class="scroll-zone"></div>
+            </div>
+            <span class="tag">UX · Éco-conception · RGPD · SEO local</span>
+            <h2>(parent)aise</h2>
+            <p class="sub">Écolodge en Normandie. La mission a commencé par un audit du parcours de réservation existant
+              : trop de pages, trop d'étapes, un taux d'abandon élevé avant le paiement. L'arborescence a été
+              redessinée, un quiz de recommandation de séjour ajouté, le tunnel ramené à trois étapes. L'éco-conception
+              a été posée dès le début du projet, pas rajoutée en option à la fin : pages sous 400 ko, images en WebP
+              progressif, aucune police externe chargée sans raison. Le client tient à ses valeurs environnementales et
+              le site devait en être le reflet. Pour le RGPD : bannière de consentement conforme, données hébergées en
+              France, formulaire de contact sans champs superflus. Référencement travaillé sur les requêtes « écolodge
+              normandie » et « hébergement insolite calvados », avec un balisage schema.org <code>LodgingBusiness</code>
+              pour que Google affiche les informations clés directement dans les résultats.</p>
+          </article>
+
+          <article class="project">
+            <div class="thumb" data-src="fracas_street_festival_2027/code.html">
+              <div class="skeleton">chargement…</div>
+              <div class="thumb-overlay"></div>
+              <div class="scroll-zone"></div>
+            </div>
+            <span class="tag">Accessibilité WCAG · Performances · Sécurité</span>
+            <h2>FRACAS 2027</h2>
+            <p class="sub">Festival des arts de la rue en Occitanie. Le vrai problème ici était l'identité graphique :
+              une palette risograph très saturée casse naturellement les contrastes et l'accessibilité. Tous les textes
+              ont été repassés au crible WCAG AA, les boutons de filtre repensés pour rester lisibles sans trahir le
+              parti pris visuel. Navigation clavier complète, attributs ARIA sur les filtres de programme (jour,
+              discipline, lieu). Un pic de trafic est prévisible au moment de l'annonce de programmation : score
+              Lighthouse mobile visé à 90+, chargement différé sur les visuels de spectacle, CDN pour tenir la charge.
+              Le back-office de gestion du programme est protégé par authentification double facteur.</p>
+          </article>
+
+          <!-- Rangée 2 : cadre + écho (moitié largeur) -->
+          <div class="mobile-pair">
+            <article class="project">
+              <div class="thumb thumb-mobile" data-src="cadre_architecture/code.html" data-design-w="390">
+                <div class="skeleton">chargement…</div>
+                <div class="thumb-overlay"></div>
+                <div class="scroll-zone"></div>
+              </div>
+              <span class="tag">Maquettage · Core Web Vitals · SEO</span>
+              <h2>CADRE Architecture <small style="font-size:.8em;font-weight:500;color:var(--ink-2)">(mobile)</small>
+              </h2>
+              <p class="sub">Studio d'architecture contemporaine. La mission a commencé par une phase de maquettage
+                Figma en mobile-first : les clients de l'agence consultent surtout depuis leur téléphone, souvent sur
+                chantier. Wireframes basse fidélité validés avec le client, maquettes haute fidélité testées avec
+                quelques utilisateurs avant le développement. Ce test a suffi pour repositionner la galerie projets en
+                page d'accueil, contre l'intuition initiale du client. Les pages portfolio, très riches en images haute
+                résolution, ont demandé un travail spécifique : formats AVIF/WebP, <code>srcset</code> pour les
+                différentes tailles d'écran, chargement différé. Suivi mensuel des Core Web Vitals (LCP visé sous 2,5 s)
+                et du positionnement sur les requêtes « architecte contemporain » avec ciblage géographique.</p>
+            </article>
+
+            <article class="project">
+              <div class="thumb thumb-mobile" data-src="echo_avocats_labor_law/code.html" data-design-w="390">
+                <div class="skeleton">chargement…</div>
+                <div class="thumb-overlay"></div>
+                <div class="scroll-zone"></div>
+              </div>
+              <span class="tag">RGPD · Cybersécurité · Accessibilité</span>
+              <h2>Écho Avocats <small style="font-size:.8em;font-weight:500;color:var(--ink-2)">(mobile)</small></h2>
+              <p class="sub">Cabinet en droit du travail. Un avocat reçoit des informations sensibles dès le premier
+                message. Le formulaire de contact a été conçu pour ne collecter que le minimum (pas de champ « décrivez
+                votre situation »), les échanges transitent par un serveur SMTP chiffré, et la politique de
+                confidentialité a été rédigée depuis zéro, pas copiée d'un générateur. L'accessibilité a été travaillée
+                pour un public assez large : salariés en difficulté, RH, dirigeants de TPE. Structure de titres logique,
+                labels de formulaire explicites, taille de texte suffisante sans zoom. Le référencement cible des
+                requêtes longue traîne liées aux contentieux prud'homaux et à la rupture conventionnelle, là où
+                l'intention de consulter un avocat est réelle.</p>
+            </article>
+          </div>
+
+          <article class="project">
+            <div class="thumb" data-src="horizons_communs_urban_design/code.html">
+              <div class="skeleton">chargement…</div>
+              <div class="thumb-overlay"></div>
+              <div class="scroll-zone"></div>
+            </div>
+            <span class="tag">Éco-conception · RGAA · SEO institutionnel</span>
+            <h2>Horizons Communs</h2>
+            <p class="sub">Agence d'urbanisme et design participatif. Un acteur qui se revendique d'une démarche durable
+              ne peut pas faire tourner son site sur un hébergement carbon-intensif. L'éco-conception a donc été un vrai
+              fil directeur : pages sous 500 ko, police variable unique, aucun tracker tiers, hébergement chez un
+              fournisseur certifié énergie renouvelable. Un audit d'accessibilité RGAA a été conduit en fin de projet.
+              L'agence intervient régulièrement auprès de collectivités publiques, ce qui impose un niveau de conformité
+              sérieux : taux visé supérieur à 75 % dès la mise en ligne. Le référencement est orienté vers les marchés
+              d'urbanisme, la co-construction citoyenne et la requalification urbaine.</p>
+          </article>
+
+          <!-- Rangée 3 -->
+          <article class="project">
+            <div class="thumb" data-src="vanguard_expertise_comptable/code.html">
+              <div class="skeleton">chargement…</div>
+              <div class="thumb-overlay"></div>
+              <div class="scroll-zone"></div>
+            </div>
+            <span class="tag">Cybersécurité · RGPD · SEO local</span>
+            <h2>Vanguard Expertise Comptable</h2>
+            <p class="sub">Cabinet d'expertise comptable. C'est le dossier le plus sensible en termes de sécurité : les
+              clients déposent des documents financiers confidentiels. Authentification double facteur (TOTP) sur
+              l'espace client, connexions uniquement en HTTPS avec HSTS, headers de sécurité configurés
+              (Content-Security-Policy, X-Frame-Options, Referrer-Policy), politique de mots de passe renforcée côté
+              CMS. La conformité RGPD a été traitée en profondeur : registre de traitements, durées de conservation
+              définies, sous-traitants listés. En parallèle, référencement local : fiche Google Business Profile
+              optimisée, balisage schema.org <code>AccountingService</code>, positionnement ciblé sur « expert-comptable
+              » et les zones géographiques définies avec le client.</p>
+          </article>
+
+          <article class="project">
+            <div class="thumb" data-src="asana_sanctuary_yoga_retreat/code.html">
+              <div class="skeleton">chargement…</div>
+              <div class="thumb-overlay"></div>
+              <div class="scroll-zone"></div>
+            </div>
+            <span class="tag">UX mobile · Performances · SEO</span>
+            <h2>Asana Sanctuary</h2>
+            <p class="sub">Studio de yoga premium. L'analyse du trafic existant a montré que 88 % des visites venaient
+              du mobile, souvent entre deux cours ou dans les transports. Le parcours de réservation a donc été repensé
+              en priorité : accéder au planning et réserver une place devait se faire en deux interactions, depuis
+              n'importe quelle page. Les maquettes Figma ont été validées lors d'un atelier avec l'équipe enseignante,
+              ce qui a permis d'éviter un désaccord majeur sur la structure tarifaire avant de toucher au code.
+              Performances optimisées pour les réseaux mobiles : images en AVIF, polices préchargées, Time to
+              Interactive sous 3 s sur 4G. Référencement travaillé sur des requêtes locales autour des disciplines
+              (ashtanga, yin yoga, yoga nidra) et des retraites week-end, avec des avis Google intégrés en données
+              structurées.</p>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <p>Product Builder · sites web</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Mise à l'échelle — lit data-design-w si présent (390 pour mobile, 1440 sinon) */
+    const DESIGN_W = 1440;
+    const ro = new ResizeObserver(entries => {
+      for (const e of entries) {
+        const dw = parseInt(e.target.dataset.designW) || DESIGN_W;
+        const scale = e.contentRect.width / dw;
+        e.target.style.setProperty('--scale', scale);
+        /* Recalcule le translateY des vignettes mobiles si la fenêtre est redimensionnée */
+        const iframe = e.target.querySelector('iframe');
+        if (iframe && iframe._fullH !== undefined) {
+          const thumbH = e.target.getBoundingClientRect().height;
+          const maxTy = thumbH / scale - iframe._fullH;
+          iframe._ty = Math.max(maxTy, Math.min(0, iframe._ty || 0));
+          iframe.style.transform = `scale(${scale}) translateY(${iframe._ty}px)`;
+        }
+      }
+    });
+
+    /* Hauteur exacte des vignettes mobiles = largeur de la paire / 1.6 (ratio 16/10 des vignettes normales) */
+    const pairRO = new ResizeObserver(entries => {
+      for (const e of entries) {
+        e.target.style.setProperty('--pair-h', (e.contentRect.width / 1.6) + 'px');
+      }
+    });
+    document.querySelectorAll('.mobile-pair').forEach(p => pairRO.observe(p));
+
+    /* Chargement différé */
+    const frameTimers = new WeakMap();
+
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        const f = document.createElement('iframe');
+        f.src = el.dataset.src;
+        f.setAttribute('scrolling', 'no');
+        f.setAttribute('tabindex', '-1');
+        f.setAttribute('aria-hidden', 'true');
+        f.setAttribute('loading', 'lazy');
+        f.addEventListener('load', () => {
+          try {
+            const doc = f.contentDocument;
+            if (doc?.documentElement) doc.documentElement.style.scrollBehavior = 'auto';
+            if (doc?.body) doc.body.style.scrollBehavior = 'auto';
+            /* Vignettes mobiles : étirer l'iframe à la hauteur totale du contenu. */
+            if (el.classList.contains('thumb-mobile')) {
+              const fullH = doc.documentElement.scrollHeight || doc.body?.scrollHeight || 844;
+              f.style.height = fullH + 'px';
+              f._fullH = fullH;
+              f._ty = 0;
+              const scale = parseFloat(el.style.getPropertyValue('--scale')) || 0.64;
+              f.style.transform = `scale(${scale}) translateY(0px)`;
+            }
+          } catch (err) { }
+          if (el.dataset.dc) {
+            const t = setTimeout(() => el.querySelector('.skeleton')?.remove(), 8000);
+            frameTimers.set(f, t);
+          } else {
+            setTimeout(() => el.querySelector('.skeleton')?.remove(), 600);
+          }
+        });
+        el.prepend(f);
+        obs.unobserve(el);
+      });
+    }, { rootMargin: '300px' });
+
+    /* Signal de boot DC/React */
+    window.addEventListener('message', e => {
+      if (e.data?.type !== '__dc_booted') return;
+      document.querySelectorAll('.thumb iframe').forEach(iframe => {
+        if (iframe.contentWindow !== e.source) return;
+        clearTimeout(frameTimers.get(iframe));
+        iframe.closest('.thumb')?.querySelector('.skeleton')?.remove();
+      });
+    });
+
+    document.querySelectorAll('.thumb').forEach(t => { ro.observe(t); io.observe(t); });
+
+    /* Scroll molette via la zone dédiée en bas */
+    document.querySelectorAll('.scroll-zone').forEach(zone => {
+      const thumb = zone.closest('.thumb');
+      zone.addEventListener('wheel', e => {
+        e.preventDefault();
+        const iframe = thumb.querySelector('iframe');
+        if (!iframe?.contentWindow) return;
+        const scale = parseFloat(thumb.style.getPropertyValue('--scale')) || 0.28;
+
+        if (thumb.classList.contains('thumb-mobile') && iframe._fullH !== undefined) {
+          const thumbH = thumb.getBoundingClientRect().height;
+          const maxTy = thumbH / scale - iframe._fullH;
+          const newTy = Math.max(maxTy, Math.min(0, (iframe._ty || 0) - e.deltaY / scale));
+          iframe._ty = newTy;
+          iframe.style.transform = `scale(${scale}) translateY(${newTy}px)`;
+        } else {
+          iframe.contentWindow.scrollBy(0, e.deltaY / scale);
+        }
+      }, { passive: false });
+    });
+  </script>
+</body>
+
+</html>
