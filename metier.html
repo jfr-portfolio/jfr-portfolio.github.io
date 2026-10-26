@@ -215,10 +215,13 @@
     }
 
     @media (max-width: 640px) {
-      .topnav-brand {
-        display: none;
-      }
-    }
+  .topnav { position: static; }
+  .topnav-brand { display: none; }
+  .topnav-inner { justify-content: center; }
+  .topnav-links { flex-wrap: wrap; justify-content: center; overflow: visible; padding: .3rem 0; }
+  .topnav-links a { padding: .6rem .7rem; font-size: .78rem; }
+  .topnav-links a:last-child { padding-right: .7rem; }
+}
 
     @view-transition {
       navigation: auto;
@@ -355,6 +358,10 @@
 
     .card-grid.cols-2 {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid.cols-5 {
+      grid-template-columns: repeat(5, 1fr);
     }
 
     .card {
@@ -587,6 +594,7 @@
       .card-grid,
       .card-grid.cols-4,
       .card-grid.cols-2,
+      .card-grid.cols-5,
       .missions-lists,
       .timeframes {
         grid-template-columns: 1fr;
@@ -794,7 +802,7 @@
           <h2>Comment ça se déroule, en pratique</h2>
           <p>Cinq étapes, pas une liste de livrables à cocher.</p>
         </div>
-        <div class="card-grid cols-4" style="grid-template-columns:repeat(5,1fr)">
+        <div class="card-grid cols-5">
           <div class="card">
             <h4>Cartographier</h4>
             <p>Immersion terrain avec les équipes concernées : entretiens, observation, modélisation des flux et des

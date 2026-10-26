@@ -157,10 +157,13 @@
     }
 
     @media (max-width: 640px) {
-      .topnav-brand {
-        display: none;
-      }
-    }
+  .topnav { position: static; }
+  .topnav-brand { display: none; }
+  .topnav-inner { justify-content: center; }
+  .topnav-links { flex-wrap: wrap; justify-content: center; overflow: visible; padding: .3rem 0; }
+  .topnav-links a { padding: .6rem .7rem; font-size: .78rem; }
+  .topnav-links a:last-child { padding-right: .7rem; }
+}
 
     @view-transition {
       navigation: auto;
@@ -257,6 +260,7 @@
       letter-spacing: .05em;
       text-align: center;
     }
+      @media (max-width: 640px) { .br-wide { display: none; } }
   </style>
 </head>
 
@@ -280,8 +284,8 @@
     <div class="wrap">
       <span class="eyebrow">Contact</span>
       <h1>Envie de discuter<br>de votre projet ?</h1>
-      <p class="lede">Qu'il s'agisse d'une idée à peine formalisée<br>ou au contraire d'un besoin déjà bien
-        défini,<br>on en
+      <p class="lede">Qu'il s'agisse d'une idée à peine formalisée <br class="br-wide">ou au contraire d'un besoin déjà bien
+        défini, <br class="br-wide">on en
         discute
         ensemble!</p>
     </div>
