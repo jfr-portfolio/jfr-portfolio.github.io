@@ -213,8 +213,8 @@
 
     .topnav-links a.external::after {
       content: " ↗";
-      font-size: .7em;
-      opacity: .6;
+      font-size: 1.15em;
+      opacity: 1;
     }
 
     @media (max-width: 640px) {
@@ -224,6 +224,7 @@
   .topnav-links { flex-wrap: wrap; justify-content: center; overflow: visible; padding: .3rem 0; }
   .topnav-links a { padding: .6rem .7rem; font-size: .78rem; }
   .topnav-links a:last-child { padding-right: .7rem; }
+  .topnav-links a.external { order: 1; flex-basis: 100%; text-align: center; }
 }
 
     /* MPA view transitions (Chrome, Safari) */
@@ -521,8 +522,8 @@
 
     .footer-links a.external::after {
       content: " ↗";
-      font-size: .8em;
-      opacity: .6;
+      font-size: 1.15em;
+      opacity: 1;
     }
 
     .footer-contact {
