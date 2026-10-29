@@ -596,7 +596,8 @@
       var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, last = null;
       while ((n = w.nextNode())) { if (n.nodeValue.trim()) last = n; }
       if (!last) return;
-      var t = last.nodeValue.replace(/\s+$/, ''), tail = last.nodeValue.slice(t.length);
+      var raw = last.nodeValue, t = raw.replace(/\s+$/, ''), tail = raw.slice(t.length);
+      t = t.replace(/\s+/g, ' ');
       var parts = t.split(' ');
       if (parts.length < 2) return;
       var k = parts.length >= 3 && (parts[parts.length - 2] + parts[parts.length - 1]).length < 12 ? 3 : 2;
