@@ -390,6 +390,19 @@
 }
     @view-transition { navigation: auto; }
     .topnav { view-transition-name: topnav; }
+  
+    p,
+    dd,
+    li {
+      text-wrap: pretty;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      text-wrap: balance;
+    }
   </style>
 </head>
 
@@ -412,7 +425,7 @@
   <header class="hero">
     <div class="shell">
       <span class="eyebrow">Sites web</span>
-      <h1>Un site qui fait le travail,<br>pas juste une carte de visite.</h1>
+      <h1>Un site qui fait le travail,<br>pas juste une carte&nbsp;de&nbsp;visite.</h1>
       <p>Attirer les bons profils, rassurer avant un premier rendez-vous, transformer les visiteurs en contacts : chaque projet ci-dessous répond à une demande précise, livré avec un back-office que le client peut piloter seul.</p>
     </div>
     <img src="sites.png" class="hero-watermark" aria-hidden="true">
@@ -666,6 +679,21 @@
       }, { passive: false });
     });
   </script>
+  <script>
+    document.querySelectorAll('p, dd, li').forEach(function (el) {
+      var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, last = null;
+      while ((n = w.nextNode())) { if (n.nodeValue.trim()) last = n; }
+      if (!last) return;
+      var t = last.nodeValue.replace(/\s+$/, ''), tail = last.nodeValue.slice(t.length);
+      var parts = t.split(' ');
+      if (parts.length < 2) return;
+      var k = parts.length >= 3 && (parts[parts.length - 2] + parts[parts.length - 1]).length < 12 ? 3 : 2;
+      var head = parts.slice(0, parts.length - k).join(' ');
+      var join = parts.slice(parts.length - k).join('\u00A0');
+      last.nodeValue = (head ? head + ' ' : '') + join + tail;
+    });
+  </script>
+
 </body>
 
 </html>
