@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact · Product Builder</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --line-2: #EBE8EE;
+      --carmine: #BF1E42;
+      --carmine-bg: #FBE9ED;
+      --ochre: #EFB63C;
+      --ochre-deep: #8A6108;
+      --pad: clamp(1.15rem, 5vw, 2rem);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: .01ms !important;
+      }
+    }
+
+    ::selection {
+      background: var(--carmine);
+      color: #fff;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .wrap {
+      max-width: min(600px, 100% - var(--pad) * 2);
+      margin: 0 auto;
+    }
+
+    /* ---------- TOP NAV (sticky) ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .topnav-inner {
+      max-width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+
+    .topnav-brand:hover {
+      color: var(--ochre);
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topnav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+
+    .topnav-links a:last-child {
+      padding-right: 0;
+    }
+
+    .topnav-links a:hover {
+      color: #F4F1F7;
+    }
+
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: 1.15em;
+      opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+  .topnav { position: static; }
+  .topnav-brand { display: none; }
+  .topnav-inner { justify-content: center; }
+  .topnav-links { flex-wrap: wrap; justify-content: center; overflow: visible; padding: .3rem 0; }
+  .topnav-links a { padding: .6rem .45rem; font-size: .76rem; }
+  .topnav-links a:last-child { padding-right: .45rem; }
+  .topnav-links a.external { order: 1; flex-basis: 100%; text-align: center; }
+}
+
+@media (max-width: 380px) {
+  .topnav-links a { padding: .6rem .32rem; font-size: .71rem; }
+  .topnav-links a:last-child { padding-right: .32rem; }
+}
+
+    @view-transition {
+      navigation: auto;
+    }
+
+    .topnav {
+      view-transition-name: topnav;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) var(--pad) clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 60px);
+      top: 90px;
+      width: 240px;
+      height: 240px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero .lede {
+      color: #BDB2CC;
+      font-family: Literata, Georgia, serif;
+      font-size: 1rem;
+      max-width: 44ch;
+      line-height: 1.65;
+    }
+
+    /* ---------- CONTENU ---------- */
+    .content {
+      padding: clamp(3rem, 9vw, 5rem) var(--pad) clamp(3rem, 9vw, 5.5rem);
+    }
+
+    /* Ligne de contact direct */
+    /* Formulaire Tally */
+    .form-shell {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.5rem 1.25rem;
+    }
+
+    .form-shell iframe {
+      display: block;
+      width: 100%;
+      border: 0;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--deep);
+      color: #9F94AE;
+      padding: 2.4rem var(--pad);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+      @media (max-width: 640px) { .br-wide { display: none; } }
+
+    /* ==========================================
+       DESIGN : bande « courrier » + étapes
+       ========================================== */
+    .content { position: relative; background: #FBEECF; background-image: radial-gradient(rgba(37,28,51,.16) 1.2px, transparent 1.4px); background-size: 22px 22px; overflow: hidden; }
+    .wm-at { position: absolute; left: clamp(1rem, 22vw, 20rem); bottom: -50px; width: clamp(12rem, 24vw, 19rem); height: auto; pointer-events: none; }
+    .contact-grid { position: relative; width: min(1040px, 100% - var(--pad) * 2); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+    .hero .wrap { max-width: min(1040px, 100% - var(--pad) * 2); }
+    .contact-grid .wrap { max-width: none; margin: 0; }
+    .steps-l { padding-top: .6rem; }
+    .steps-title { font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--carmine); margin-bottom: 1.6rem; display: block; }
+    .steps { list-style: none; position: relative; display: grid; gap: 1.9rem; }
+    .steps::before { content: ""; position: absolute; left: 21px; top: 22px; bottom: 22px; border-left: 3px dashed var(--deep); }
+    .steps li { position: relative; display: grid; grid-template-columns: 44px 1fr; gap: 1.1rem; align-items: start; }
+    .steps .n { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--ochre); border: 2px solid var(--deep); box-shadow: 3px 3px 0 var(--deep); font: 800 1.05rem 'Bricolage Grotesque', system-ui, sans-serif; color: var(--deep); position: relative; z-index: 1; }
+    .steps li:nth-child(2) .n { background: #F29BB0; }
+    .steps li:nth-child(3) .n { background: #A4AAF6; }
+    .steps h3 { font: 800 1.15rem/1.2 'Bricolage Grotesque', system-ui, sans-serif; letter-spacing: -.02em; margin: .55rem 0 .3rem; }
+    .steps p { font-size: .9rem; line-height: 1.6; color: var(--ink-2); max-width: 36ch; }
+    .stamp-row { margin-top: 2.4rem; display: flex; align-items: center; gap: 1rem; }
+    .stamp { width: 116px; height: 116px; flex: none; animation: spin 26s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .sheet-wrap { position: relative; }
+    .sheet-wrap::before { content: ""; position: absolute; inset: 0; background: #F29BB0; border: 2px solid var(--deep); border-radius: 12px; rotate: 2.2deg; }
+    .form-shell { position: relative; border: 2px solid var(--deep); border-radius: 12px; box-shadow: 8px 8px 0 var(--deep); padding: 1.6rem 1.4rem; rotate: -.8deg; transition: rotate .35s ease; }
+    .form-shell:focus-within, .form-shell:hover { rotate: 0deg; }
+    .form-shell::before { content: ""; position: absolute; top: -2px; left: 22px; width: 64px; height: 18px; translate: 0 -55%; background: var(--ochre); border: 2px solid var(--deep); border-radius: 3px; rotate: -3deg; }
+
+    .js .contact-grid .rv { opacity: 0; translate: 0 26px; transition: opacity .7s ease var(--d, 0s), translate .7s cubic-bezier(.2,.7,.2,1) var(--d, 0s); }
+    .js .contact-grid .rv.in { opacity: 1; translate: 0 0; }
+    @media (prefers-reduced-motion: reduce) { .stamp { animation: none; } .form-shell { rotate: 0deg; } .sheet-wrap::before { rotate: 0deg; } }
+    @media (max-width: 860px) {
+      .contact-grid { grid-template-columns: minmax(0, 1fr); }
+      .steps-l { order: 2; }
+      .stamp-row { display: none; }
+      .sheet-wrap::before { rotate: 1.4deg; }
+    }
+  </style>
+<script>(function(){try{if(window.top!==window||navigator.doNotTrack==="1"||localStorage.getItem("skipgc"))return;var h=location.hostname;if(h!=="jfr-portfolio.github.io"&&h!=="orhia.github.io")return;navigator.sendBeacon("https://jfr-ping.jeanfrancoisrousse.workers.dev/v",JSON.stringify({p:location.pathname,r:document.referrer}))}catch(e){}})();</script>
+<script>document.documentElement.classList.add('js')</script>
+<style>
+.topnav-brand{font-size:1.06rem !important;padding:.9rem 0 !important}
+.topnav-brand svg{width:20px !important;height:auto !important;opacity:.9 !important;margin-right:.45em !important;vertical-align:-.12em !important}
+@media (max-width:1180px){.topnav-brand{font-size:.95rem !important}.topnav-brand svg{width:18px !important}}
+@media (max-width:1000px){.topnav-brand{font-size:.88rem !important}.topnav-brand svg{width:16px !important}}
+</style>
+</head>
+
+<body>
+
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html">Le métier</a>
+        <a href="comprendre.html">Design UX</a>
+        <a href="sites.html">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="marketing.html">Marketing &amp; Communication</a>
+        <a href="contact.html" class="active">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Contact</span>
+      <h1>Envie de discuter<br>de votre projet ?</h1>
+      <p class="lede">Qu'il s'agisse d'une idée à peine formalisée <br class="br-wide">ou au contraire d'un besoin déjà bien
+        défini, <br class="br-wide">on en
+        discute
+        ensemble!</p>
+    </div>
+    <img src="contact.png" class="hero-watermark" aria-hidden="true">
+  </header>
+
+  <main>
+    <div class="content">
+      <svg class="wm-at" viewBox="0 0 512 512" aria-hidden="true"><path fill="none" stroke="rgba(138,97,8,.3)" stroke-width="2" vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M234.5 471.5 L207.5 471.9 L188.0 470.5 L176.0 468.6 L166.5 466.5 L156.0 463.6 L144.8 459.5 L127.9 451.5 L117.9 445.5 L108.0 438.5 L98.5 430.5 L91.0 423.3 L83.0 414.3 L76.0 405.2 L70.0 396.3 L64.0 385.9 L59.0 375.8 L55.0 366.4 L50.9 355.0 L48.0 345.0 L44.9 332.0 L42.9 319.5 L40.9 295.0 L40.9 281.5 L41.9 266.0 L43.9 250.5 L45.9 240.0 L51.9 217.0 L59.0 197.7 L65.0 184.2 L70.0 174.5 L74.9 166.0 L82.0 155.1 L95.0 138.0 L110.0 122.0 L128.0 106.2 L146.5 93.0 L167.0 81.0 L191.0 70.0 L211.0 63.0 L225.5 58.9 L238.5 55.9 L264.0 51.9 L290.5 50.1 L311.5 50.3 L322.5 50.9 L332.5 51.9 L345.0 53.9 L365.4 59.0 L374.3 62.0 L386.0 66.9 L396.0 72.0 L407.0 78.8 L415.4 85.0 L423.5 92.0 L430.5 99.0 L438.2 108.0 L444.5 116.7 L450.6 126.5 L456.6 139.0 L459.5 146.5 L462.6 156.0 L465.6 168.0 L467.5 179.1 L468.6 189.0 L469.2 209.5 L468.5 221.5 L466.5 237.0 L463.6 251.5 L460.5 262.5 L455.6 276.5 L451.5 286.0 L447.6 294.0 L439.5 307.9 L431.5 319.3 L425.6 326.5 L419.2 333.5 L409.5 342.5 L402.0 348.5 L391.5 355.6 L385.9 358.5 L378.5 361.5 L371.5 363.6 L362.0 365.6 L353.0 366.6 L343.5 366.6 L334.1 365.5 L326.0 363.6 L318.0 360.5 L312.5 357.5 L308.0 354.4 L302.4 349.0 L299.0 344.5 L295.9 339.0 L294.0 334.0 L292.1 325.0 L291.5 324.4 L283.4 335.5 L273.8 345.5 L263.3 353.5 L252.0 359.6 L240.5 363.6 L232.0 365.5 L226.0 366.2 L215.0 366.4 L207.0 365.7 L201.0 364.6 L190.9 361.5 L184.0 358.5 L178.5 355.5 L168.8 348.5 L160.9 340.5 L154.0 330.8 L148.9 320.5 L145.9 311.0 L143.9 300.0 L143.3 290.5 L143.9 278.0 L146.9 258.5 L152.0 240.5 L159.0 223.5 L168.0 207.2 L179.0 191.9 L191.6 178.0 L199.0 171.2 L206.5 165.1 L213.5 160.0 L220.1 156.0 L229.0 152.0 L235.5 149.9 L244.5 147.9 L252.5 147.1 L260.5 147.1 L268.5 147.9 L277.0 149.9 L282.9 152.0 L290.8 156.0 L296.5 160.0 L300.5 163.5 L305.5 169.1 L309.7 175.5 L313.0 182.8 L314.0 183.6 L314.5 182.5 L317.2 165.0 L318.8 160.5 L321.0 157.0 L325.2 153.0 L331.1 150.0 L336.0 149.1 L343.5 149.4 L348.0 149.9 L351.5 150.9 L355.5 152.9 L357.5 154.7 L359.5 157.5 L360.6 160.0 L361.5 168.0 L360.6 176.5 L340.0 307.2 L339.8 314.5 L340.9 320.0 L344.0 326.2 L348.5 330.4 L352.5 332.5 L355.5 333.5 L360.5 334.2 L368.5 333.7 L375.9 331.5 L382.0 328.5 L389.5 322.8 L396.5 315.5 L401.5 309.5 L411.5 294.9 L420.5 277.5 L426.5 262.0 L431.6 243.5 L434.6 225.0 L435.6 204.0 L434.6 188.5 L431.6 171.5 L426.6 155.5 L419.5 140.8 L413.5 132.2 L407.5 125.1 L401.5 119.1 L389.4 109.0 L378.5 101.9 L362.3 94.0 L354.0 90.9 L344.0 87.9 L324.0 83.9 L303.5 82.1 L294.0 82.0 L276.5 82.9 L254.0 85.9 L232.5 90.9 L216.0 95.9 L207.7 99.0 L189.0 107.0 L170.3 117.0 L155.0 127.0 L140.0 139.0 L133.0 145.6 L123.0 156.3 L112.0 170.6 L102.0 186.5 L95.0 200.0 L91.0 209.0 L84.9 225.5 L81.0 239.1 L77.9 253.0 L75.9 267.0 L74.9 278.0 L74.7 295.0 L75.1 304.0 L76.9 319.5 L78.9 330.0 L83.0 344.5 L86.9 355.5 L94.0 370.4 L99.0 379.0 L107.0 390.4 L113.0 397.4 L120.2 404.5 L130.5 412.8 L137.6 417.5 L150.5 424.5 L162.6 429.5 L172.0 432.5 L184.0 435.5 L196.0 437.6 L205.5 438.7 L221.0 439.4 L239.5 438.7 L250.5 437.6 L263.0 435.6 L276.9 432.5 L290.5 428.6 L304.5 423.5 L317.9 417.5 L333.5 409.1 L336.5 408.3 L340.5 408.3 L345.5 410.0 L348.5 412.4 L350.7 415.5 L352.5 420.7 L352.7 424.5 L351.5 428.8 L349.1 432.5 L346.0 435.5 L341.9 438.5 L323.4 448.5 L305.0 456.6 L293.5 460.6 L280.0 464.5 L266.5 467.6 L254.5 469.6 L234.5 471.5ZM232.7 329.5 L242.0 327.6 L251.5 323.5 L262.3 316.5 L270.6 309.5 L278.5 301.2 L286.5 290.3 L293.6 277.0 L297.5 266.5 L302.5 247.5 L304.5 235.5 L304.6 223.0 L302.6 212.0 L300.6 206.5 L298.5 202.5 L293.5 195.8 L289.5 192.2 L286.0 189.8 L282.5 188.0 L277.0 185.9 L272.5 184.9 L264.5 184.1 L252.5 184.9 L245.0 186.9 L240.0 188.9 L234.0 192.0 L229.5 194.9 L220.0 203.2 L214.2 210.0 L210.0 216.0 L202.0 230.6 L196.0 246.3 L192.9 257.5 L191.0 267.5 L189.9 276.0 L189.3 286.0 L189.2 292.5 L189.9 298.5 L191.0 303.0 L192.9 308.0 L195.9 313.5 L199.1 317.5 L203.5 321.6 L209.5 325.5 L214.5 327.6 L222.0 329.3 L226.0 329.7 L232.7 329.5Z"/></svg>
+      <div class="contact-grid">
+
+        <aside class="steps-l">
+          <span class="steps-title rv">Comment ça se passe</span>
+          <ol class="steps">
+            <li class="rv"><span class="n">1</span><div><h3>Vous m'écrivez</h3><p>Une idée à peine formalisée ou un besoin déjà précis : peu importe, racontez-moi simplement où vous en êtes.</p></div></li>
+            <li class="rv"><span class="n">2</span><div><h3>Je vous réponds</h3><p>Pour comprendre votre contexte et vous dire franchement si je peux vous aider.</p></div></li>
+            <li class="rv"><span class="n">3</span><div><h3>On fait le point</h3><p>Un échange pour cadrer la suite, à votre rythme.</p></div></li>
+          </ol>
+          <div class="stamp-row rv">
+            <svg class="stamp" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="sc" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><circle cx="100" cy="100" r="98" fill="#BF1E42"/><text font-family="JetBrains Mono, monospace" font-size="14" font-weight="600" fill="#fff" textLength="486" lengthAdjust="spacing"><textPath href="#sc" textLength="486" lengthAdjust="spacing">CONTACT · CONTACT · CONTACT · CONTACT · </textPath></text><path transform="translate(51.5 49.7) scale(.19)" fill="#fff" fill-rule="evenodd" d="M234.5 471.5 L207.5 471.9 L188.0 470.5 L176.0 468.6 L166.5 466.5 L156.0 463.6 L144.8 459.5 L127.9 451.5 L117.9 445.5 L108.0 438.5 L98.5 430.5 L91.0 423.3 L83.0 414.3 L76.0 405.2 L70.0 396.3 L64.0 385.9 L59.0 375.8 L55.0 366.4 L50.9 355.0 L48.0 345.0 L44.9 332.0 L42.9 319.5 L40.9 295.0 L40.9 281.5 L41.9 266.0 L43.9 250.5 L45.9 240.0 L51.9 217.0 L59.0 197.7 L65.0 184.2 L70.0 174.5 L74.9 166.0 L82.0 155.1 L95.0 138.0 L110.0 122.0 L128.0 106.2 L146.5 93.0 L167.0 81.0 L191.0 70.0 L211.0 63.0 L225.5 58.9 L238.5 55.9 L264.0 51.9 L290.5 50.1 L311.5 50.3 L322.5 50.9 L332.5 51.9 L345.0 53.9 L365.4 59.0 L374.3 62.0 L386.0 66.9 L396.0 72.0 L407.0 78.8 L415.4 85.0 L423.5 92.0 L430.5 99.0 L438.2 108.0 L444.5 116.7 L450.6 126.5 L456.6 139.0 L459.5 146.5 L462.6 156.0 L465.6 168.0 L467.5 179.1 L468.6 189.0 L469.2 209.5 L468.5 221.5 L466.5 237.0 L463.6 251.5 L460.5 262.5 L455.6 276.5 L451.5 286.0 L447.6 294.0 L439.5 307.9 L431.5 319.3 L425.6 326.5 L419.2 333.5 L409.5 342.5 L402.0 348.5 L391.5 355.6 L385.9 358.5 L378.5 361.5 L371.5 363.6 L362.0 365.6 L353.0 366.6 L343.5 366.6 L334.1 365.5 L326.0 363.6 L318.0 360.5 L312.5 357.5 L308.0 354.4 L302.4 349.0 L299.0 344.5 L295.9 339.0 L294.0 334.0 L292.1 325.0 L291.5 324.4 L283.4 335.5 L273.8 345.5 L263.3 353.5 L252.0 359.6 L240.5 363.6 L232.0 365.5 L226.0 366.2 L215.0 366.4 L207.0 365.7 L201.0 364.6 L190.9 361.5 L184.0 358.5 L178.5 355.5 L168.8 348.5 L160.9 340.5 L154.0 330.8 L148.9 320.5 L145.9 311.0 L143.9 300.0 L143.3 290.5 L143.9 278.0 L146.9 258.5 L152.0 240.5 L159.0 223.5 L168.0 207.2 L179.0 191.9 L191.6 178.0 L199.0 171.2 L206.5 165.1 L213.5 160.0 L220.1 156.0 L229.0 152.0 L235.5 149.9 L244.5 147.9 L252.5 147.1 L260.5 147.1 L268.5 147.9 L277.0 149.9 L282.9 152.0 L290.8 156.0 L296.5 160.0 L300.5 163.5 L305.5 169.1 L309.7 175.5 L313.0 182.8 L314.0 183.6 L314.5 182.5 L317.2 165.0 L318.8 160.5 L321.0 157.0 L325.2 153.0 L331.1 150.0 L336.0 149.1 L343.5 149.4 L348.0 149.9 L351.5 150.9 L355.5 152.9 L357.5 154.7 L359.5 157.5 L360.6 160.0 L361.5 168.0 L360.6 176.5 L340.0 307.2 L339.8 314.5 L340.9 320.0 L344.0 326.2 L348.5 330.4 L352.5 332.5 L355.5 333.5 L360.5 334.2 L368.5 333.7 L375.9 331.5 L382.0 328.5 L389.5 322.8 L396.5 315.5 L401.5 309.5 L411.5 294.9 L420.5 277.5 L426.5 262.0 L431.6 243.5 L434.6 225.0 L435.6 204.0 L434.6 188.5 L431.6 171.5 L426.6 155.5 L419.5 140.8 L413.5 132.2 L407.5 125.1 L401.5 119.1 L389.4 109.0 L378.5 101.9 L362.3 94.0 L354.0 90.9 L344.0 87.9 L324.0 83.9 L303.5 82.1 L294.0 82.0 L276.5 82.9 L254.0 85.9 L232.5 90.9 L216.0 95.9 L207.7 99.0 L189.0 107.0 L170.3 117.0 L155.0 127.0 L140.0 139.0 L133.0 145.6 L123.0 156.3 L112.0 170.6 L102.0 186.5 L95.0 200.0 L91.0 209.0 L84.9 225.5 L81.0 239.1 L77.9 253.0 L75.9 267.0 L74.9 278.0 L74.7 295.0 L75.1 304.0 L76.9 319.5 L78.9 330.0 L83.0 344.5 L86.9 355.5 L94.0 370.4 L99.0 379.0 L107.0 390.4 L113.0 397.4 L120.2 404.5 L130.5 412.8 L137.6 417.5 L150.5 424.5 L162.6 429.5 L172.0 432.5 L184.0 435.5 L196.0 437.6 L205.5 438.7 L221.0 439.4 L239.5 438.7 L250.5 437.6 L263.0 435.6 L276.9 432.5 L290.5 428.6 L304.5 423.5 L317.9 417.5 L333.5 409.1 L336.5 408.3 L340.5 408.3 L345.5 410.0 L348.5 412.4 L350.7 415.5 L352.5 420.7 L352.7 424.5 L351.5 428.8 L349.1 432.5 L346.0 435.5 L341.9 438.5 L323.4 448.5 L305.0 456.6 L293.5 460.6 L280.0 464.5 L266.5 467.6 L254.5 469.6 L234.5 471.5ZM232.7 329.5 L242.0 327.6 L251.5 323.5 L262.3 316.5 L270.6 309.5 L278.5 301.2 L286.5 290.3 L293.6 277.0 L297.5 266.5 L302.5 247.5 L304.5 235.5 L304.6 223.0 L302.6 212.0 L300.6 206.5 L298.5 202.5 L293.5 195.8 L289.5 192.2 L286.0 189.8 L282.5 188.0 L277.0 185.9 L272.5 184.9 L264.5 184.1 L252.5 184.9 L245.0 186.9 L240.0 188.9 L234.0 192.0 L229.5 194.9 L220.0 203.2 L214.2 210.0 L210.0 216.0 L202.0 230.6 L196.0 246.3 L192.9 257.5 L191.0 267.5 L189.9 276.0 L189.3 286.0 L189.2 292.5 L189.9 298.5 L191.0 303.0 L192.9 308.0 L195.9 313.5 L199.1 317.5 L203.5 321.6 L209.5 325.5 L214.5 327.6 L222.0 329.3 L226.0 329.7 L232.7 329.5Z"/></svg>
+          </div>
+        </aside>
+
+        <div class="wrap rv">
+          <div class="sheet-wrap">
+            <div class="form-shell">
+              <iframe
+                data-tally-src="https://tally.so/embed/81DY7k?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+                loading="lazy" width="100%" height="896" frameborder="0" marginheight="0" marginwidth="0"
+                title="Formulaire de contact"></iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Product Builder · contact</p>
+  </footer>
+
+  <script>
+    var d = document, w = "https://tally.so/widgets/embed.js", v = function () { "undefined" != typeof Tally ? Tally.loadEmbeds() : d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function (e) { e.src = e.dataset.tallySrc })) }; if ("undefined" != typeof Tally) v(); else if (d.querySelector('script[src="' + w + '"]') == null) { var s = d.createElement("script"); s.src = w, s.onload = v, s.onerror = v, d.body.appendChild(s); }
+  </script>
+
+
+  <script>
+    (function () {
+      var rv = document.querySelectorAll('.contact-grid .rv');
+      rv.forEach(function (el, i) { el.style.setProperty('--d', Math.min(i, 5) * 0.09 + 's'); });
+      function show(el) { el.classList.add('in'); setTimeout(function () { el.style.removeProperty('--d'); }, 1400); }
+      if (!('IntersectionObserver' in window)) { rv.forEach(show); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -3% 0px', threshold: 0.08 });
+      rv.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design UX · Product Builder</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="description"
+    content="UX et Product Discovery : observation des équipes, recherche utilisateur, design thinking, prototypage et tests avant de construire. La méthode d'un Product Builder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=block"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #EDEBEF;
+      --surface: #FFFFFF;
+      --card: #F5F2F8;
+      --deep: #251C33;
+      --ink: #251C33;
+      --ink-2: #665D74;
+      --line: #D6D2DC;
+      --line-2: #EBE8EE;
+      --carmine: #BF1E42;
+      --carmine-bg: #FBE9ED;
+      --indigo: #3C42B4;
+      --indigo-bg: #E9EAF9;
+      --teal: #0E6B62;
+      --teal-bg: #E2F0EE;
+      --ochre: #EFB63C;
+      --ochre-deep: #8A6108;
+      --ochre-bg: #FBEECF;
+      --fs: 16px;
+      --measure: 68ch;
+      --pad: clamp(1.15rem, 5vw, 2rem);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: var(--fs);
+      scroll-behavior: smooth;
+      scroll-padding-top: 3rem;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: Literata, Georgia, serif;
+      font-weight: 400;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+      }
+    }
+
+    ::selection {
+      background: var(--carmine);
+      color: #fff;
+    }
+
+    .wrap {
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    .wrap-wide {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0 0 1rem;
+    }
+
+    p,
+    dd,
+    li {
+      text-wrap: pretty;
+    }
+
+    h1,
+    h2,
+    h4 {
+      text-wrap: balance;
+    }
+
+    a {
+      color: var(--carmine);
+      text-underline-offset: 3px;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--carmine);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ---------- SKIP LINK ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 12px 20px;
+      z-index: 1000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      left: 0;
+    }
+
+    /* ---------- TOP NAV (sticky) ---------- */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .topnav-inner {
+      max-width: min(1280px, 100%);
+      margin: 0 auto;
+      padding: 0 clamp(1rem, 4vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .topnav-brand {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: #F4F1F7;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 1rem 0;
+      transition: color .18s ease;
+    }
+
+    .topnav-brand:hover {
+      color: var(--ochre);
+    }
+
+    .topnav-links {
+      display: flex;
+      align-items: center;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .topnav-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .topnav-links a {
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: #9F94AE;
+      text-decoration: none;
+      padding: 1rem .9rem;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color .18s ease, border-color .18s ease;
+      margin-bottom: -1px;
+    }
+
+    .topnav-links a:last-child {
+      padding-right: 0;
+    }
+
+    .topnav-links a:hover {
+      color: #F4F1F7;
+    }
+
+    .topnav-links a.active {
+      color: var(--ochre);
+      border-bottom-color: var(--ochre);
+    }
+
+    .topnav-links a.external::after {
+      content: " ↗";
+      font-size: 1.15em;
+      opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+  .topnav { position: static; }
+  .topnav-brand { display: none; }
+  .topnav-inner { justify-content: center; }
+  .topnav-links { flex-wrap: wrap; justify-content: center; overflow: visible; padding: .3rem 0; }
+  .topnav-links a { padding: .6rem .45rem; font-size: .76rem; }
+  .topnav-links a:last-child { padding-right: .45rem; }
+  .topnav-links a.external { order: 1; flex-basis: 100%; text-align: center; }
+}
+
+@media (max-width: 380px) {
+  .topnav-links a { padding: .6rem .32rem; font-size: .71rem; }
+  .topnav-links a:last-child { padding-right: .32rem; }
+}
+
+    @view-transition {
+      navigation: auto;
+    }
+
+    .topnav {
+      view-transition-name: topnav;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(3.5rem, 11vw, 6rem) 0 clamp(2.5rem, 7vw, 4.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      left: calc(50% + 40px);
+      top: 40px;
+      width: 300px;
+      height: 300px;
+      object-fit: contain;
+      opacity: 0.04;
+      filter: brightness(0) invert(1);
+      pointer-events: none;
+      user-select: none;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, .045) 1px, transparent 1px);
+      background-size: 100% 1.6rem;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ochre);
+      display: block;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: .96;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero .lede {
+      color: #BDB2CC;
+      font-family: Literata, Georgia, serif;
+      font-size: 1rem;
+      max-width: 54ch;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section {
+      padding: clamp(3rem, 9vw, 4.8rem) 0 0;
+    }
+
+    .shead {
+      margin: 0 0 2rem;
+    }
+
+    .snum {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.2rem, 14vw, 5rem);
+      line-height: .8;
+      letter-spacing: -.05em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--line);
+      display: block;
+      margin-bottom: -.1em;
+    }
+
+    .shead h2 {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+      line-height: 1.08;
+      letter-spacing: -.03em;
+      font-weight: 800;
+    }
+
+    .shead p {
+      margin: .9rem 0 0;
+      color: var(--ink-2);
+      font-size: .98rem;
+      font-family: Literata, Georgia, serif;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      line-height: 1.25;
+      letter-spacing: -.015em;
+      margin: 2.4rem 0 .7rem;
+    }
+
+    ul {
+      margin: 0 0 1.1rem;
+      padding-left: 1.1rem;
+    }
+
+    li {
+      margin-bottom: .5rem;
+      font-family: Literata, Georgia, serif;
+    }
+
+    li::marker {
+      color: var(--carmine);
+    }
+
+    /* ---------- CARDS ---------- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 1.4rem;
+    }
+
+    .card-grid.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-grid.cols-5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px 20px;
+      background: var(--card);
+    }
+
+    .card h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: .98rem;
+      color: var(--ink);
+      margin: 0 0 .6rem;
+    }
+
+    .card p {
+      font-family: Literata, Georgia, serif;
+      font-size: .9rem;
+      color: var(--ink-2);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ---------- HIGHLIGHT / MEMO ---------- */
+    .memo {
+      background: var(--ochre-bg);
+      color: var(--ink);
+      padding: 1.2rem 1.3rem;
+      margin: 1.6rem 0 0;
+      box-shadow: 5px 5px 0 var(--ochre);
+      border: 1.5px solid var(--ochre-deep);
+    }
+
+    .memo p {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+      font-size: .95rem;
+    }
+
+    .memo strong {
+      color: var(--ochre-deep);
+    }
+
+    /* ---------- ADD BOX (carmine) ---------- */
+    .add {
+      border-left: 3px solid var(--carmine);
+      background: var(--carmine-bg);
+      padding: 1.1rem 1.2rem .4rem;
+      margin: 1.6rem 0 0;
+    }
+
+    .add p {
+      font-family: Literata, Georgia, serif;
+      font-size: .93rem;
+      margin: 0;
+    }
+
+    .add strong {
+      color: var(--ink);
+    }
+
+    /* ---------- TEAL BOX ---------- */
+    .note-teal {
+      border-left: 3px solid var(--teal);
+      background: var(--teal-bg);
+      padding: 1rem 1.2rem;
+      margin: 1.6rem 0 0;
+      font-size: .93rem;
+    }
+
+    .note-teal p {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+    }
+
+    /* ---------- GLOSS (compare) ---------- */
+    .gloss {
+      border-top: 2px solid var(--ink);
+      margin: 0 0 1.4rem;
+    }
+
+    .gloss>div {
+      padding: .95rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .gloss dt {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: .15rem;
+    }
+
+    .gloss dd {
+      margin: 0;
+      font-family: Literata, Georgia, serif;
+      font-size: .94rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- METHOD STEPS ---------- */
+    .method-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-bottom: 1.4rem;
+    }
+
+    .method-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      color: var(--ink-2);
+      background: var(--card);
+      border: 1.5px solid var(--line);
+      margin: 5px;
+    }
+
+    .method-step .num {
+      color: var(--carmine);
+      font-weight: 600;
+    }
+
+    .method-arrow {
+      color: var(--line);
+      font-size: 1rem;
+      margin: 0 2px;
+    }
+
+    /* ---------- MISSIONS LISTS ---------- */
+    .missions-lists {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      margin-bottom: 1.4rem;
+    }
+
+    .missions-lists h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-2);
+      font-weight: 600;
+      margin: 0 0 1rem;
+    }
+
+    /* ---------- TIMEFRAMES ---------- */
+    .timeframes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 560px;
+      margin: 1.6rem auto 0;
+    }
+
+    .timeframe {
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 24px 20px;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .tf-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      color: var(--carmine);
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: .5rem;
+      letter-spacing: -.02em;
+    }
+
+    .tf-label {
+      font-family: Literata, Georgia, serif;
+      font-size: .88rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- LEDE CENTERED ---------- */
+    .lede-center {
+      text-align: center;
+      max-width: 56ch;
+      margin: 0 auto 1.6rem;
+      font-family: Literata, Georgia, serif;
+      font-size: .98rem;
+      color: var(--ink-2);
+    }
+
+    /* ---------- FOOTER ---------- */
+    .pb {
+      padding-bottom: clamp(3rem, 9vw, 5rem);
+    }
+
+    footer {
+      margin-top: clamp(3rem, 8vw, 5rem);
+      background: var(--deep);
+      color: #9F94AE;
+      padding: 2.4rem var(--pad);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .05em;
+      text-align: center;
+    }
+
+    footer p {
+      margin: 0 0 .4rem;
+    }
+
+    footer a {
+      color: #665D74;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--ochre);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 760px) {
+
+      .card-grid,
+      .card-grid.cols-4,
+      .card-grid.cols-2,
+      .card-grid.cols-5,
+      .missions-lists,
+      .timeframes {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* ---------- PAGE UX ---------- */
+    @media (min-width: 761px) {
+      .card-grid.cols-5 {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+      }
+    }
+
+    .card .tag {
+      display: block;
+      margin-top: .95rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--line);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .64rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--carmine);
+      line-height: 1.55;
+    }
+
+    .card .step {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      font-weight: 600;
+      color: var(--carmine);
+      margin-bottom: .5rem;
+      letter-spacing: .06em;
+    }
+
+    .gloss dt small {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      font-size: .7rem;
+      letter-spacing: .04em;
+      color: var(--ink-2);
+      margin-left: .55rem;
+    }
+
+    .estim {
+      background: var(--deep);
+      color: #F4F1F7;
+      padding: clamp(1.5rem, 4vw, 2.2rem);
+      margin: 1.6rem 0 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(1.2rem, 4vw, 2.6rem);
+      align-items: center;
+    }
+
+    .estim-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.4rem, 7vw, 3.6rem);
+      line-height: .95;
+      letter-spacing: -.04em;
+      color: var(--ochre);
+      white-space: nowrap;
+    }
+
+    .estim-num small {
+      display: block;
+      margin-top: .5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #BDB2CC;
+    }
+
+    .estim p {
+      margin: 0 0 .7rem;
+      font-size: .93rem;
+      color: #D9D1E3;
+    }
+
+    .estim p:last-child {
+      margin: 0;
+      font-size: .82rem;
+      color: #9F94AE;
+    }
+
+    .estim strong {
+      color: #F4F1F7;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: .85rem;
+    }
+
+    @media (max-width: 760px) {
+      .estim {
+        grid-template-columns: 1fr;
+      }
+    }
+
+      .card p { text-wrap: pretty; }
+
+    /* ================= ESSAI DESIGN ================= */
+    .card h4 { line-height: 1.25; }
+    section { padding-bottom: clamp(3rem, 9vw, 5rem); }
+    section.pb { padding-bottom: clamp(3.5rem, 10vw, 6rem); }
+    footer { margin-top: 0; }
+    section > .wrap-wide { position: relative; z-index: 1; }
+
+    .js .rv { opacity: 0; translate: 0 26px; transition: opacity .7s cubic-bezier(.2,.7,.2,1) var(--d, 0s), translate .7s cubic-bezier(.2,.7,.2,1) var(--d, 0s), rotate .35s ease, box-shadow .25s ease, background .2s ease, padding .2s ease; }
+    .js .rv.in { opacity: 1; translate: 0 0; }
+
+    /* 01 : tableau d'atelier */
+    .s-board { background-color: #F1EEF6; background-image: radial-gradient(rgba(37,28,51,.17) 1.2px, transparent 1.5px); background-size: 24px 24px; }
+    .notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 1.2rem 0 2.6rem; align-items: start; }
+    .note { position: relative; background: var(--nc); padding: 2.2rem 1.5rem 1.8rem; rotate: var(--r); box-shadow: 0 1px 0 rgba(37,28,51,.1), 8px 10px 0 rgba(37,28,51,.1); }
+    .note:nth-child(1) { --nc: #F7CB5A; --r: -2.2deg; }
+    .note:nth-child(2) { --nc: #F5A9BA; --r: 1.6deg; margin-top: 2.4rem; }
+    .note:nth-child(3) { --nc: #B7BCF3; --r: -1deg; margin-top: .7rem; }
+    .note::before { content: ""; position: absolute; top: -13px; left: 50%; width: 86px; height: 26px; translate: -50% 0; rotate: -3deg; background: rgba(255,255,255,.6); border: 1px solid rgba(37,28,51,.08); }
+    .note h4 { font-weight: 800; font-size: 1.3rem; line-height: 1.1; letter-spacing: -.025em; margin: 0 0 .8rem; color: var(--ink); }
+    .note p { margin: 0; font-size: .93rem; line-height: 1.6; color: #3B3149; }
+    .note:hover { rotate: 0deg; box-shadow: 0 1px 0 rgba(37,28,51,.1), 12px 16px 0 rgba(37,28,51,.12); }
+
+    /* 02 : bande sombre, étapes en escalier */
+    .s-dark { background-color: var(--deep); color: #F4F1F7; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px); background-size: 100% 1.6rem; }
+    .s-dark .snum { -webkit-text-stroke-color: rgba(255,255,255,.22); }
+    .s-dark .shead h2 { color: #fff; }
+    .s-dark .shead p { color: #BDB2CC; }
+    .stairs { align-items: start; margin-top: 1rem; margin-bottom: 2.4rem; }
+    .s-dark .add { margin-top: 2.6rem; }
+    .s-dark .add p, .s-dark .add strong { color: var(--ink); }
+    .s-board .snum { -webkit-text-stroke-color: rgba(37,28,51,.3); }
+    .s-dark .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-top: 3px solid var(--c); border-radius: 0; }
+    .s-dark .card h4 { color: #fff; font-size: 1.1rem; }
+    .s-dark .card p { color: #CFC6DB; }
+    .s-dark .card .step { font-family: 'Bricolage Grotesque', sans-serif; font-size: 2.8rem; font-weight: 800; line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1.5px var(--c); margin-bottom: .9rem; }
+    .s-dark .card .tag { color: var(--ochre); border-top-color: rgba(255,255,255,.16); }
+    .stairs .card:nth-child(1) { margin-top: 4.2rem; --c: #EFB63C; }
+    .stairs .card:nth-child(2) { margin-top: 3.15rem; --c: #F08AA3; }
+    .stairs .card:nth-child(3) { margin-top: 2.1rem; --c: #9AA0F5; }
+    .stairs .card:nth-child(4) { margin-top: 1.05rem; --c: #EFB63C; }
+    .stairs .card:nth-child(5) { margin-top: 0; --c: #F08AA3; }
+
+    /* 03 : glossaire en deux colonnes */
+    .split { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr); gap: clamp(2rem, 6vw, 4.5rem); align-items: start; }
+    .split-l { position: sticky; top: 5.5rem; }
+    .split-l .shead { margin-bottom: 1.8rem; }
+    .badge { width: 132px; height: 132px; display: block; animation: spin 26s linear infinite; }
+    @keyframes spin { to { rotate: 360deg; } }
+    .s-gloss .gloss { counter-reset: g; border-top: 3px solid var(--ink); margin: 0; }
+    .s-gloss .gloss > div { counter-increment: g; display: grid; grid-template-columns: 2.6rem 1fr; padding: 1.2rem .8rem 1.2rem .2rem; }
+    .s-gloss .gloss > div::before { content: counter(g, decimal-leading-zero); grid-row: 1 / 3; padding-top: .3rem; font: 600 .72rem 'JetBrains Mono', monospace; color: var(--carmine); }
+    .s-gloss .gloss dt { font-size: 1.12rem; letter-spacing: -.01em; margin-bottom: .25rem; }
+    .s-gloss .gloss > div:hover { background: var(--ochre-bg); padding-left: .8rem; }
+
+    /* 04 : bande ocre, cartes à ombre dure */
+    .s-ochre { background: var(--ochre); position: relative; overflow: hidden; }
+    .s-ochre::after { content: ""; position: absolute; right: -130px; top: -110px; width: 380px; height: 380px; border-radius: 50%; border: 2px solid rgba(37,28,51,.16); pointer-events: none; }
+    .s-ochre .snum { -webkit-text-stroke-color: rgba(37,28,51,.3); }
+    .s-ochre .shead p { color: rgba(37,28,51,.8); }
+    .s-ochre .card-grid { align-items: start; }
+    .s-ochre .card { background: #fff; border: 2px solid var(--deep); border-radius: 0; box-shadow: 5px 5px 0 var(--deep); }
+    .s-ochre .card:nth-child(even) { margin-top: 1.4rem; }
+    .s-ochre .card h4 { font-size: 1.05rem; }
+    .s-ochre .estim { margin-top: 2.8rem; box-shadow: 8px 8px 0 var(--carmine); }
+    .s-ochre .estim-num { font-size: clamp(2.8rem, 10vw, 5.6rem); }
+
+    /* 05 : appel à l'action en carmin */
+    .s-cta { background: var(--carmine); color: #fff; position: relative; overflow: hidden; }
+    .s-cta::before { content: ""; position: absolute; left: -160px; bottom: -200px; width: 460px; height: 460px; border-radius: 50%; background: rgba(255,255,255,.07); pointer-events: none; }
+    .s-cta .snum { -webkit-text-stroke-color: rgba(255,255,255,.38); }
+    .s-cta .shead h2 { color: #fff; font-size: clamp(1.9rem, 6vw, 3rem); }
+    .s-cta .shead p { color: #FBE9ED; }
+    .s-cta .memo { box-shadow: 6px 6px 0 var(--deep); }
+
+    @media (max-width: 760px) {
+      .notes { grid-template-columns: 1fr; gap: 34px; }
+      .note:nth-child(n) { margin-top: 0; }
+      .stairs .card:nth-child(n), .s-ochre .card:nth-child(even) { margin-top: 0; }
+      .split { grid-template-columns: 1fr; }
+      .split-l { position: static; display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+      .badge { width: 92px; height: 92px; flex: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .badge { animation: none; } }
+  </style>
+<script>document.documentElement.classList.add('js')</script>
+<script>(function(){try{if(window.top!==window||navigator.doNotTrack==="1"||localStorage.getItem("skipgc"))return;var h=location.hostname;if(h!=="jfr-portfolio.github.io"&&h!=="orhia.github.io")return;navigator.sendBeacon("https://jfr-ping.jeanfrancoisrousse.workers.dev/v",JSON.stringify({p:location.pathname,r:document.referrer}))}catch(e){}})();</script>
+<style>
+.topnav-brand{font-size:1.06rem !important;padding:.9rem 0 !important}
+.topnav-brand svg{width:20px !important;height:auto !important;opacity:.9 !important;margin-right:.45em !important;vertical-align:-.12em !important}
+@media (max-width:1180px){.topnav-brand{font-size:.95rem !important}.topnav-brand svg{width:18px !important}}
+@media (max-width:1000px){.topnav-brand{font-size:.88rem !important}.topnav-brand svg{width:16px !important}}
+</style>
+</head>
+
+<body>
+
+  <a href="#main" class="skip-link">Aller au contenu</a>
+
+  <nav class="topnav" aria-label="Navigation principale">
+    <div class="topnav-inner">
+      <a href="index.html" class="topnav-brand"><svg width="16" height="15" viewBox="0 0 16 15" fill="currentColor" aria-hidden="true" style="display:inline-block;vertical-align:-.1em;margin-right:.4em;opacity:.65"><path d="M8 0L0 7h2v8h5v-5h2v5h5V7h2L8 0z"/></svg>Jean-François ROUSSE — Product Builder</a>
+      <div class="topnav-links">
+        <a href="metier.html">Le métier</a>
+        <a href="comprendre.html" class="active">Design UX</a>
+        <a href="sites.html">Sites web</a>
+        <a href="apps.html">Applications</a>
+        <a href="https://orhia.github.io/" class="external" target="_blank" rel="noopener">Automatisation &amp; IA</a>
+        <a href="marketing.html">Marketing &amp; Communication</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap-wide">
+      <span class="eyebrow">UX &amp; Discovery</span>
+      <h1>Un outil réussi, c'est un outil adopté.</h1>
+      <p class="lede">Les utilisateurs sont au centre de ma démarche : je les observe, je les écoute, je dessine l'expérience avec eux, puis je la teste avant de construire. L'UX, ce n'est pas du décor, c'est ce qui décide si un outil sera adopté ou abandonné.
+      </p>
+    </div>
+    <img src="design-ux.png" class="hero-watermark" aria-hidden="true">
+  </header>
+
+  <main id="main">
+
+    <!-- 01 -->
+    <section class="s-board">
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">01</span>
+          <h2>Le vrai risque n'est pas technique</h2>
+          <p>Un outil peut fonctionner parfaitement sans jamais être adopté. Trois façons d'y arriver.</p>
+        </div>
+        <div class="notes">
+          <div class="note">
+            <h4>On construit la mauvaise chose</h4>
+            <p>La demande de départ est souvent une solution (« il nous faut une appli ») et non un problème. Sans creuser, on livre ce qui était demandé,<br>pas ce qui était utile.</p>
+          </div>
+          <div class="note">
+            <h4>On ne voit pas le vrai travail</h4>
+            <p>Ce que les gens disent faire et ce qu'ils font réellement ne se recouvrent qu'en partie. Les contournements, les fichiers cachés, les habitudes : tout cela n'apparaît qu'en observant.</p>
+          </div>
+          <div class="note">
+            <h4>On découvre les défauts trop tard</h4>
+            <p>Un défaut d'usage trouvé après la livraison coûte cher. Trouvé sur un prototype cliquable, il se corrige en une heure.</p>
+          </div>
+        </div>
+        <div class="memo">
+          <p>La Discovery sert à ça : <strong>vérifier qu'on résout le bon problème avant de construire.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section class="s-dark">
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">02</span>
+          <h2>Cinq étapes, du terrain au gain mesuré</h2>
+          <p>Chacune produit quelque chose de concret.</p>
+        </div>
+        <div class="card-grid cols-5 stairs">
+          <div class="card">
+            <span class="step">01</span>
+            <h4>Observer</h4>
+            <p>Immersion chez les équipes, entretiens avec les parties prenantes, observation du travail réel (shadowing), analyse de l'existant.</p>
+            <span class="tag">Notes de terrain · parcours actuel</span>
+          </div>
+          <div class="card">
+            <span class="step">02</span>
+            <h4>Comprendre</h4>
+            <p>Je croise les observations et je fais ressortir les vrais points de blocage. Personas, besoins, priorités, estimation de l'effort : on choisit les priorités, et pourquoi.</p>
+            <span class="tag">Synthèse · personas · backlog priorisé</span>
+          </div>
+          <div class="card">
+            <span class="step">03</span>
+            <h4>Concevoir</h4>
+            <p>Ateliers avec les utilisateurs, parcours cible, organisation des écrans, puis wireframes, maquettes Figma et un prototype cliquable.</p>
+            <span class="tag">Wireframes · maquettes · prototype</span>
+          </div>
+          <div class="card">
+            <span class="step">04</span>
+            <h4>Tester</h4>
+            <p>Le prototype est essayé par de vrais utilisateurs sur des tâches concrètes. Ce qui bloque est corrigé, puis retesté. Quelques personnes suffisent à repérer l'essentiel des défauts.</p>
+            <span class="tag">Tests d'utilisabilité · corrections</span>
+          </div>
+          <div class="card">
+            <span class="step">05</span>
+            <h4>Mesurer</h4>
+            <p>Les critères de réussite sont choisis avant de construire : heures économisées, erreurs évitées, adoption. Après la mise en service, les retours alimentent la version suivante.</p>
+            <span class="tag">ROI · indicateurs · amélioration continue</span>
+          </div>
+        </div>
+        <div class="add">
+          <p>Les étapes se chevauchent et se répètent : un test peut renvoyer à l'observation. <strong>Le but n'est pas de dérouler un processus, mais de ne jamais construire à l'aveugle.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section class="s-gloss">
+      <div class="wrap-wide">
+        <div class="split">
+        <div class="split-l">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">03</span>
+          <h2>Les méthodes, en clair</h2>
+          <p>Le vocabulaire des métiers de l'UX et du produit, sans jargon inutile.</p>
+        </div>
+        <svg class="badge" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="bc" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><circle cx="100" cy="100" r="98" fill="#EFB63C"/><text font-family="JetBrains Mono, monospace" font-size="14" font-weight="600" fill="#251C33" textLength="486" lengthAdjust="spacing"><textPath href="#bc" textLength="486" lengthAdjust="spacing">DISCOVERY · DELIVERY · DISCOVERY · DELIVERY · </textPath></text><text x="100" y="118" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="52" letter-spacing="-2" fill="#251C33">UX</text></svg>
+        </div>
+        <dl class="gloss">
+          <div>
+            <dt>Recherche utilisateur<small>user research</small></dt>
+            <dd>Comprendre ce que les gens font vraiment, plutôt que ce qu'on imagine : entretiens, observation, questionnaires courts, analyse des données d'usage.</dd>
+          </div>
+          <div>
+            <dt>Observation en situation<small>shadowing</small></dt>
+            <dd>Suivre quelqu'un dans sa journée de travail, sans l'interrompre. On y repère les contournements et les ressaisies que personne ne pense à mentionner.</dd>
+          </div>
+          <div>
+            <dt>Personas et parcours<small>user journey</small></dt>
+            <dd>Un portrait réaliste d'un type d'utilisateur, et la suite d'étapes qu'il suit pour atteindre son but. On voit où il bloque, hésite ou abandonne.</dd>
+          </div>
+          <div>
+            <dt>Besoins formulés simplement<small>user stories</small></dt>
+            <dd>« En tant que technicien, je veux… pour… » : chaque besoin tient en une phrase. Elles servent à prioriser le backlog, puis à vérifier que rien n'a été oublié.</dd>
+          </div>
+          <div>
+            <dt>Design thinking</dt>
+            <dd>Une démarche en boucle : comprendre, imaginer plusieurs pistes, prototyper la meilleure, tester, recommencer. En atelier avec les équipes, elle évite de défendre la première idée.</dd>
+          </div>
+          <div>
+            <dt>Organisation des contenus<small>architecture de l'information</small></dt>
+            <dd>Ranger les contenus et les écrans pour que chacun trouve du premier coup : plan de navigation, tri par cartes (card sorting), arborescence.</dd>
+          </div>
+          <div>
+            <dt>Test d'utilisabilité<small>usability testing</small></dt>
+            <dd>Donner une tâche à un utilisateur devant un prototype et le regarder faire, sans l'aider. Ses hésitations en disent plus que son avis.</dd>
+          </div>
+          <div>
+            <dt>Ergonomie des interfaces<small>ergonomie · évaluation heuristique</small></dt>
+            <dd>Adapter l'outil à la façon dont on travaille vraiment (charge mentale, gestes, environnement), puis passer l'interface en revue avec une grille de critères reconnus pour repérer les défauts avant même de tester.</dd>
+          </div>
+          <div>
+            <dt>Accompagnement des équipes<small>bonnes pratiques UX · design system</small></dt>
+            <dd>Transmettre la méthode pour qu'elle survive au projet : guide de bonnes pratiques, composants d'interface réutilisables, ateliers de sensibilisation pour les équipes qui conçoivent ensuite par elles-mêmes.</dd>
+          </div>
+          <div>
+            <dt>Accessibilité<small>WCAG · RGAA</small></dt>
+            <dd>Contrastes, navigation au clavier, lisibilité : un outil qui ne s'adresse qu'à une partie des gens est un outil raté. C'est pensé dès les maquettes, pas ajouté à la fin.</dd>
+          </div>
+        </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section class="s-ochre">
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">04</span>
+          <h2>Un exemple, de l'observation au gain estimé</h2>
+          <p>Cas d'usage conçu et prototypé : une application pour des techniciens de maintenance. Les chiffres sont des hypothèses posées pour l'exercice.</p>
+        </div>
+        <div class="card-grid cols-4">
+          <div class="card">
+            <h4>Le constat</h4>
+            <p>Les techniciens partent avec un planning imprimé et rentrent avec des fiches papier à ressaisir au bureau. Le shadowing ajoute ce que personne n'avait dit : on travaille avec des gants, en extérieur, sur un réseau instable.</p>
+          </div>
+          <div class="card">
+            <h4>Les choix de conception</h4>
+            <p>Grands boutons utilisables avec des gants, checklist d'intervention en cinq étapes, photos en un geste, fonctionnement hors connexion. Un prototype cliquable est prêt en quelques jours.</p>
+          </div>
+          <div class="card">
+            <h4>Le test</h4>
+            <p>Le prototype est testé sur une intervention complète avec trois ou quatre techniciens, sans aide. Chaque hésitation devient une correction, puis un nouveau passage.</p>
+          </div>
+          <div class="card">
+            <h4>La mesure</h4>
+            <p>Les critères sont fixés avant de construire : temps de saisie par intervention, nombre de ressaisies, part des comptes rendus reçus le jour même.</p>
+          </div>
+        </div>
+        <div class="estim">
+          <div class="estim-num">≈ 1&nbsp;100 h<small>de ressaisie évitées par an</small></div>
+          <div>
+            <p><strong>12 techniciens × 25 min par jour × 220 jours</strong> = 1&nbsp;100 heures. C'est le calcul, simple et discutable, que je pose sur la table avant de construire : il permet de décider si le projet vaut l'effort.</p>
+            <p>Hypothèses posées pour l'exercice, à confirmer par une mesure sur le terrain avant tout engagement.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section class="pb s-cta">
+      <div class="wrap-wide">
+        <div class="shead">
+          <span class="snum" aria-hidden="true">05</span>
+          <h2>Un besoin flou ? Commençons par le comprendre.</h2>
+          <p>Le plus tôt est le mieux : une demi-journée d'observation évite souvent des semaines de corrections.</p>
+        </div>
+        <div class="memo">
+          <p><a href="contact.html"
+              style="color:var(--ochre-deep);font-weight:600;">Prenons contact</a> pour en parler, ou jetez un œil à <a href="apps.html"
+              style="color:var(--ochre-deep);font-weight:600;">quelques exemples d'applications</a> issues de cette démarche.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Product Builder · design UX</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.lede, main p, main dd, main li').forEach(function (el) {
+      var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, last = null;
+      while ((n = w.nextNode())) { if (n.nodeValue.trim()) last = n; }
+      if (!last) return;
+      var raw = last.nodeValue, t = raw.replace(/\s+$/, ''), tail = raw.slice(t.length);
+      t = t.replace(/\s+/g, ' ');
+      var parts = t.split(' ');
+      if (parts.length < 2) return;
+      var k = el.closest('.card') ? Math.min(3, parts.length) : (parts.length >= 3 && (parts[parts.length - 2] + parts[parts.length - 1]).length < 12 ? 3 : 2);
+      var head = parts.slice(0, parts.length - k).join(' ');
+      var join = parts.slice(parts.length - k).join('\u00A0');
+      last.nodeValue = (head ? head + ' ' : '') + join + tail;
+    });
+  </script>
+
+  <script>
+    (function () {
+      var sel = '.shead, .note, .stairs .card, .s-ochre .card, .gloss > div, .badge, .estim, .memo, .add';
+      var els = document.querySelectorAll(sel);
+      els.forEach(function (el) {
+        el.classList.add('rv');
+        var sib = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.setProperty('--d', Math.min(sib, 5) * 0.09 + 's');
+      });
+      function show(el) { el.classList.add('in'); setTimeout(function () { el.style.removeProperty('--d'); }, 1400); }
+      if (!('IntersectionObserver' in window)) { els.forEach(show); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -3% 0px', threshold: 0.08 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+
+</html>
